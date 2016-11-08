@@ -2,7 +2,7 @@
 
 ## Intro
 
-Our goal is to build a social interactive online count down app. Users are able to view followed users' and themselves' special dates. Possible dates could be anniversaries and deadlines. Users are allowed to interact with others' special dates accordingly. For example, one can cheer up others' deadlines, and can send congrats to anniversaries. The app servers users who are interested in sharing their schedules with others. With this app, they will be able to view, share, comment and interact with other people's special dates. Events are also allow to be set to private. Users like students could use this platform to improve their time management.
+Our goal is to build a social interactive online count down app. Users are able to view followed users' and themselves' special dates. Possible dates could be anniversaries and deadlines. Users are allowed to interact with others' special dates accordingly. For example, one can cheer up others' deadlines, and can send congrats to anniversaries. The app servers users who are interested in sharing their schedules with others. With this app, they will be able to view, share, comment and interact with other people's special dates. Events are also allow to be set to private. Users like students could use this platform to improve their time management efficiency.
 
 ## Interactions
 ### Users
