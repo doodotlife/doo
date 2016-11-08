@@ -27,8 +27,12 @@ Our goal is to build a social interactive online count down app. Users are able 
 - Add Events for users to Add
 
 ## Sketeches
+### Site Navigation design
+![Navigation](Navigation.jpg)
 ### Login
 ![Login](layout_Login.jpg)
+### Admin
+![Admin](Layout_Admin.jpg)
 ### Index
 ![Index](layout_Index.jpg)
 ### Single Event
