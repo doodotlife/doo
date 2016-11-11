@@ -29,7 +29,7 @@ Our goal is to build a social interactive online count down app. Users are able 
 
 ## Properties
 #### User
-- username
+- username (id)
 - password (probably a hashed value)
 - birthday
 - name
@@ -37,8 +37,10 @@ Our goal is to build a social interactive online count down app. Users are able 
 - email
 - email notification
 - comments (list of comment id)
+- events (list of event id)
 
 #### Event
+- id
 - title
 - time (date)
 - type
@@ -50,6 +52,7 @@ Our goal is to build a social interactive online count down app. Users are able 
 - share value (if deadline, how many users are also working on it)
 
 #### Comment
+- id
 - content
 - username
 - timestamp
