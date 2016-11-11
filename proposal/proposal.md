@@ -64,7 +64,7 @@ Our goal is to build a social interactive online count down app. Users are able 
 ### Login
 ![Login](layout_Login.jpg)
 ### Admin
-![Admin](Layout_Admin.jpg)
+![Admin](layout_Admin.jpg)
 ### Index
 ![Index](layout_Index.jpg)
 ### Single Event
