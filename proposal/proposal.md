@@ -35,7 +35,7 @@ Our goal is to build a social interactive online count down app. Users are able 
 - name
 - gender
 - email
-- email notification
+- email notification (boolean)
 - comments (list of comment id)
 - events (list of event id)
 
@@ -46,7 +46,7 @@ Our goal is to build a social interactive online count down app. Users are able 
 - type
 - owner
 - private / public
-- email
+- email notification (boolean)
 - comments (list of comment id)
 - +1 value
 - share value (if deadline, how many users are also working on it)
