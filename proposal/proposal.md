@@ -15,6 +15,7 @@ Our goal is to build a social interactive online count down app. Users are able 
 - View followed users' events
 - View one's own events
 - +1 on other users' events (different meanings according to events, e.g. for deadlines, +1 means to cheer up, and for anniversaries, +1 means congrats)
+- if deadline, user can add the event to their own list
 - Comment on events
 - Delete one's own comments
 - Subscribe email notifications
@@ -25,6 +26,34 @@ Our goal is to build a social interactive online count down app. Users are able 
 - Delete Events
 - Delete (inappropriate) Comments
 - Add Events for users to Add
+
+## Properties
+#### User
+- username
+- password (probably a hashed value)
+- birthday
+- name
+- gender
+- email
+- email notification
+- comments (list of comment id)
+
+#### Event
+- title
+- time (date)
+- type
+- owner
+- private / public
+- email
+- comments (list of comment id)
+- +1 value
+- share value (if deadline, how many users are also working on it)
+
+#### Comment
+- content
+- username
+- timestamp
+
 
 ## Sketeches
 ### Site Navigation design
