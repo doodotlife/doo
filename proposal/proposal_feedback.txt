@@ -1,0 +1,14 @@
+Looks good to me!
+
+Well thought out in terms of project plan, details you need, mockups, and site structure.
+
+Also project scope seems reasonable. Only thing I might be wary of is e-mail notifications. Its not an absolute ton of work, but depending on your web dev experience you might want to leave it for later in the project once you have the rest of things working well, since it seems a little less "core" than your other features.
+
+I haven't been giving much UI feedback to other groups, but just a note on yours (other than the mockups looking nice): you might want to have a different looking view for an event when in the index or searching than in your single view for that event. Mostly for screen real-estate reasons and getting more of the key info to people.
+
+Mostly though it looks like you all are on the right track. :)
+
+Mark: 10/10
+
+
+
