@@ -1,5 +1,5 @@
 let express = require('express');
-let tas = require('./routes/routes');
+let doo = require('./routes/routes');
 let bodyParser = require('body-parser');
 
 
@@ -24,7 +24,7 @@ app.get('/', (req,res)=> {
     res.sendfile('index.html');
 });
 
-app.post('/signup', tas.signUp);
+app.post('/signup', doo.signUp);
 
 
 
