@@ -24,6 +24,8 @@ app.get('/', (req,res)=> {
     res.sendfile('index.html');
 });
 
+app.post('/signup', tas.signUp);
+
 
 
 
