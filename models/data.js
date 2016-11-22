@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
-var userSchema = new Schema(
+let userSchema = new Schema(
     {
         username: {
             type: String, required: true, unique:true
@@ -21,15 +21,24 @@ var userSchema = new Schema(
         },
         email: {
             type: String, required: true
-        }
+        },
         notification: {
             type: Boolean, required: true
         },
         comments: {
             type: Array, required: true, default: []
-        }
+        },
         events: {
             type: Array, required: true, default: []
+        },
+        following: {
+            type: Array, required: true, default: []
+        },
+        followedBy: {
+            type: Array, required: true, default: []
+        },
+        adminPrivilege: {
+            type: Boolean, required: true, default: false
         }
     },
     {
@@ -37,10 +46,10 @@ var userSchema = new Schema(
     }
 );
 
-var eventSchema = new Schema(
+let eventSchema = new Schema(
     {
         id: {
-            type: ObjectId, required: true, unique: true
+            type: Schema.Types.ObjectId, required: true, unique: true
         },
         title: {
             type: String, required:true
@@ -49,12 +58,12 @@ var eventSchema = new Schema(
             type: Date, required: true
         },
         owner: {
-            type: Mixed
+            type: Schema.Types.Mixed
         },
         type: {
             type: String, required: true
         },
-        privacy: {
+        private: {
             type: Boolean, required: true
         },
         notification: {
@@ -72,10 +81,10 @@ var eventSchema = new Schema(
     }
 );
 
-var commentSchema = new Schema(
+let commentSchema = new Schema(
     {
         id: {
-            type: ObjectId, required: true, unique: true
+            type: Schema.Types.ObjectId, required: true, unique: true
         },
         content: {
             type: String, required: true
@@ -88,7 +97,7 @@ var commentSchema = new Schema(
         }
     },
     {
-        collection: comments
+        collection: 'comments'
     }
 );
 
