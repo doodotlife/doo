@@ -1,97 +1,116 @@
 let db = require('../models/data');
 
 
-/**User Interactions**/
-function signUp() {
+module.exports = {
+    /**User Interactions**/
+    signUp: function (req, res) {
     // With email, username and password (encrypted, decrypt here and save to db)
-}
+        let newUser = new db.User(req.body);
+        newUser.save(function(err) {
+            if (err) {
+                for (let field in err.errors) {
+                    console.log(field);
+                }
+            }
 
-function deleteAccount() {
+            res.send('Success');
+    })
+
+
+},
+    deleteAccount: function () {
     // User voluntarily delete his/her own account, need to wipe out everything about him/her
     // from database
-}
+},
 
-function logIn() {
+    logIn: function () {
+
     // email/username and password (encrypted, decrypt here and check with db)
-}
 
-function logOut() {
-    // clear session? 
-}
+},
 
-function addEvent() {
+    logOut: function () {
+    // clear session?
+},
+
+
+    addEvent: function () {
     // With dates, event name, event type
-}
+},
 
-function deleteEvent() {
+    deleteEvent: function () {
     // With dates, event name, event type
-}
+},
 
-function editEvent() {
+    editEvent: function () {
     // With dates, event name, event type
-}
+},
 
-function editProfile() {
+    editProfile: function () {
     // save the updates to db
-}
+},
 
-function follow() {
+    follow: function () {
     // add the person to current user's 'following' property
-    // add the current user to the person's 'followedBy' property 
-}
+    // add the current user to the person's 'followedBy' property
+},
 
-function unFollow() {
+    unFollow: function () {
     // remove this person from current user's 'following' property
     // remove the current user from the person's 'followedBy' property
-}
+},
 
-function showFollowedEvents() {
+    showFollowedEvents: function () {
     // get followed people from 'following' property
     // return their events
-}
+},
 
-function showMyEvents() {
+    showMyEvents: function () {
     // get the current user's events
-}
+},
 
-function plusOne() {
+    plusOne:function () {
     // pass in event id, change +1 value
-}
+},
 
-function addTheDDLToMyList() {
+    addTheDDLToMyList:function () {
     // add someone's deadline event to the current user's own list
-}
+},
 
-function comment(){
+    comment: function (){
     // current user leave a comment to someone's event, put this commentId into this event
-}
+},
 
-function deleteComment() {
+    deleteComment: function () {
     // delete one's own comment, delete the corresponding comment in this event
-}
+},
 
-function subscribeEmailNotificatino() {
+    subscribeEmailNotificatino: function () {
     // future feature
-}
+},
 
-function search() {
+    search: function () {
     // search by username/date/keyword/category
     // How to know if the input is a username or a date or a keyword or a category?
-}
+},
 
 /**Functions for Admin users**/
-function deleteUsers() {
+    deleteUsers:function () {
     // delete the selected users from database
-}
+},
 
-function deleteEvents() {
+    deleteEvents: function () {
     // delete events from database
-}
+},
 
-function deleteInproperComments() {
+    deleteInproperComments: function () {
     // delete whatever comments the admin doesn't like
-}
+},
 
-function createCommonEvents() {
+    createCommonEvents: function () {
     // create some sample/common events for the users to add in one click
 }
+
+
+};
+
