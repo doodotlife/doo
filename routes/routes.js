@@ -31,9 +31,13 @@ module.exports = {
     // TODO: Replace response msg with standarized responses
     db.User.findOne({username: req.body.username}, function (err, user) {
         if (err) throw err;
-
-        if(user.password==req.body.password){
-            res.send('Success');
+        //we cannot compare password directly
+        //because it might be null
+        //in case that there doesn't exist such user
+        if (user) {
+            if(user.password==req.body.password){
+                res.send('Success');
+            }
         }else{
             res.send('Login failed');
         }
@@ -128,4 +132,3 @@ module.exports = {
 
 
 };
-
