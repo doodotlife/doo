@@ -5,6 +5,8 @@ module.exports = {
     /**User Interactions**/
     signUp: function (req, res) {
     // With email, username and password (encrypted, decrypt here and save to db)
+        //TODO: Deal with encryption/decryption, replace 'success' with standarized responses
+
         let newUser = new db.User(req.body);
         newUser.save(function(err) {
             if (err) {
@@ -23,14 +25,27 @@ module.exports = {
     // from database
 },
 
-    logIn: function () {
+    logIn: function (req, res) {
 
     // email/username and password (encrypted, decrypt here and check with db)
+    // TODO: Replace response msg with standarized responses
+    db.User.findOne({username: req.body.username}, function (err, user) {
+        if (err) throw err;
+
+        if(user.password==req.body.password){
+            res.send('Success');
+        }else{
+            res.send('Login failed');
+        }
+
+    })
 
 },
 
-    logOut: function () {
-    // clear session?
+    logOut: function (req, res) {
+    // clear session, return to main page
+        req.session.destroy();
+        res.redirect('/');
 },
 
 
