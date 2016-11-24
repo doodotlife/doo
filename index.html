@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/css/main.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/animations.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="assets/scripts/main.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
@@ -15,25 +16,31 @@
 
         <div id="left">
             <div id="addBar" class="card">
-                <input type="text" for="newEvent"name="search" placeholder="New Event">
+                <input id="titleEntry" type="text" for="newEvent" name="title" placeholder="New Event">
+                <!-- <div class="group">
+                    <input type="text" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>New Event</label>
+                </div> -->
             </div>
             <div id="addTable" class="hide card">
-                <form id="newEvent" method="put">
+                <form id="newEvent" method="post">
                     <table>
-                        <tr>
+                        <!-- <tr>
                             <td>
                                 Title
                             </td>
                             <td>
                                 <input name="title" type="text"/>
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>
                                 Time
                             </td>
                             <td>
-                                <input name="time" type="date" />
+                                <input id="timeEntry"name="time" type="date" />
                             </td>
                         </tr>
                         <tr>
@@ -47,7 +54,43 @@
                                 <label for="typeA"> Anniversary </label>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                Private
+                            </td>
+                            <td>
+                                <input name="private" id="privateT" type="radio" value=true />
+                                <label for="privateT"> Yes </label>
+                                <input name="private" id="privateF" type="radio" value=false />
+                                <label for="privateF"> No </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                <button type="button" id="cancelAdd">Cancel</button>
+                                <input type="submit" value="Add" />
+                            </td>
+                        </tr>
                     </table>
+                    <!-- <input name="type" id="typeD" type="radio" value="deadline" />
+                    <label for="typeD"> Deadline </label>
+                    <input name="type" id="typeA"type="radio" value="anniversary" />
+                    <label for="typeA"> Anniversary </label>
+                    <div class="group">
+                        <input type="text" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Title</label>
+                    </div>
+
+                    <div class="group">
+                        <input type="datetime-local" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Time</label>
+                    </div> -->
                 </form>
             </div>
             <div id="feeds">
