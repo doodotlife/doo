@@ -1,19 +1,31 @@
 let db = require('../models/data');
 
 
-/**User Interactions**/
-function signUp() {
+module.exports = {
+    /**User Interactions**/
+    signUp: function (req, res) {
     // With email, username and password (encrypted, decrypt here and save to db)
-}
+        //TODO: Deal with encryption/decryption, replace 'success' with standarized responses
 
-function deleteAccount() {
+        let newUser = new db.User(req.body);
+        newUser.save(function(err) {
+            if (err) {
+                for (let field in err.errors) {
+                    console.log(field);
+                }
+            }
+
+            res.send('Success');
+    })
+
+
+},
+    deleteAccount: function () {
     // User voluntarily delete his/her own account, need to wipe out everything about him/her
     // from database
-}
+},
 
-function logIn() {
-    // email/username and password (encrypted, decrypt here and check with db)
-}
+    logIn: function (req, res) {
 
 function logOut() {
     // clear session?
@@ -44,76 +56,109 @@ function addEvent() {
         res.send('Success');
     })
 }
+    // email/username and password (encrypted, decrypt here and check with db)
+    // TODO: Replace response msg with standarized responses
+    db.User.findOne({username: req.body.username}, function (err, user) {
+        if (err) throw err;
+        //we cannot compare password directly
+        //because it might be null
+        //in case that there doesn't exist such user
+        if (user) {
+            if(user.password==req.body.password){
+                res.send('Success');
+            }
+        }else{
+            res.send('Login failed');
+        }
 
-function deleteEvent() {
+    })
+
+},
+
+    logOut: function (req, res) {
+    // clear session, return to main page
+        req.session.destroy();
+        res.redirect('/');
+},
+
+
+    addEvent: function () {
     // With dates, event name, event type
-}
+},
 
-function editEvent() {
+    deleteEvent: function () {
     // With dates, event name, event type
-}
+},
 
-function editProfile() {
+    editEvent: function () {
+    // With dates, event name, event type
+},
+
+    editProfile: function () {
     // save the updates to db
-}
+},
 
-function follow() {
+    follow: function () {
     // add the person to current user's 'following' property
     // add the current user to the person's 'followedBy' property
-}
 
-function unFollow() {
+},
+
+    unFollow: function () {
     // remove this person from current user's 'following' property
     // remove the current user from the person's 'followedBy' property
-}
+},
 
-function showFollowedEvents() {
+    showFollowedEvents: function () {
     // get followed people from 'following' property
     // return their events
-}
+},
 
-function showMyEvents() {
+    showMyEvents: function () {
     // get the current user's events
-}
+},
 
-function plusOne() {
+    plusOne:function () {
     // pass in event id, change +1 value
-}
+},
 
-function addTheDDLToMyList() {
+    addTheDDLToMyList:function () {
     // add someone's deadline event to the current user's own list
-}
+},
 
-function comment(){
+    comment: function (){
     // current user leave a comment to someone's event, put this commentId into this event
-}
+},
 
-function deleteComment() {
+    deleteComment: function () {
     // delete one's own comment, delete the corresponding comment in this event
-}
+},
 
-function subscribeEmailNotificatino() {
+    subscribeEmailNotificatino: function () {
     // future feature
-}
+},
 
-function search() {
+    search: function () {
     // search by username/date/keyword/category
     // How to know if the input is a username or a date or a keyword or a category?
-}
+},
 
 /**Functions for Admin users**/
-function deleteUsers() {
+    deleteUsers:function () {
     // delete the selected users from database
-}
+},
 
-function deleteEvents() {
+    deleteEvents: function () {
     // delete events from database
-}
+},
 
-function deleteInproperComments() {
+    deleteInproperComments: function () {
     // delete whatever comments the admin doesn't like
-}
+},
 
-function createCommonEvents() {
+    createCommonEvents: function () {
     // create some sample/common events for the users to add in one click
 }
+
+
+};

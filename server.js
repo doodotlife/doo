@@ -1,5 +1,5 @@
 let express = require('express');
-let tas = require('./routes/routes');
+let doo = require('./routes/routes');
 let bodyParser = require('body-parser');
 
 
@@ -24,8 +24,12 @@ app.get('/', (req,res)=> {
     res.sendfile('index.html');
 });
 
-app.post('/addEvent', tas.addEvent);
 
+app.post('/signup', doo.signUp);
+app.post('/login', doo.logIn);
+app.get('/logout', doo.logOut);
+
+app.post('/addEvent', doo.addEvent);
 
 
 app.listen(3000);
