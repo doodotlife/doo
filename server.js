@@ -24,7 +24,7 @@ app.get('/', (req,res)=> {
     res.sendfile('index.html');
 });
 
-
+app.post('/addEvent', tas.addEvent);
 
 
 

@@ -35,7 +35,7 @@ li {
 }
 
 li a {
-    font-style:oblique;
+    font-style:thin;
     display: block;
     color: black;
     text-align: right;
@@ -85,6 +85,45 @@ li a:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;
     background-color: white;
     overflow-x:auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 0px;
+    padding: 8px 16px;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+tr:hover {
+    background-color: #f5f5f5
+}
+
+input[type=text] {
+    width: 200px;
+    /*box-sizing: border-box;*/
+    border: none;
+    border-bottom: 2px solid #000000;
+    /*border-radius: 4px;*/
+    font-size: 16px;
+    background-color: white;
+    /*background-image: url('searchicon.png');*/
+    /*background-position: 10px 10px;*/
+    background-repeat: no-repeat;
+    padding: none;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    width: 100%;
 }
 
 footer {

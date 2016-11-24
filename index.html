@@ -15,7 +15,40 @@
 
         <div id="left">
             <div id="addBar" class="card">
-                Add New Event
+                <input type="text" for="newEvent"name="search" placeholder="New Event">
+            </div>
+            <div id="addTable" class="hide card">
+                <form id="newEvent" method="put">
+                    <table>
+                        <tr>
+                            <td>
+                                Title
+                            </td>
+                            <td>
+                                <input name="title" type="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Time
+                            </td>
+                            <td>
+                                <input name="time" type="date" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Type
+                            </td>
+                            <td>
+                                <input name="type" id="typeD" type="radio" value="deadline" />
+                                <label for="typeD"> Deadline </label>
+                                <input name="type" id="typeA"type="radio" value="anniversary" />
+                                <label for="typeA"> Anniversary </label>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
             <div id="feeds">
 

@@ -16,11 +16,33 @@ function logIn() {
 }
 
 function logOut() {
-    // clear session? 
+    // clear session?
 }
 
 function addEvent() {
     // With dates, event name, event type
+    // req.body format
+    // {
+    //     "user": id,
+    //     "event": {
+    //         title,
+    //         time,
+    //         type
+    //     }
+    // }
+    console.log("addEvent");
+    console.log(req.body);
+
+    let newEvent = new db(req.body.event);
+    newEvent.value = 0;
+    newEvent.share = 0;
+    console.log(newEvent);
+
+    newEvent.save(function(err, newEvent) {
+        if (err) throw err;
+
+        res.send('Success');
+    })
 }
 
 function deleteEvent() {
@@ -37,7 +59,7 @@ function editProfile() {
 
 function follow() {
     // add the person to current user's 'following' property
-    // add the current user to the person's 'followedBy' property 
+    // add the current user to the person's 'followedBy' property
 }
 
 function unFollow() {
