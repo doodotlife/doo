@@ -15,6 +15,7 @@ $(document).ready(function() {
 
     $("#titleEntry").on("click", function() {
         $("#addTable").addClass("expandUp");
+        $("#titleEntry").prop("placeholder", "Title");
     });
 
     $("#newEvent").submit( function(e) {
