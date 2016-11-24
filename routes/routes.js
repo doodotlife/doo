@@ -52,19 +52,80 @@ module.exports = {
         res.redirect('/');
 },
 
+    /* req.body format
+        {
+            "user": id,
+            "event": {
+                title,
+                time,
+                type，
+                private
+            }
+        } */
+    addEvent: function(req, res) {
+            // With dates, event name, event type
 
-    addEvent: function () {
-    // With dates, event name, event type
-},
+            let newEvent = new db.Event(req.body.event);
 
-    deleteEvent: function () {
-    // With dates, event name, event type
-},
+            newEvent.save(function(err, newEvent) {
+                if (err) throw err;
+                // add event id to user
+                db.User.findOneAndUpdate({
+                        "_id": req.body.user
+                    }, {
+                        $push: {
+                            "events": newEvent.id
+                        }
+                    },
+                    function(err, user) {
+                        if (err) return res.send(500, {
+                            error: err
+                        });
+                        newEvent.owner.push(req.body.user);
+                        newEvent.save();
+                        return res.send("Success");
+                    });
+            });
+        },
 
-    editEvent: function () {
-    // With dates, event name, event type
-},
+        /* req.body format
+        {
+            "user": id,
+            "event": id
+        } */
+        deleteEvent: function(req, res) {
+            // With dates, event name, event type
+            db.Event.findOne({
+                "_id": req.body.event
+            }, function(err, eventObj) {
+                console.log(eventObj);
+                for (let i = 0; i < eventObj.owner.length; i++) {
+                    db.User.findOneAndUpdate({
+                            "_id": eventObj.owner[i]
+                        }, {
+                            $pull: {
+                                "events": eventObj.id
+                            }
+                        },
+                        function(err, user) {
+                            if (err) return res.send(500, {
+                                error: err
+                            });
+                        });
+                }
+                eventObj.remove(function(err) {
+                    if (err) throw err;
 
+                    res.send("Success");
+                })
+            });
+
+
+        },
+
+        editEvent: function() {
+            // With dates, event name, event type
+        },
     editProfile: function () {
     // save the updates to db
 },
@@ -72,6 +133,7 @@ module.exports = {
     follow: function () {
     // add the person to current user's 'following' property
     // add the current user to the person's 'followedBy' property
+
 },
 
     unFollow: function () {

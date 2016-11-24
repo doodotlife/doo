@@ -2,23 +2,47 @@ let mongoose = require('mongoose');
 
 let Schema = mongoose.Schema;
 
-let commentSchema = new Schema(
+let userSchema = new Schema(
     {
-        id: {
-            type: Schema.Types.ObjectId, required: true, unique: true
-        },
-        content: {
-            type: String, required: true
-        },
         username: {
+            type: String, required: true, unique:true
+        },
+        password: {
             type: String, required: true
         },
-        timestamp: {
-            type: Date, required: true, default: Date.now
+        birthday: {
+            type: Date, required: true
+        },
+        name: {
+            type: String, required: true
+        },
+        gender: {
+            type: String, required: true
+        },
+        email: {
+            type: String, required: true
+        },
+        notification: {
+            type: Boolean, required: true
+        },
+        comments: {
+            type: Array, required: true, default: []
+        },
+        events: {
+            type: Array, required: true, default: []
+        },
+        following: {
+            type: Array, required: true, default: []
+        },
+        followedBy: {
+            type: Array, required: true, default: []
+        },
+        adminPrivilege: {
+            type: Boolean, required: true, default: false
         }
     },
     {
-        collection: 'comments'
+        collection: 'users'
     }
 );
 
@@ -57,56 +81,27 @@ let eventSchema = new Schema(
     }
 );
 
-let userSchema = new Schema(
+let commentSchema = new Schema(
     {
+        id: {
+            type: Schema.Types.ObjectId, required: true, unique: true
+        },
+        content: {
+            type: String, required: true
+        },
         username: {
-            type: String, required: true, unique:true
-        },
-        password: {
             type: String, required: true
         },
-        birthday: {
-            type: String, required: true
-        },
-        name: {
-            type: String, required: true
-        },
-        gender: {
-            type: String, required: true
-        },
-        email: {
-            type: String, required: true
-        },
-        notification: {
-            type: Boolean, required: true
-        },
-        comments: {
-            type: [commentSchema],default: []
-        },
-        events: {
-            type: [eventSchema],default: []
-        },
-        following: {
-            type: [this], default: []
-        },
-        followedBy: {
-            type: [this] ,default: []
-        },
-        adminPrivilege: {
-            type: Boolean, required: true, default: false
+        timestamp: {
+            type: Date, required: true, default: Date.now
         }
     },
     {
-        collection: 'users'
+        collection: 'comments'
     }
 );
 
-
-
-
-
 mongoose.connect('mongodb://localhost/usersdb');
-let schema = {'User': mongoose.model('User', userSchema), 'Event': mongoose.model('Event', eventSchema),
-              'Comment': mongoose.model('Comment', commentSchema)
-};
-module.exports = schema;
+module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.model('Comment', commentSchema);
