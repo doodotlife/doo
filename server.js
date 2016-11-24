@@ -29,7 +29,8 @@ app.post('/signup', doo.signUp);
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
 
-app.post('/addEvent', doo.addEvent);
+app.post('/event', doo.addEvent);
+app.delete('/event', doo.deleteEvent);
 
 
 app.listen(3000);
