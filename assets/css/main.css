@@ -41,7 +41,7 @@ li {
 }
 
 li a {
-    font-style: thin;
+    font-style:bold;
     display: block;
     color: black;
     text-align: right;
@@ -50,7 +50,7 @@ li a {
 }
 
 li a:hover {
-    font-style: normal;
+    font-style: regular;
 }
 
 #container {
@@ -141,7 +141,7 @@ input[type=text]:focus {
     width: 100%;
 }
 
-input[type=date] {
+/*input[type=date] {
     width: 200px;
     border: none;
     border-bottom: 2px solid #000000;
@@ -157,7 +157,7 @@ input[type=date]:focus {
     outline: none;
     border-bottom: 2px solid #ccc;
     width: 100%;
-}
+}*/
 
 
 
