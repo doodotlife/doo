@@ -8,15 +8,21 @@ module.exports = {
         //TODO: Deal with encryption/decryption, replace 'success' with standarized responses
 
         let newUser = new db.User(req.body);
-        newUser.save(function(err) {
+        db.User.findOne({username: newUser.username}, function (err, result) {
             if (err) {
                 for (let field in err.errors) {
                     console.log(field);
                 }
             }
+            if(!result){
+                newUser.save(function() {
+                    res.send('Success');
+                })
+            }else{
+                res.send('User already exist');
+            }
+        });
 
-            res.send('Success');
-    })
 
 
 },
