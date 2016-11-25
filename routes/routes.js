@@ -225,7 +225,7 @@ module.exports = {
     * }
     */
 
-    comment: function (){
+    comment: function (req, res){
       // current user leave a comment to someone's event, put this commentId into this event
       let newComment = new db.Comment(req.body.comment);
 

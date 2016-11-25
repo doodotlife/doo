@@ -32,12 +32,10 @@ app.get('/logout', doo.logOut);
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 
-<<<<<<< HEAD
 app.post('/comment', doo.comment);
-=======
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
->>>>>>> a4c0f29522eca6e93e6856c7142fef86ffd19f96
+
 
 
 app.listen(3000);
