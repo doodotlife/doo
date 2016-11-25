@@ -50,6 +50,9 @@ let eventSchema = new Schema(
         },
         share: {
             type: Number, required: true, default: 0
+        },
+        comments: {
+            type:[Schema.Types.ObjectId], default:[]
         }
     },
     {
@@ -81,16 +84,16 @@ let userSchema = new Schema(
             type: Boolean, required: true
         },
         comments: {
-            type: [commentSchema],default: []
+            type: [Schema.Types.ObjectId],default: []
         },
         events: {
-            type: [eventSchema],default: []
+            type: [Schema.Types.ObjectId],default: []
         },
         following: {
-            type: [this], default: []
+            type: [Schema.Types.ObjectId], default: []
         },
         followedBy: {
-            type: [this] ,default: []
+            type: [Schema.Types.ObjectId] ,default: []
         },
         adminPrivilege: {
             type: Boolean, required: true, default: false

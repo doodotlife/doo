@@ -126,13 +126,69 @@ module.exports = {
         editEvent: function() {
             // With dates, event name, event type
         },
-    editProfile: function () {
-    // save the updates to db
+
+    // req.body format:
+        // {
+        //     "user":id;
+        //     "profile":{
+        //         "password":password;
+        //         "name":name;
+        //         "birthday":birthday;
+        //         "gender":gender;
+        //         "notification":true or false;
+        //     }
+        // }
+    editProfile: function (req,res) {
+        db.User.findOneAndUpdate({
+            "_id":req.body.user
+        },{
+            $set: req.body.profile
+        },function(err, user) {
+            if (err) {
+                return res.send(500, {error: err});
+            }
+            //save error handler
+            user.save();
+            res.send("Success");
+        });
 },
 
-    follow: function () {
+    // req.body:
+    //     {
+    //         "user":id;
+    //         "following":id
+    //     }
+    follow: function (req,res) {
     // add the person to current user's 'following' property
     // add the current user to the person's 'followedBy' property
+    //TODO:handle duplicate follower
+    db.User.findOneAndUpdate({
+        "_id":req.body.user
+    },{
+        $push: {
+            "following":req.body.following
+        }
+    },function(err,user) {
+        if (err) {
+            return res.send(500, {
+                error:err
+            });
+        }
+    })
+    db.User.findOneAndUpdate({
+        "_id":req.body.following
+    },{
+        $push: {
+            "followedBy":req.body.user
+        }
+    },function(err,user) {
+        if (err) {
+            return res.send(500, {
+                error:err
+            });
+        }
+    })
+    res.send("Success");
 
 },
 
