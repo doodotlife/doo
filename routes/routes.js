@@ -1,6 +1,7 @@
 let db = require('../models/data');
 
 
+
 module.exports = {
     /**User Interactions**/
     signUp: function (req, res) {
@@ -42,6 +43,8 @@ module.exports = {
         //in case that there doesn't exist such user
         if (user) {
             if(user.password==req.body.password){
+                req.session.user_id = user._id;
+                req.session.is_admin = user._doc.adminPrivilege;
                 res.send('Success');
             }
         }else{
