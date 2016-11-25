@@ -51,10 +51,8 @@ let eventSchema = new Schema(
         share: {
             type: Number, required: true, default: 0
         },
-        {
-            comments: {
-                type:[Schema.Types.ObjectId], default:[]
-            }
+        comments: {
+            type:[Schema.Types.ObjectId], default:[]
         }
     },
     {
