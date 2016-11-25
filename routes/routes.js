@@ -126,8 +126,31 @@ module.exports = {
         editEvent: function() {
             // With dates, event name, event type
         },
-    editProfile: function () {
-    // save the updates to db
+
+    // req.body format:
+        // {
+        //     "user":id;
+        //     "profile":{
+        //         "password":password;
+        //         "name":name;
+        //         "birthday":birthday;
+        //         "gender":gender;
+        //         "notification":true or false;
+        //     }
+        // }
+    editProfile: function (req,res) {
+        db.User.findOneAndUpdate({
+            "_id":req.body.user
+        },{
+            $set: req.body.profile
+        },function(err, user) {
+            if (err) {
+                return res.send(500, {error: err});
+            }
+            //save error handler
+            user.save();
+            res.send("Success");
+        });
 },
 
     follow: function () {
