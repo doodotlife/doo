@@ -158,8 +158,34 @@ module.exports = {
     // add someone's deadline event to the current user's own list
 },
 
+    /* req.body format
+    * {
+    *   "eventID": id,
+    *   "comment": {
+    *     content,
+    *     username, (The one who make the comment)
+    *     timestamp
+    *   }
+    * }
+    */
+
     comment: function (){
-    // current user leave a comment to someone's event, put this commentId into this event
+      // current user leave a comment to someone's event, put this commentId into this event
+      let newComment = new db.Comment(req.body.comment);
+
+      newComment.save(function(err, newComment){
+        if (err) throw err;
+        // add comment to event
+        db.Event.findOneAndUpdate(
+          {"_id": req.body.eventID},
+          {$push: {
+            "comments": newComment.id
+            }
+          }, function(err, event){
+            newComment.save();
+            return res.send("Success");
+          });
+      });
 },
 
     deleteComment: function () {
