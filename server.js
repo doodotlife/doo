@@ -24,10 +24,13 @@ app.get('/', (req,res)=> {
     res.sendfile('index.html');
 });
 
+
 app.post('/signup', doo.signUp);
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
 
+app.post('/event', doo.addEvent);
+app.delete('/event', doo.deleteEvent);
 
 
 app.listen(3000);

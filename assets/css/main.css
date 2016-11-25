@@ -9,7 +9,13 @@ body {
     padding: 0px;
     background-color: #B0BEC5;
 }
+
+.hide {
+    display: none;
+}
 /* To test the layout of divisions */
+
+
 /*div {
     border-style: solid;
     border-width: thin;
@@ -31,19 +37,20 @@ ul {
 
 li {
     float: right;
-        width: 100%;
+    width: 100%;
 }
 
 li a {
-    font-style:oblique;
+    font-style:bold;
     display: block;
     color: black;
     text-align: right;
     padding: 14px 16px;
     text-decoration: none;
 }
+
 li a:hover {
-    font-style:normal;
+    font-style: regular;
 }
 
 #container {
@@ -64,6 +71,7 @@ li a:hover {
     /*margin-left: 15%;*/
     float: left;
 }
+
 #right {
     margin-left: 40%;
     width: 20%;
@@ -84,14 +92,80 @@ li a:hover {
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;
     background-color: white;
-    overflow-x:auto;
+    overflow-x: auto;
 }
 
+#addTable {
+    /*height: 0;*/
+    -webkit-transition: height 0.4s ease-in-out;
+    transition: height 0.4s ease-in-out;
+}
+
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 0px;
+    padding: 8px 16px;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f5f5f5
+}
+
+
+input[type=text] {
+    width: 200px;
+    border: none;
+    border-bottom: 2px solid #000000;
+    font-size: 16px;
+    background-color: white;
+    background-repeat: no-repeat;
+    padding: none;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+}
+
+/*input[type=date] {
+    width: 200px;
+    border: none;
+    border-bottom: 2px solid #000000;
+    font-size: 16px;
+    background-color: white;
+    background-repeat: no-repeat;
+    padding: none;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=date]:focus {
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+}*/
+
+
+
 footer {
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1rem;
-  background-color: #efefef;
-  text-align: center;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #efefef;
+    text-align: center;
 }

@@ -24,9 +24,9 @@ let commentSchema = new Schema(
 
 let eventSchema = new Schema(
     {
-        id: {
-            type: Schema.Types.ObjectId, required: true, unique: true
-        },
+        // _id: {
+        //     type: Schema.Types.ObjectId, required: true, unique: true
+        // },
         title: {
             type: String, required:true
         },
@@ -34,7 +34,7 @@ let eventSchema = new Schema(
             type: Date, required: true
         },
         owner: {
-            type: Schema.Types.Mixed
+            type: []
         },
         type: {
             type: String, required: true
