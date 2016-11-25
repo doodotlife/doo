@@ -147,6 +147,7 @@ module.exports = {
             if (err) {
                 return res.send(500, {error: err});
             }
+            //save error handler
             user.save();
             res.send("Success");
         });
