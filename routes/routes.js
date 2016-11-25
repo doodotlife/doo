@@ -1,6 +1,7 @@
 let db = require('../models/data');
 
 
+
 module.exports = {
     /**User Interactions**/
     signUp: function (req, res) {
@@ -8,15 +9,21 @@ module.exports = {
         //TODO: Deal with encryption/decryption, replace 'success' with standarized responses
 
         let newUser = new db.User(req.body);
-        newUser.save(function(err) {
+        db.User.findOne({username: newUser.username}, function (err, result) {
             if (err) {
                 for (let field in err.errors) {
                     console.log(field);
                 }
             }
+            if(!result){
+                newUser.save(function() {
+                    res.send('Success');
+                })
+            }else{
+                res.send('User already exist');
+            }
+        });
 
-            res.send('Success');
-    })
 
 
 },
@@ -36,6 +43,8 @@ module.exports = {
         //in case that there doesn't exist such user
         if (user) {
             if(user.password==req.body.password){
+                req.session.user_id = user._id;
+                req.session.is_admin = user._doc.adminPrivilege;
                 res.send('Success');
             }
         }else{
@@ -153,9 +162,42 @@ module.exports = {
         });
 },
 
-    follow: function () {
+    // req.body:
+    //     {
+    //         "user":id;
+    //         "following":id
+    //     }
+    follow: function (req,res) {
     // add the person to current user's 'following' property
     // add the current user to the person's 'followedBy' property
+    //TODO:handle duplicate follower
+    db.User.findOneAndUpdate({
+        "_id":req.body.user
+    },{
+        $push: {
+            "following":req.body.following
+        }
+    },function(err,user) {
+        if (err) {
+            return res.send(500, {
+                error:err
+            });
+        }
+    })
+    db.User.findOneAndUpdate({
+        "_id":req.body.following
+    },{
+        $push: {
+            "followedBy":req.body.user
+        }
+    },function(err,user) {
+        if (err) {
+            return res.send(500, {
+                error:err
+            });
+        }
+    })
+    res.send("Success");
 
 },
 
