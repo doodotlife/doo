@@ -33,6 +33,7 @@ app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 
 app.post('/profile',doo.editProfile);
+app.post('/follow',doo.follow);
 
 
 app.listen(3000);

@@ -159,9 +159,42 @@ module.exports = {
         });
 },
 
-    follow: function () {
+    // req.body:
+    //     {
+    //         "user":id;
+    //         "following":id
+    //     }
+    follow: function (req,res) {
     // add the person to current user's 'following' property
     // add the current user to the person's 'followedBy' property
+    //TODO:handle duplicate follower
+    db.User.findOneAndUpdate({
+        "_id":req.body.user
+    },{
+        $push: {
+            "following":req.body.following
+        }
+    },function(err,user) {
+        if (err) {
+            return res.send(500, {
+                error:err
+            });
+        }
+    })
+    db.User.findOneAndUpdate({
+        "_id":req.body.following
+    },{
+        $push: {
+            "followedBy":req.body.user
+        }
+    },function(err,user) {
+        if (err) {
+            return res.send(500, {
+                error:err
+            });
+        }
+    })
+    res.send("Success");
 
 },
 
