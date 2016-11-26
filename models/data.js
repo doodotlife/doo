@@ -34,7 +34,7 @@ let eventSchema = new Schema(
             type: Date, required: true
         },
         owner: {
-            type: Schema.Types.ObjectId
+            type: String
         },
         type: {
             type: String, required: true
