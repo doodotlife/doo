@@ -78,10 +78,14 @@ module.exports = {
                     req.session.is_admin = user._doc.adminPrivilege;
                     res.redirect('/');
                 } else {
-                    res.render('login.html',{error: 'Username or password invalid. Please try again.'});
+                    res.render('login.html', {
+                        error: 'Username or password invalid. Please try again.'
+                    });
                 }
             } else {
-                res.render('login.html', {error: 'Username or password invalid. Please try again.'});
+                res.render('login.html', {
+                    error: 'Username or password invalid. Please try again.'
+                });
             }
 
         })
@@ -129,38 +133,62 @@ module.exports = {
                 });
         });
     },
-    
-    deleteEventHelper: function(id) {
 
-    },
-    /* req.body format
-    {
-        "event": id
-    } */
-    //TODO:verify if user is the owner by session
+    deleteEventHelper: function(id) {
+            db.Event.findOne(
+                {"_id": id},
+                function(err, eventObj) {
+                    console.log(eventObj);
+                    db.User.findOneAndUpdate(
+                        {username: eventObj.owner},
+                        {$pull: {"events": eventObj.id}},
+                        function(err, user) {
+                            if (err) return res.send(500, {
+                                error: err
+                            });
+                            eventObj.remove(function(err) {
+                                if (err) throw err;
+                            });
+                        }
+                    );
+                });
+        },
+        /* req.body format
+        {
+            "event": id
+        } */
+        //TODO:verify if user is the owner by session
     deleteEvent: function(req, res) {
         // With dates, event name, event type
         db.Event.findOne({
             "_id": req.body.event
         }, function(err, eventObj) {
-            console.log(eventObj);
-            db.User.findOneAndUpdate({
-                    username: eventObj.owner
-                }, {
-                    $pull: {
-                        "events": eventObj.id
-                    }
-                },
-                function(err, user) {
-                    if (err) return res.send(500, {
-                        error: err
-                    });
+            // console.log(eventObj);
+            // db.User.findOneAndUpdate({
+            //         username: eventObj.owner
+            //     }, {
+            //         $pull: {
+            //             "events": eventObj.id
+            //         }
+            //     },
+            //     function(err, user) {
+            //         if (err) return res.send(500, {
+            //             error: err
+            //         });
+            //     });
+            // eventObj.remove(function(err) {
+            //     if (err) throw err;
+            //
+            //     res.send("Success");
+            // })
+            if (req.session.username == eventObj.owner) {
+                deleteEventHelper(req.body.event);
+                res.send("success");
+            } else {
+                return res.send(500, {
+                    error: "Permission denied."
                 });
-            eventObj.remove(function(err) {
-                if (err) throw err;
-
-                res.send("Success");
-            })
+            }
         });
 
 
@@ -265,22 +293,26 @@ module.exports = {
     //             notification:false
     //         },
     //         {
-                // title:title
-                // time:July 28, 1996 8:00 PM
-                // type:type
-                // private:false
-                // comments:Array[0]
-                // share:0
-                // value:0
-                // notification:false
+    // title:title
+    // time:July 28, 1996 8:00 PM
+    // type:type
+    // private:false
+    // comments:Array[0]
+    // share:0
+    // value:0
+    // notification:false
     //         }]
     // })
-    getEvents: function (req,res) {
-        db.Event.find({"owner":req.body.username},function(err,events){
-            if (err) {throw err}
+    getEvents: function(req, res) {
+        db.Event.find({
+            "owner": req.body.username
+        }, function(err, events) {
+            if (err) {
+                throw err
+            }
             //TODO: change owner from array to username or _id
         })
-},
+    },
 
 
     plusOne: function() {
