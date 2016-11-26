@@ -124,9 +124,9 @@ tr:hover {
 
 
 input[type=text] {
-    width: 200px;
+    width: 100%;
     border: none;
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #FFFFFF;
     font-size: 16px;
     background-color: white;
     background-repeat: no-repeat;
@@ -140,6 +140,8 @@ input[type=text]:focus {
     border-bottom: 2px solid #ccc;
     width: 100%;
 }
+
+
 
 /*input[type=date] {
     width: 200px;
