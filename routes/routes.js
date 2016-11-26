@@ -123,7 +123,7 @@ module.exports = {
                     if (err) return res.send(500, {
                         error: err
                     });
-                    newEvent.owner.push(req.body.user);
+                    newEvent.owner = req.body.user;
                     newEvent.save();
                     return res.send("Success");
                 });
