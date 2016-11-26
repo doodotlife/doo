@@ -324,7 +324,7 @@ module.exports = {
             if (err) {
                 throw err
             }
-            //TODO: change owner from array to username or _id
+            res.send({"events":events});
         })
     },
 
