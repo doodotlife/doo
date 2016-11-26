@@ -51,7 +51,8 @@ app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 
 app.post('/comment', doo.comment);
+app.delete('/comment', doo.deleteComment);
+
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
 app.delete('/account',doo.deleteAccount);
-
