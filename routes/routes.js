@@ -27,10 +27,34 @@ module.exports = {
 
 
 },
-    deleteAccount: function () {
-    // User voluntarily delete his/her own account, need to wipe out everything about him/her
-    // from database
-},
+    //req.body
+    // {
+    //     "username":username;
+    //     "password":password;
+    // }
+    deleteAccount: function (req,res) {
+        // User voluntarily delete his/her own account, need to wipe out everything about him/her
+        // from database
+        db.User.findOne({
+            "_id":req.body.username
+        },function(err,user) {
+            console.log(user);
+            if (user.password==req.body.password) {
+                for (let i = 0; i < user.events.length; i++) {
+                    deleteEventHelper(user.events[i]);
+                }
+                user.remove(function(err){
+                    if (err) {return res.send(500, {
+                            error:err
+                        });
+                    }
+                    res.send("Success");
+                });
+            }else{
+                res.send("incorrect password");
+            }
+        })
+    },
 
     logIn: function (req, res) {
 
