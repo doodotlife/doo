@@ -36,7 +36,13 @@ app.get('/', (req,res)=> {
     res.render('index.html');
 });
 
-
+app.get('/signup', (req, res)=>{
+    if(req.session.username !==undefined){
+        res.redirect('/');
+        return;
+    }
+    res.render('signup.html');
+});
 app.post('/signup', doo.signUp);
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
@@ -47,6 +53,5 @@ app.delete('/event', doo.deleteEvent);
 app.post('/comment', doo.comment);
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
+app.delete('/account',doo.deleteAccount);
 
-app.listen(3000);
-console.log('Listening on port 3000');
