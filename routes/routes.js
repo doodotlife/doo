@@ -246,9 +246,41 @@ module.exports = {
         // return their events
     },
 
-    getEvents: function() {
-        // get the current user's events
-    },
+
+    // rea.body:
+    // {
+    //     "username":username
+    // }
+    // res.send(
+    // {
+    //     "events":[{
+    //             title:title
+    //             time:July 28, 1996 8:00 PM
+    //             type:type
+    //             private:false
+    //             comments:Array[0]
+    //             share:0
+    //             value:0
+    //             notification:false
+    //         },
+    //         {
+                // title:title
+                // time:July 28, 1996 8:00 PM
+                // type:type
+                // private:false
+                // comments:Array[0]
+                // share:0
+                // value:0
+                // notification:false
+    //         }]
+    // })
+    getEvents: function (req,res) {
+        db.Event.find({"owner":req.body.username},function(err,events){
+            if (err) {throw err}
+            //TODO: change owner from array to username or _id
+        })
+},
+
 
     plusOne: function() {
         // pass in event id, change +1 value
