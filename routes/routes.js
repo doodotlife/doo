@@ -260,21 +260,15 @@ module.exports = {
     */
     deleteComment: function (req, res) {
     // delete one's own comment, delete the corresponding comment in this event
-    db.Comment.findOne({
-      "_id":req.body.comment
-    }, function(err, commentObj) {
-      console.log(commentObj);
-      db.Event.findOneAndUpdate({
-        "_id":event
-      }, {
-        $pull: {"comments": comment}
-      },function(err, user) {
-        if (err) return res.send(500, {err: err}):
-      });
+    db.comment.findOne({"_id":req.body.comment}, function(err, commentObj) {
+      db.Event.findOneAndUpdate({"_id":req.body.event},
+        {
+          $pull:{"comments": commentObj.id}
+        }, function(err, user) {if (err) return res.send(500, {error: err});});
       commentObj.remove(function(err) {
         if (err) throw err;
         res.send("Success");
-      })
+      });
     });
 },
 
