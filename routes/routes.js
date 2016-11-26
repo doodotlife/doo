@@ -314,8 +314,24 @@ module.exports = {
     // delete events from database
 },
 
-    deleteInproperComments: function () {
+/* req.body format
+* {
+*   "comment": id,
+*   "event": id
+* }
+*/
+    deleteInproperComments: function (req, res) {
     // delete whatever comments the admin doesn't like
+    db.Comment.findOne({"_id":req.body.comment}, function(err, commentObj) {
+      db.Event.findOneAndUpdate({"_id":req.body.event},
+        {
+          $pull:{"comments": commentObj.id}
+        }, function(err, user) {if (err) return res.send(500, {error: err});});
+      commentObj.remove(function(err) {
+        if (err) throw err;
+        res.send("Success");
+      });
+    });
 },
 
     createCommonEvents: function () {
