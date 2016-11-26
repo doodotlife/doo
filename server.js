@@ -50,5 +50,9 @@ app.get('/logout', doo.logOut);
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 
+app.post('/comment', doo.comment);
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
+
+app.listen(3000);
+console.log('Listening on port 3000');

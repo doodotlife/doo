@@ -4,9 +4,9 @@ let Schema = mongoose.Schema;
 
 let commentSchema = new Schema(
     {
-        id: {
-            type: Schema.Types.ObjectId, required: true, unique: true
-        },
+        // id: {
+        //     type: Schema.Types.ObjectId, required: true, unique: true
+        // },
         content: {
             type: String, required: true
         },
