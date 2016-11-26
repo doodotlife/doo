@@ -254,6 +254,34 @@ module.exports = {
     unFollow: function() {
         // remove this person from current user's 'following' property
         // remove the current user from the person's 'followedBy' property
+        db.User.findOneAndUpdate({
+            username: req.body.username
+        }, {
+            $pull: {
+                "following": req.body.following
+            }
+        }, function(err, user) {
+            if (err) {
+                return res.send(500, {
+                    error: err
+                });
+            }
+        })
+        db.User.findOneAndUpdate({
+            username: req.body.following
+        }, {
+            $pull: {
+                "followedBy": req.body.username
+            }
+        }, function(err, user) {
+            if (err) {
+                return res.send(500, {
+                    error: err
+                });
+            }
+        })
+        res.send("Success");
+
     },
 
     showFollowedEvents: function() {
