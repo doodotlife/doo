@@ -76,12 +76,12 @@ module.exports = {
                     req.session.user_id = user._id;
                     req.session.username = user.username;
                     req.session.is_admin = user._doc.adminPrivilege;
-                    res.send("success");
+                    res.redirect('/');
                 } else {
-                    res.send('Login failed');
+                    res.render('login.html',{error: 'Username or password invalid. Please try again'});
                 }
             } else {
-                res.send('Login failed');
+                res.render('login.html', {error: 'User does not exist'});
             }
 
         })

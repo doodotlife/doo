@@ -15,8 +15,10 @@
     <div id="container">
 
         <h1><img src="images/logo.svg" id="logo" /></h1>
-        <div id="hint"></div>
-        <form id="login" action="login" method="post">
+        {% if error %}
+        <div id="hint">{{error}}</div>
+        {% endif %}
+        <form id="login" action="/login" method="post">
             <div class="card">
                 <input name="username" type="text" placeholder="username" />
             </div>
@@ -24,9 +26,9 @@
                 <input name="password" type="password" placeholder="password" />
             </div>
             <div class="actionBar">
-                <button id="loginButton" type="button" class="login">Login</button>
+                <button id="loginButton" type="submit" class="login">Login</button>
 
-                <button id="signUpButton" type="button" class="signup">Sign Up</a>
+                <button id="signUpButton" type="button" class="signup">Sign Up</button>
                 <!-- <input class="loginButton" id="loginButton" type="submit" action="submit" value="login" /> -->
             </div>
 
