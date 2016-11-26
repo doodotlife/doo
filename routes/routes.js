@@ -1,6 +1,7 @@
 let db = require('../models/data');
 
 
+
 module.exports = {
     /**User Interactions**/
     signUp: function (req, res) {
@@ -8,15 +9,21 @@ module.exports = {
         //TODO: Deal with encryption/decryption, replace 'success' with standarized responses
 
         let newUser = new db.User(req.body);
-        newUser.save(function(err) {
+        db.User.findOne({username: newUser.username}, function (err, result) {
             if (err) {
                 for (let field in err.errors) {
                     console.log(field);
                 }
             }
+            if(!result){
+                newUser.save(function() {
+                    res.send('Success');
+                })
+            }else{
+                res.send('User already exist');
+            }
+        });
 
-            res.send('Success');
-    })
 
 
 },
@@ -60,6 +67,8 @@ module.exports = {
         //in case that there doesn't exist such user
         if (user) {
             if(user.password==req.body.password){
+                req.session.user_id = user._id;
+                req.session.is_admin = user._doc.adminPrivilege;
                 res.send('Success');
             }
         }else{
