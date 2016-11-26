@@ -33,7 +33,22 @@ app.listen(3000, function () {
 /**Routing functions go here**/
 // Get the index page:
 app.get('/', (req,res)=> {
-    res.render('index.html');
+    console.log(req.session.username);
+    if(req.session.username !==undefined){
+        res.render('index.html');
+        return;
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.get('/login', (req,res)=> {
+    console.log(req.session.username);
+    if(req.session.username !==undefined){
+        res.redirect('/');
+        return;
+    }
+    res.render('login.html');
 });
 
 app.get('/signup', (req, res)=>{
