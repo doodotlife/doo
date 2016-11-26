@@ -46,11 +46,8 @@ app.delete('/event', doo.deleteEvent);
 
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
-<<<<<<< HEAD
 app.delete('/account',doo.deleteAccount);
 
 
 app.listen(3000);
 console.log('Listening on port 3000');
-=======
->>>>>>> CSC309-Fall-2016/master
