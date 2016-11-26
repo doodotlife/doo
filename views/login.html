@@ -2,7 +2,6 @@
 
 <head>
     <meta charset="utf-8">
-    <!-- <link rel="stylesheet" href="assets/css/main.css" type="text/css"> -->
     <link rel="stylesheet" href="css/login.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="scripts/login.js"></script>
@@ -15,24 +14,24 @@
     <div id="container">
 
         <h1><img src="images/logo.svg" id="logo" /></h1>
-        {% if error %}
-        <div id="hint">{{error}}</div>
-        {% endif %}
+
+
         <form id="login" action="/login" method="post">
-            <div class="card">
+            {% if error %}
+            <div id="hint"><img src="images/warning.svg" id="warning"/>{{error}}</div>
+            {% endif %}
+            <!-- <div class="card"> -->
                 <input name="username" type="text" placeholder="username" />
-            </div>
-            <div class="card">
+            <!-- </div> -->
+            <!-- <div class="card"> -->
                 <input name="password" type="password" placeholder="password" />
-            </div>
-            <div class="actionBar">
-                <button id="loginButton" type="submit" class="login">Login</button>
 
-                <button id="signUpButton" type="button" class="signup">Sign Up</button>
-                <!-- <input class="loginButton" id="loginButton" type="submit" action="submit" value="login" /> -->
-            </div>
-
+            <!-- </div> -->
         </form>
+        <div class="actionBar">
+            <button id="loginButton" type="button" class="login">Login</button>
+            <button id="signUpButton" type="button" class="signup" action="signup">Sign Up</a>
+        </div>
 
 
     </div>
