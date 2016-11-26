@@ -1,6 +1,31 @@
 let db = require('../models/data');
 
+let helper = {};
 
+helper.deleteEventHelper =  function(id) {
+    db.Event.findOne({
+            "_id": id
+        },
+        function(err, eventObj) {
+            console.log(eventObj);
+            db.User.findOneAndUpdate({
+                    username: eventObj.owner
+                }, {
+                    $pull: {
+                        "events": eventObj.id
+                    }
+                },
+                function(err, user) {
+                    if (err) return res.send(500, {
+                        error: err
+                    });
+                    eventObj.remove(function(err) {
+                        if (err) throw err;
+                    });
+                }
+            );
+        });
+};
 
 module.exports = {
     /**User Interactions**/
@@ -43,7 +68,7 @@ module.exports = {
             console.log(user);
             if (user.password == req.body.password) {
                 for (let i = 0; i < user.events.length; i++) {
-                    deleteEventHelper(user.events[i]);
+                    helper.deleteEventHelper(user.events[i]);
                 }
                 user.remove(function(err) {
                     if (err) {
@@ -68,9 +93,6 @@ module.exports = {
         }, function(err, user) {
             console.log(user);
             if (err) throw err;
-            //we cannot compare password directly
-            //because it might be null
-            //in case that there doesn't exist such user
             if (user) {
                 if (user.password == req.body.password) {
                     req.session.user_id = user._id;
@@ -134,25 +156,7 @@ module.exports = {
         });
     },
 
-    deleteEventHelper: function(id) {
-            db.Event.findOne(
-                {"_id": id},
-                function(err, eventObj) {
-                    console.log(eventObj);
-                    db.User.findOneAndUpdate(
-                        {username: eventObj.owner},
-                        {$pull: {"events": eventObj.id}},
-                        function(err, user) {
-                            if (err) return res.send(500, {
-                                error: err
-                            });
-                            eventObj.remove(function(err) {
-                                if (err) throw err;
-                            });
-                        }
-                    );
-                });
-        },
+
         /* req.body format
         {
             "event": id
@@ -163,26 +167,8 @@ module.exports = {
         db.Event.findOne({
             "_id": req.body.event
         }, function(err, eventObj) {
-            // console.log(eventObj);
-            // db.User.findOneAndUpdate({
-            //         username: eventObj.owner
-            //     }, {
-            //         $pull: {
-            //             "events": eventObj.id
-            //         }
-            //     },
-            //     function(err, user) {
-            //         if (err) return res.send(500, {
-            //             error: err
-            //         });
-            //     });
-            // eventObj.remove(function(err) {
-            //     if (err) throw err;
-            //
-            //     res.send("Success");
-            // })
             if (req.session.username == eventObj.owner) {
-                deleteEventHelper(req.body.event);
+                helper.deleteEventHelper(req.body.event);
                 res.send("success");
             } else {
                 return res.send(500, {
@@ -293,14 +279,14 @@ module.exports = {
     //             notification:false
     //         },
     //         {
-    // title:title
-    // time:July 28, 1996 8:00 PM
-    // type:type
-    // private:false
-    // comments:Array[0]
-    // share:0
-    // value:0
-    // notification:false
+    //             title:title
+    //             time:July 28, 1996 8:00 PM
+    //             type:type
+    //             private:false
+    //             comments:Array[0]
+    //             share:0
+    //             value:0
+    //             notification:false
     //         }]
     // })
     getEvents: function(req, res) {
