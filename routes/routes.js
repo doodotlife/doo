@@ -141,20 +141,18 @@ module.exports = {
             "_id": req.body.event
         }, function(err, eventObj) {
             console.log(eventObj);
-            for (let i = 0; i < eventObj.owner.length; i++) {
-                db.User.findOneAndUpdate({
-                        "_id": eventObj.owner[i]
-                    }, {
-                        $pull: {
-                            "events": eventObj.id
-                        }
-                    },
-                    function(err, user) {
-                        if (err) return res.send(500, {
-                            error: err
-                        });
+            db.User.findOneAndUpdate({
+                    "_id": eventObj.owner
+                }, {
+                    $pull: {
+                        "events": eventObj.id
+                    }
+                },
+                function(err, user) {
+                    if (err) return res.send(500, {
+                        error: err
                     });
-            }
+                });
             eventObj.remove(function(err) {
                 if (err) throw err;
 
