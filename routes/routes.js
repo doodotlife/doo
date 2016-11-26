@@ -78,10 +78,10 @@ module.exports = {
                     req.session.is_admin = user._doc.adminPrivilege;
                     res.redirect('/');
                 } else {
-                    res.render('login.html',{error: 'Username or password invalid. Please try again'});
+                    res.render('login.html',{error: 'Username or password invalid. Please try again.'});
                 }
             } else {
-                res.render('login.html', {error: 'User does not exist'});
+                res.render('login.html', {error: 'Username or password invalid. Please try again.'});
             }
 
         })
@@ -129,7 +129,10 @@ module.exports = {
                 });
         });
     },
+    
+    deleteEventHelper: function(id) {
 
+    },
     /* req.body format
     {
         "user": id,

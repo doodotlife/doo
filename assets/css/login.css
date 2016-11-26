@@ -39,6 +39,13 @@ body {
     margin-bottom: auto;
     width:20px;
 }
+
+#warning {
+    width: 12px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
 input[type=text] {
     margin-top: 20px;
     margin-left: auto;
@@ -51,13 +58,11 @@ input[type=text] {
     /*overflow-x: auto;*/
     width: 100%;
     border: none;
-    border-bottom: 2px solid #FFFFFF;
     font-size: 16px;
     background-color: white;
     background-size: 3%;
     background-position: 10px 12px;
     background-repeat: no-repeat;
-    margin-left: 5px;
     padding: 10px 10px 10px 30px;
     background-image: url("../images/username.svg");
     background-repeat: no-repeat;
@@ -91,7 +96,6 @@ input[type=password] {
     background-size: 3%;
     background-position: 10px 12px;
     background-repeat: no-repeat;
-    margin-left: 5px;
     padding: 10px 10px 10px 30px;
     background-image: url("../images/password.svg");
     background-repeat: no-repeat;
@@ -125,13 +129,18 @@ button:visited {
 }
 
 #hint {
-    display: none;
+    /*display: none;*/
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     color:#F44336;
     background-color: #FFCDD2;
     border: 1px;
     border-style: solid;
     border-color: #F44336;
     padding: 10px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
 }
 
 .signup {
