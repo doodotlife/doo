@@ -2,6 +2,12 @@
 
 {% block body %}
 
+<div id="status">
+    {% if session.username %}
+    <p class="">Signed in as <strong>{{ session.username }}</strong> <a id="signout" class="" role="button" href="/logout">Sign out</a></p>
+    {%endif%}
+</div>
+
 <div id="container">
 
     <div id="left">
