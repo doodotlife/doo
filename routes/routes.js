@@ -38,7 +38,7 @@ module.exports = {
         // User voluntarily delete his/her own account, need to wipe out everything about him/her
         // from database
         db.User.findOne({
-            "_id": req.body.username
+            username: req.body.username
         }, function(err, user) {
             console.log(user);
             if (user.password == req.body.password) {
@@ -96,7 +96,7 @@ module.exports = {
 
     /* req.body format
         {
-            "user": id,
+            "username": username,
             "event": {
                 title,
                 time,
@@ -113,7 +113,7 @@ module.exports = {
             if (err) throw err;
             // add event id to user
             db.User.findOneAndUpdate({
-                    "_id": req.body.user
+                    username: req.body.username
                 }, {
                     $push: {
                         "events": newEvent.id
@@ -132,9 +132,9 @@ module.exports = {
 
     /* req.body format
     {
-        "user": id,
         "event": id
     } */
+    //TODO:verify if user is the owner by session
     deleteEvent: function(req, res) {
         // With dates, event name, event type
         db.Event.findOne({
@@ -142,7 +142,7 @@ module.exports = {
         }, function(err, eventObj) {
             console.log(eventObj);
             db.User.findOneAndUpdate({
-                    "_id": eventObj.owner
+                    username: eventObj.owner
                 }, {
                     $pull: {
                         "events": eventObj.id
@@ -169,7 +169,7 @@ module.exports = {
 
     // req.body format:
     // {
-    //     "user":id;
+    //     "username":username;
     //     "profile":{
     //         "password":password;
     //         "name":name;
@@ -180,7 +180,7 @@ module.exports = {
     // }
     editProfile: function(req, res) {
         db.User.findOneAndUpdate({
-            "_id": req.body.user
+            username: req.body.username
         }, {
             $set: req.body.profile
         }, function(err, user) {
@@ -197,15 +197,15 @@ module.exports = {
 
     // req.body:
     //     {
-    //         "user":id;
-    //         "following":id
+    //         "username":username;
+    //         "following":username
     //     }
     follow: function(req, res) {
         // add the person to current user's 'following' property
         // add the current user to the person's 'followedBy' property
         //TODO:handle duplicate follower
         db.User.findOneAndUpdate({
-            "_id": req.body.user
+            username: req.body.username
         }, {
             $push: {
                 "following": req.body.following
@@ -218,10 +218,10 @@ module.exports = {
             }
         })
         db.User.findOneAndUpdate({
-            "_id": req.body.following
+            username: req.body.following
         }, {
             $push: {
-                "followedBy": req.body.user
+                "followedBy": req.body.username
             }
         }, function(err, user) {
             if (err) {
