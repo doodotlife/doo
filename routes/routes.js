@@ -27,10 +27,34 @@ module.exports = {
 
 
 },
-    deleteAccount: function () {
-    // User voluntarily delete his/her own account, need to wipe out everything about him/her
-    // from database
-},
+    //req.body
+    // {
+    //     "username":username;
+    //     "password":password;
+    // }
+    deleteAccount: function (req,res) {
+        // User voluntarily delete his/her own account, need to wipe out everything about him/her
+        // from database
+        db.User.findOne({
+            "_id":req.body.username
+        },function(err,user) {
+            console.log(user);
+            if (user.password==req.body.password) {
+                for (let i = 0; i < user.events.length; i++) {
+                    deleteEventHelper(user.events[i]);
+                }
+                user.remove(function(err){
+                    if (err) {return res.send(500, {
+                            error:err
+                        });
+                    }
+                    res.send("Success");
+                });
+            }else{
+                res.send("incorrect password");
+            }
+        })
+    },
 
     logIn: function (req, res) {
 
@@ -45,7 +69,7 @@ module.exports = {
             if(user.password==req.body.password){
                 req.session.user_id = user._id;
                 req.session.is_admin = user._doc.adminPrivilege;
-                res.send('Success');
+                res.redirect('/');
             }
         }else{
             res.send('Login failed');
@@ -211,7 +235,7 @@ module.exports = {
     // return their events
 },
 
-    showMyEvents: function () {
+    getEvents: function () {
     // get the current user's events
 },
 
@@ -223,12 +247,53 @@ module.exports = {
     // add someone's deadline event to the current user's own list
 },
 
-    comment: function (){
-    // current user leave a comment to someone's event, put this commentId into this event
-},
+    /* req.body format
+    * {
+    *   "eventID": id,
+    *   "comment": {
+    *     content,
+    *     username, (The one who make the comment)
+    *     timestamp
+    *   }
+    * }
+    */
 
-    deleteComment: function () {
+    comment: function (req, res){
+      // current user leave a comment to someone's event, put this commentId into this event
+      let newComment = new db.Comment(req.body.comment);
+
+      newComment.save(function(err, newComment){
+        if (err) throw err;
+        // add comment to event
+        db.Event.findOneAndUpdate(
+          {"_id": req.body.eventID},
+          {$push: {
+            "comments": newComment.id
+            }
+          }, function(err, event){
+            newComment.save();
+            return res.send("Success");
+          });
+      });
+},
+    /* req.body format
+    * {
+    *   "comment": id,
+    *   "event": id
+    * }
+    */
+    deleteComment: function (req, res) {
     // delete one's own comment, delete the corresponding comment in this event
+    db.Comment.findOne({"_id":req.body.comment}, function(err, commentObj) {
+      db.Event.findOneAndUpdate({"_id":req.body.event},
+        {
+          $pull:{"comments": commentObj.id}
+        }, function(err, user) {if (err) return res.send(500, {error: err});});
+      commentObj.remove(function(err) {
+        if (err) throw err;
+        res.send("Success");
+      });
+    });
 },
 
     subscribeEmailNotificatino: function () {
@@ -249,8 +314,24 @@ module.exports = {
     // delete events from database
 },
 
-    deleteInproperComments: function () {
+/* req.body format
+* {
+*   "comment": id,
+*   "event": id
+* }
+*/
+    deleteInproperComments: function (req, res) {
     // delete whatever comments the admin doesn't like
+    db.Comment.findOne({"_id":req.body.comment}, function(err, commentObj) {
+      db.Event.findOneAndUpdate({"_id":req.body.event},
+        {
+          $pull:{"comments": commentObj.id}
+        }, function(err, user) {if (err) return res.send(500, {error: err});});
+      commentObj.remove(function(err) {
+        if (err) throw err;
+        res.send("Success");
+      });
+    });
 },
 
     createCommonEvents: function () {

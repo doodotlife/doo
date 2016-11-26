@@ -36,13 +36,25 @@ app.get('/', (req,res)=> {
     res.render('index.html');
 });
 
-
+app.get('/signup', (req, res)=>{
+    if(req.session.username !==undefined){
+        res.redirect('/');
+        return;
+    }
+    res.render('signup.html');
+});
 app.post('/signup', doo.signUp);
+app.delete('/account',doo.deleteAccount);
+
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
 
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
+app.post('/events',doo.getEvents);
+
+app.post('/comment', doo.comment);
+app.delete('/comment', doo.deleteComment);
 
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
