@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div id="container">
+
+    <div id="left">
+        <h1>Sign up</h1>
+        <div id="signUpTable" class="card">
+            <form id="newUser" action="signup" method="post">
+                <table>
+                    <tr>
+                        <td>
+                            Username
+                        </td>
+                        <td>
+                            <input id="username" name="username" type="text" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Password
+                        </td>
+                        <td>
+                            <input id="password" name="password" type="password" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Retype Password
+                        </td>
+                        <td>
+                            <input id="rePassword" name="rePassword" type="password" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Name
+                        </td>
+                        <td>
+                            <input id="name" name="name" type="text" required/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            birthday
+                        </td>
+                        <td>
+                            <input id="birthday" name="birthday" type="date" required/>
+                        </td>
+                    </tr>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            Gender
+                        </td>
+                        <td>
+                            <input name="gender" id="genderM" type="radio" value="male" />
+                            <label for="genderM"> Male </label>
+                            <input name="gender" id="genderF" type="radio" value="female" />
+                            <label for="genderF"> Female </label>
+                            <input name="gender" id="genderO" type="radio" value="other" />
+                            <label for="genderO"> I prefer not to say. </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            <input id="email" name="email" type="email" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <input id="notification" name="notification" type="checkbox"/>
+                            <label for="notification"> I would like to receive email notifications.</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <button type="button" id="cancelAdd">Cancel</button>
+                            <input type="submit" value="Add" />
+                        </td>
+                    </tr>
+                </table>
+                
+            </form>
+        </div>
+        <div id="feeds">
+
+        </div>
+    </div>
+
+    <div id="right">
+        <ul>
+            <li>
+                <a href="/" class="logo-button">
+                    <img src="images/logo.svg" id="logo" />
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -126,9 +126,9 @@ tr:hover {
 input[type=text] {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #FFFFFF;
+    border-bottom: 2px solid #eee;
     font-size: 16px;
-    background-color: white;
+    background-color: none;
     background-repeat: no-repeat;
     padding: none;
     -webkit-transition: width 0.4s ease-in-out;
@@ -138,7 +138,61 @@ input[type=text] {
 input[type=text]:focus {
     outline: none;
     border-bottom: 2px solid #ccc;
+    /*width: 100%;*/
+}
+
+input[type=email] {
     width: 100%;
+    border: none;
+    border-bottom: 2px solid #eee;
+    font-size: 16px;
+    background-color: none;
+    background-repeat: no-repeat;
+    padding: none;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=email]:focus {
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    /*width: 100%;*/
+}
+
+input[type=date] {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #eee;
+    font-size: 16px;
+    background-color: none;
+    background-repeat: no-repeat;
+    padding: none;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=date]:focus {
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    /*width: 100%;*/
+}
+
+input[type=password] {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #eee;
+    font-size: 16px;
+    background-color: none;
+    background-repeat: no-repeat;
+    padding: none;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=password]:focus {
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    /*width: 100%;*/
 }
 
 

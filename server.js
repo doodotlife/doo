@@ -55,8 +55,12 @@ app.get('/signup', (req, res)=>{
     if(req.session.username !==undefined){
         res.redirect('/');
         return;
+    } else {
+        console.log("get signup");
+
+        res.render('signup.html');
     }
-    res.render('signup.html');
+
 });
 app.post('/signup', doo.signUp);
 app.delete('/account',doo.deleteAccount);
