@@ -235,8 +235,38 @@ module.exports = {
     // return their events
 },
 
-    showMyEvents: function () {
-    // get the current user's events
+    // rea.body:
+    // {
+    //     "username":username
+    // }
+    // res.send(
+    // {
+    //     "events":[{
+    //             title:title
+    //             time:July 28, 1996 8:00 PM
+    //             type:type
+    //             private:false
+    //             comments:Array[0]
+    //             share:0
+    //             value:0
+    //             notification:false
+    //         },
+    //         {
+                // title:title
+                // time:July 28, 1996 8:00 PM
+                // type:type
+                // private:false
+                // comments:Array[0]
+                // share:0
+                // value:0
+                // notification:false
+    //         }]
+    // })
+    getEvents: function (req,res) {
+        db.Event.find({"owner":req.body.username},function(err,events){
+            if (err) {throw err}
+            //TODO: change owner from array to username or _id
+        })
 },
 
     plusOne:function () {
@@ -314,8 +344,24 @@ module.exports = {
     // delete events from database
 },
 
-    deleteInproperComments: function () {
+/* req.body format
+* {
+*   "comment": id,
+*   "event": id
+* }
+*/
+    deleteInproperComments: function (req, res) {
     // delete whatever comments the admin doesn't like
+    db.Comment.findOne({"_id":req.body.comment}, function(err, commentObj) {
+      db.Event.findOneAndUpdate({"_id":req.body.event},
+        {
+          $pull:{"comments": commentObj.id}
+        }, function(err, user) {if (err) return res.send(500, {error: err});});
+      commentObj.remove(function(err) {
+        if (err) throw err;
+        res.send("Success");
+      });
+    });
 },
 
     createCommonEvents: function () {

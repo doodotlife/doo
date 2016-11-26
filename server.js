@@ -44,15 +44,17 @@ app.get('/signup', (req, res)=>{
     res.render('signup.html');
 });
 app.post('/signup', doo.signUp);
+app.delete('/account',doo.deleteAccount);
+
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
 
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
+app.post('/events',doo.getEvents);
 
 app.post('/comment', doo.comment);
 app.delete('/comment', doo.deleteComment);
 
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
-app.delete('/account',doo.deleteAccount);
