@@ -284,7 +284,7 @@ module.exports = {
     */
     deleteComment: function (req, res) {
     // delete one's own comment, delete the corresponding comment in this event
-    db.comment.findOne({"_id":req.body.comment}, function(err, commentObj) {
+    db.Comment.findOne({"_id":req.body.comment}, function(err, commentObj) {
       db.Event.findOneAndUpdate({"_id":req.body.event},
         {
           $pull:{"comments": commentObj.id}
