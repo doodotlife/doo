@@ -40,46 +40,72 @@ body {
     width:20px;
 }
 input[type=text] {
-    width: 90%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    padding: 10px;
+    border-radius: 4px;
+    /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
+    background-color: white;
+    /*overflow-x: auto;*/
+    width: 100%;
     border: none;
     border-bottom: 2px solid #FFFFFF;
     font-size: 16px;
     background-color: white;
+    background-size: 3%;
+    background-position: 10px 12px;
     background-repeat: no-repeat;
     margin-left: 5px;
-    padding: 0px 0px 0px 25px;
+    padding: 10px 10px 10px 30px;
     background-image: url("../images/username.svg");
     background-repeat: no-repeat;
-    -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 input[type=text]:focus {
     outline: none;
     /*border-bottom: 2px solid #ccc;
     width: 100%;*/
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 input[type=password] {
-    width: 90%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    padding: 10px;
+    border-radius: 4px;
+    /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
+    background-color: white;
+    /*overflow-x: auto;*/
+    width: 100%;
     border: none;
     border-bottom: 2px solid #FFFFFF;
     font-size: 16px;
     background-color: white;
+    background-size: 3%;
+    background-position: 10px 12px;
     background-repeat: no-repeat;
     margin-left: 5px;
+    padding: 10px 10px 10px 30px;
     background-image: url("../images/password.svg");
     background-repeat: no-repeat;
-    padding: 0px 0px 0px 25px;
-
-    -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 input[type=password]:focus {
     outline: none;
     /*border-bottom: 2px solid #ccc;
     width: 100%;*/
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
 }
 
 .actionBar {
@@ -90,6 +116,23 @@ input[type=password]:focus {
     padding: 0px;
 }
 
+button {
+    cursor:pointer;
+}
+
+button:visited {
+    outline: none;
+}
+
+#hint {
+    display: none;
+    color:#F44336;
+    background-color: #FFCDD2;
+    border: 1px;
+    border-style: solid;
+    border-color: #F44336;
+    padding: 10px;
+}
 
 .signup {
     background-color: #FFFFFF;
