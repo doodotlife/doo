@@ -34,6 +34,7 @@ app.delete('/event', doo.deleteEvent);
 
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
+app.delete('/account',doo.deleteAccount);
 
 
 app.listen(3000);
