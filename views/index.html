@@ -2,12 +2,6 @@
 
 {% block body %}
 
-<div id="status">
-    {% if session.username %}
-    <p class="">Signed in as <strong>{{ session.username }}</strong> <a id="signout" class="" role="button" href="/logout">Sign out</a></p>
-    {%endif%}
-</div>
-
 <div id="container">
 
     <div id="left">
@@ -101,15 +95,24 @@
                     <img src="images/logo.svg" id="logo" />
                 </a>
             </li>
+
+            {% if session.username %}
             <li>
-                <a href="#" class="">User</a>
+                <a href="#" class="">{{ session.username }}</a>
             </li>
+            {%endif%}
             <li>
                 <a href="#" class="">Search</a>
             </li>
             <li>
                 <a href="#" class="">Settings</a>
             </li>
+            {% if session.username %}
+            <li>
+                <a id="signout" class="" role="button" href="/logout">Sign out</a>
+            </li>
+            {%endif%}
+
         </ul>
     </div>
 </div>
