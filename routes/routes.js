@@ -235,7 +235,7 @@ module.exports = {
     // return their events
 },
 
-    showMyEvents: function () {
+    getEvents: function () {
     // get the current user's events
 },
 
