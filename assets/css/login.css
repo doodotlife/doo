@@ -111,6 +111,7 @@ input[type=password]:focus {
 
 .signup:active {
     color:#eee;
+    outline: none;
 }
 
 .login {
@@ -131,4 +132,5 @@ input[type=password]:focus {
 }
 .login:active {
     color:#FFFFFF;
+    outline: none;
 }
