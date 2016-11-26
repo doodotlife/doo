@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div id="container">
+
+    <div id="left">
+        <div id="addBar" class="card">
+            <input id="titleEntry" type="text" for="newEvent" name="title" placeholder="New Event">
+            <!-- <div class="group">
+                <input type="text" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>New Event</label>
+            </div> -->
+        </div>
+        <div id="addTable" class="hide card">
+            <form id="newEvent" method="post">
+                <table>
+                    <!-- <tr>
+                        <td>
+                            Title
+                        </td>
+                        <td>
+                            <input name="title" type="text"/>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td>
+                            Time
+                        </td>
+                        <td>
+                            <input id="timeEntry"name="time" type="date" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            <input name="type" id="typeD" type="radio" value="deadline" />
+                            <label for="typeD"> Deadline </label>
+                            <input name="type" id="typeA"type="radio" value="anniversary" />
+                            <label for="typeA"> Anniversary </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Private
+                        </td>
+                        <td>
+                            <input name="private" id="privateT" type="radio" value=true />
+                            <label for="privateT"> Yes </label>
+                            <input name="private" id="privateF" type="radio" value=false />
+                            <label for="privateF"> No </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <button type="button" id="cancelAdd">Cancel</button>
+                            <input type="submit" value="Add" />
+                        </td>
+                    </tr>
+                </table>
+                <!-- <input name="type" id="typeD" type="radio" value="deadline" />
+                <label for="typeD"> Deadline </label>
+                <input name="type" id="typeA"type="radio" value="anniversary" />
+                <label for="typeA"> Anniversary </label>
+                <div class="group">
+                    <input type="text" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Title</label>
+                </div>
+
+                <div class="group">
+                    <input type="datetime-local" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Time</label>
+                </div> -->
+            </form>
+        </div>
+        <div id="feeds">
+
+        </div>
+    </div>
+
+    <div id="right">
+        <ul>
+            <li>
+                <a href="base.html" class="logo-button">
+                    <img src="images/logo.svg" id="logo" />
+                </a>
+            </li>
+            <li>
+                <a href="#" class="">User</a>
+            </li>
+            <li>
+                <a href="#" class="">Search</a>
+            </li>
+            <li>
+                <a href="#" class="">Settings</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
