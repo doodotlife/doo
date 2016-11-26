@@ -36,7 +36,13 @@ app.get('/', (req,res)=> {
     res.render('index.html');
 });
 
-
+app.get('/signup', (req, res)=>{
+    if(req.session.username !==undefined){
+        res.redirect('/');
+        return;
+    }
+    res.render('signup.html');
+});
 app.post('/signup', doo.signUp);
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);

@@ -45,7 +45,7 @@ module.exports = {
             if(user.password==req.body.password){
                 req.session.user_id = user._id;
                 req.session.is_admin = user._doc.adminPrivilege;
-                res.send('Success');
+                res.redirect('/');
             }
         }else{
             res.send('Login failed');
