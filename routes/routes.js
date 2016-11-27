@@ -187,9 +187,31 @@ module.exports = {
 
 
     },
+    /* req.body format
+    {
+        "event" : {
+            id,
+            title,
+            time,
+            type,
+            private
+        }
+    }
+    */
 
-    editEvent: function() {
+    editEvent: function(req, res) {
         // With dates, event name, event type
+        db.Event.findOneAndUpdate({
+            _id: req.body.event.id
+        },{
+            $set: req.body.event
+        }, function(err,event){
+            if(err){
+                return res.send(500,{error: err})
+            }
+            event.save();
+            res.send('Success');
+        })
     },
 
     // req.body format:
