@@ -147,7 +147,7 @@ module.exports = {
             if (err) throw err;
             // add event id to user
             db.User.findOneAndUpdate({
-                    username: req.body.username
+                    username: req.session.username
                 }, {
                     $push: {
                         "events": newEvent.id
@@ -157,7 +157,7 @@ module.exports = {
                     if (err) return res.send(500, {
                         error: err
                     });
-                    newEvent.owner = req.body.username;
+                    newEvent.owner = req.session.username;
                     newEvent.save();
                     return res.send("Success");
                 });
