@@ -36,7 +36,6 @@ app.get('/', (req,res)=> {
     console.log(req.session.username);
     if(req.session.username !==undefined){
         res.render('index.html');
-        return;
     } else {
         res.redirect('/login');
     }
@@ -54,7 +53,6 @@ app.get('/login', (req,res)=> {
 app.get('/signup', (req, res)=>{
     if(req.session.username !==undefined){
         res.redirect('/');
-        return;
     } else {
         console.log("get signup");
 
@@ -71,6 +69,7 @@ app.get('/logout', doo.logOut);
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 app.post('/events',doo.getEvents);
+app.put('/editevent', doo.editEvent);
 
 app.post('/comment', doo.comment);
 app.delete('/comment', doo.deleteComment);
