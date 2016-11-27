@@ -66,6 +66,16 @@ li a:hover {
     margin-bottom: 10px;
 }
 
+#logo-signup {
+    height: 48px;
+    /*float: left;*/
+    margin-bottom: 10px;
+}
+
+#signup-title {
+    padding: 8px 16px;
+}
+
 #left {
     width: 80%;
     /*margin-left: 15%;*/
@@ -81,6 +91,9 @@ li a:hover {
 
 .logo-button {
     height: 24px;
+}
+.logo-button-signup {
+    width: 150px;
 }
 
 .card {
@@ -104,6 +117,8 @@ li a:hover {
 
 
 table {
+    font-size: 16px;
+    color:#666666;
     border-collapse: collapse;
     width: 100%;
 }
@@ -215,7 +230,48 @@ input[type=date]:focus {
     width: 100%;
 }*/
 
+#warning {
+    width: 12px;
+    margin-right: 10px;
+    display: inline-block;
+}
+#hint {
+    /*display: none;*/
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    color:#F44336;
+    background-color: #FFCDD2;
+    border: 1px;
+    border-style: solid;
+    border-color: #F44336;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
+}
 
+button {
+    background-color: #ddd;
+    color:#aaa;
+    font-size: 16px;
+    float: right;
+    padding: 10px;
+    border:none;
+    border-radius: 4px;
+    /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
+    margin-left: 15px;
+    background-color: white;
+    overflow-x: auto;
+}
+
+button:hover {
+    color:#ddd;
+}
+
+button:active {
+    color:#eee;
+    outline: none;
+}
 
 footer {
     right: 0;

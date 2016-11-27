@@ -2,6 +2,8 @@
 
 <head>
     <meta charset="utf-8">
+    <!-- <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"> -->
+
     <link rel="stylesheet" href="css/login.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="scripts/login.js"></script>
@@ -13,21 +15,24 @@
 <body>
     <div id="container">
 
-        <h1><img src="images/logo.svg" id="logo" /></h1>
+        <h1 class=" animate-opacity"><img src="images/logo.svg" id="logo" /></h1>
 
 
         <form id="login" action="/login" method="post">
             {% if error %}
-            <div id="hint"><img src="images/warning.svg" id="warning"/>{{error}}</div>
+            <div id="error"><img src="images/warning.svg" class="hint animate-opacity"/>{{error}}</div>
+            {% endif %}
+            {% if success %}
+            <div id="success"><img src="images/success.svg" class="hint animate-opacity"/>{{success}}</div>
             {% endif %}
             <!-- <div class="card"> -->
-                <input name="username" type="text" placeholder="username" />
+                <input name="username" type="text" placeholder="username" class="animate-opacity"/>
             <!-- </div> -->
             <!-- <div class="card"> -->
-                <input name="password" type="password" placeholder="password" />
+                <input name="password" type="password" placeholder="password" class="animate-opacity"/>
 
             <!-- </div> -->
-            <div class="actionBar">
+            <div class="actionBar  animate-opacity">
                 <button id="loginButton" type="submit" class="login">Login</button>
 
                 <button id="signUpButton" type="button" class="signup">Sign Up</button>
@@ -35,6 +40,7 @@
             </div>
 
         </form>
+        <!-- <button id="signUpButton" type="button" class="signup">Sign Up</button> -->
         <!-- <div class="actionBar">
             <button id="loginButton" type="button" class="login">Login</button>
             <button id="signUpButton" type="button" class="signup" action="signup">Sign Up</a>
