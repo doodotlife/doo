@@ -37,6 +37,8 @@ module.exports = {
         db.User.findOne({
             username: newUser.username
         }, function(err, result) {
+            console.log("result");
+            console.log(result);
             if (err) {
                 for (let field in err.errors) {
                     console.log(field);
@@ -44,10 +46,16 @@ module.exports = {
             }
             if (!result) {
                 newUser.save(function() {
-                    res.send('Success');
+                    // res.send('Success');
+                    // res.redirect('/');
+                    res.render('login.html', {
+                        success: 'Successfully registered! Login now and doo on.'
+                    });
                 })
             } else {
-                res.send('User already exist');
+                res.render('signup.html', {
+                    error: 'Username Already exists'
+                });
             }
         });
 

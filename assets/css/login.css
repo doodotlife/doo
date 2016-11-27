@@ -23,6 +23,29 @@ body {
     margin-bottom: 10px;
 }
 
+.animate-opacity {
+    -webkit-animation: opac 3s;
+    animation: opac 3s
+}
+
+@-webkit-keyframes opac {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes opac {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
 .card {
     margin-top: 20px;
     margin-left: auto;
@@ -40,7 +63,7 @@ body {
     width:20px;
 }
 
-#warning {
+.hint {
     width: 12px;
     margin-right: 10px;
     display: inline-block;
@@ -60,7 +83,7 @@ input[type=text] {
     border: none;
     font-size: 16px;
     background-color: white;
-    background-size: 3%;
+    background-size: 2.5%;
     background-position: 10px 12px;
     background-repeat: no-repeat;
     padding: 10px 10px 10px 30px;
@@ -93,7 +116,7 @@ input[type=password] {
     border-bottom: 2px solid #FFFFFF;
     font-size: 16px;
     background-color: white;
-    background-size: 3%;
+    background-size: 2.5%;
     background-position: 10px 12px;
     background-repeat: no-repeat;
     padding: 10px 10px 10px 30px;
@@ -128,7 +151,7 @@ button:visited {
     outline: none;
 }
 
-#hint {
+#error {
     /*display: none;*/
     width: 100%;
     margin-left: auto;
@@ -138,6 +161,21 @@ button:visited {
     border: 1px;
     border-style: solid;
     border-color: #F44336;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
+}
+
+#success {
+    /*display: none;*/
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    color:#4CAF50;
+    background-color: #B3E5FC;
+    border: 1px;
+    border-style: solid;
+    border-color: #4CAF50;
     padding: 10px;
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
