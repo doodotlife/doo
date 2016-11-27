@@ -2,35 +2,15 @@
 
 {% block body %}
 
-<div id="status">
-    {% if session.username %}
-    <p class="">Signed in as <strong>{{ session.username }}</strong> <a id="signout" class="" role="button" href="/logout">Sign out</a></p>
-    {%endif%}
-</div>
-
 <div id="container">
 
     <div id="left">
         <div id="addBar" class="card">
             <input id="titleEntry" type="text" for="newEvent" name="title" placeholder="New Event">
-            <!-- <div class="group">
-                <input type="text" required>
-                <span class="highlight"></span>
-                <span class="bar"></span>
-                <label>New Event</label>
-            </div> -->
         </div>
         <div id="addTable" class="hide card">
             <form id="newEvent" method="post">
                 <table>
-                    <!-- <tr>
-                        <td>
-                            Title
-                        </td>
-                        <td>
-                            <input name="title" type="text"/>
-                        </td>
-                    </tr> -->
                     <tr>
                         <td>
                             Time
@@ -70,23 +50,6 @@
                         </td>
                     </tr>
                 </table>
-                <!-- <input name="type" id="typeD" type="radio" value="deadline" />
-                <label for="typeD"> Deadline </label>
-                <input name="type" id="typeA"type="radio" value="anniversary" />
-                <label for="typeA"> Anniversary </label>
-                <div class="group">
-                    <input type="text" required>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Title</label>
-                </div>
-
-                <div class="group">
-                    <input type="datetime-local" required>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Time</label>
-                </div> -->
             </form>
         </div>
         <div id="feeds">
@@ -101,15 +64,24 @@
                     <img src="images/logo.svg" id="logo" />
                 </a>
             </li>
+
+            {% if session.username %}
             <li>
-                <a href="#" class="">User</a>
+                <a href="#" class="">{{ session.username }}</a>
             </li>
+            {%endif%}
             <li>
                 <a href="#" class="">Search</a>
             </li>
             <li>
                 <a href="#" class="">Settings</a>
             </li>
+            {% if session.username %}
+            <li>
+                <a id="signout" class="" role="button" href="/logout">Sign out</a>
+            </li>
+            {%endif%}
+
         </ul>
     </div>
 </div>
