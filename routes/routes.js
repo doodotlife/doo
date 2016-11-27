@@ -37,6 +37,8 @@ module.exports = {
         db.User.findOne({
             username: newUser.username
         }, function(err, result) {
+            console.log("result");
+            console.log(result);
             if (err) {
                 for (let field in err.errors) {
                     console.log(field);
@@ -44,10 +46,16 @@ module.exports = {
             }
             if (!result) {
                 newUser.save(function() {
-                    res.send('Success');
+                    // res.send('Success');
+                    // res.redirect('/');
+                    res.render('login.html', {
+                        success: 'Successfully registered! Login now and doo on.'
+                    });
                 })
             } else {
-                res.send('User already exist');
+                res.render('signup.html', {
+                    error: 'Username Already exists'
+                });
             }
         });
 
@@ -179,9 +187,31 @@ module.exports = {
 
 
     },
+    /* req.body format
+    {
+        "event" : {
+            id,
+            title,
+            time,
+            type,
+            private
+        }
+    }
+    */
 
-    editEvent: function() {
+    editEvent: function(req, res) {
         // With dates, event name, event type
+        db.Event.findOneAndUpdate({
+            _id: req.body.event.id
+        },{
+            $set: req.body.event
+        }, function(err,event){
+            if(err){
+                return res.send(500,{error: err})
+            }
+            event.save();
+            res.send('Success');
+        })
     },
 
     // req.body format:

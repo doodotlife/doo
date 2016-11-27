@@ -1,6 +1,6 @@
-// "use strict"
-//
-// $(document).ready(function() {
+"use strict"
+
+$(document).ready(function() {
 //     // Stuff to do as soon as the DOM is ready
 //     $('#loginButton').click(function(e) {
 //         e.preventDefault;
@@ -28,4 +28,8 @@
 //         });
 //
 //     });
-// });
+    $('#signUpButton').click(function(e) {
+        $.get('/signup');
+        window.location.replace("/signup");
+    });
+});
