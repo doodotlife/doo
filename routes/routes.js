@@ -1,6 +1,31 @@
 let db = require('../models/data');
 
+let helper = {};
 
+helper.deleteEventHelper =  function(id) {
+    db.Event.findOne({
+            "_id": id
+        },
+        function(err, eventObj) {
+            console.log(eventObj);
+            db.User.findOneAndUpdate({
+                    username: eventObj.owner
+                }, {
+                    $pull: {
+                        "events": eventObj.id
+                    }
+                },
+                function(err, user) {
+                    if (err) return res.send(500, {
+                        error: err
+                    });
+                    eventObj.remove(function(err) {
+                        if (err) throw err;
+                    });
+                }
+            );
+        });
+};
 
 module.exports = {
     /**User Interactions**/
@@ -38,12 +63,12 @@ module.exports = {
         // User voluntarily delete his/her own account, need to wipe out everything about him/her
         // from database
         db.User.findOne({
-            "_id": req.body.username
+            username: req.body.username
         }, function(err, user) {
             console.log(user);
             if (user.password == req.body.password) {
                 for (let i = 0; i < user.events.length; i++) {
-                    deleteEventHelper(user.events[i]);
+                    helper.deleteEventHelper(user.events[i]);
                 }
                 user.remove(function(err) {
                     if (err) {
@@ -68,9 +93,6 @@ module.exports = {
         }, function(err, user) {
             console.log(user);
             if (err) throw err;
-            //we cannot compare password directly
-            //because it might be null
-            //in case that there doesn't exist such user
             if (user) {
                 if (user.password == req.body.password) {
                     req.session.user_id = user._id;
@@ -78,10 +100,14 @@ module.exports = {
                     req.session.is_admin = user._doc.adminPrivilege;
                     res.redirect('/');
                 } else {
-                    res.render('login.html',{error: 'Username or password invalid. Please try again'});
+                    res.render('login.html', {
+                        error: 'Username or password invalid. Please try again.'
+                    });
                 }
             } else {
-                res.render('login.html', {error: 'User does not exist'});
+                res.render('login.html', {
+                    error: 'Username or password invalid. Please try again.'
+                });
             }
 
         })
@@ -96,7 +122,7 @@ module.exports = {
 
     /* req.body format
         {
-            "user": id,
+            "username": username,
             "event": {
                 title,
                 time,
@@ -113,7 +139,7 @@ module.exports = {
             if (err) throw err;
             // add event id to user
             db.User.findOneAndUpdate({
-                    "_id": req.body.user
+                    username: req.body.username
                 }, {
                     $push: {
                         "events": newEvent.id
@@ -123,43 +149,32 @@ module.exports = {
                     if (err) return res.send(500, {
                         error: err
                     });
-                    newEvent.owner.push(req.body.user);
+                    newEvent.owner = req.body.username;
                     newEvent.save();
                     return res.send("Success");
                 });
         });
     },
 
-    /* req.body format
-    {
-        "user": id,
-        "event": id
-    } */
+
+        /* req.body format
+        {
+            "event": id
+        } */
+        //TODO:verify if user is the owner by session
     deleteEvent: function(req, res) {
         // With dates, event name, event type
         db.Event.findOne({
             "_id": req.body.event
         }, function(err, eventObj) {
-            console.log(eventObj);
-            for (let i = 0; i < eventObj.owner.length; i++) {
-                db.User.findOneAndUpdate({
-                        "_id": eventObj.owner[i]
-                    }, {
-                        $pull: {
-                            "events": eventObj.id
-                        }
-                    },
-                    function(err, user) {
-                        if (err) return res.send(500, {
-                            error: err
-                        });
-                    });
+            if (req.session.username == eventObj.owner) {
+                helper.deleteEventHelper(req.body.event);
+                res.send("success");
+            } else {
+                return res.send(500, {
+                    error: "Permission denied."
+                });
             }
-            eventObj.remove(function(err) {
-                if (err) throw err;
-
-                res.send("Success");
-            })
         });
 
 
@@ -171,7 +186,7 @@ module.exports = {
 
     // req.body format:
     // {
-    //     "user":id;
+    //     "username":username;
     //     "profile":{
     //         "password":password;
     //         "name":name;
@@ -182,7 +197,7 @@ module.exports = {
     // }
     editProfile: function(req, res) {
         db.User.findOneAndUpdate({
-            "_id": req.body.user
+            username: req.body.username
         }, {
             $set: req.body.profile
         }, function(err, user) {
@@ -199,15 +214,15 @@ module.exports = {
 
     // req.body:
     //     {
-    //         "user":id;
-    //         "following":id
+    //         "username":username;
+    //         "following":username
     //     }
     follow: function(req, res) {
         // add the person to current user's 'following' property
         // add the current user to the person's 'followedBy' property
         //TODO:handle duplicate follower
         db.User.findOneAndUpdate({
-            "_id": req.body.user
+            username: req.body.username
         }, {
             $push: {
                 "following": req.body.following
@@ -220,10 +235,10 @@ module.exports = {
             }
         })
         db.User.findOneAndUpdate({
-            "_id": req.body.following
+            username: req.body.following
         }, {
             $push: {
-                "followedBy": req.body.user
+                "followedBy": req.body.username
             }
         }, function(err, user) {
             if (err) {
@@ -239,6 +254,34 @@ module.exports = {
     unFollow: function() {
         // remove this person from current user's 'following' property
         // remove the current user from the person's 'followedBy' property
+        db.User.findOneAndUpdate({
+            username: req.body.username
+        }, {
+            $pull: {
+                "following": req.body.following
+            }
+        }, function(err, user) {
+            if (err) {
+                return res.send(500, {
+                    error: err
+                });
+            }
+        })
+        db.User.findOneAndUpdate({
+            username: req.body.following
+        }, {
+            $pull: {
+                "followedBy": req.body.username
+            }
+        }, function(err, user) {
+            if (err) {
+                return res.send(500, {
+                    error: err
+                });
+            }
+        })
+        res.send("Success");
+
     },
 
     showFollowedEvents: function() {
@@ -264,22 +307,26 @@ module.exports = {
     //             notification:false
     //         },
     //         {
-                // title:title
-                // time:July 28, 1996 8:00 PM
-                // type:type
-                // private:false
-                // comments:Array[0]
-                // share:0
-                // value:0
-                // notification:false
+    //             title:title
+    //             time:July 28, 1996 8:00 PM
+    //             type:type
+    //             private:false
+    //             comments:Array[0]
+    //             share:0
+    //             value:0
+    //             notification:false
     //         }]
     // })
-    getEvents: function (req,res) {
-        db.Event.find({"owner":req.body.username},function(err,events){
-            if (err) {throw err}
-            //TODO: change owner from array to username or _id
+    getEvents: function(req, res) {
+        db.Event.find({
+            "owner": req.body.username
+        }, function(err, events) {
+            if (err) {
+                throw err
+            }
+            res.send({"events":events});
         })
-},
+    },
 
 
     plusOne: function() {

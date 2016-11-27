@@ -34,7 +34,7 @@ let eventSchema = new Schema(
             type: Date, required: true
         },
         owner: {
-            type: []
+            type: String
         },
         type: {
             type: String, required: true
