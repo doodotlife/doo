@@ -421,34 +421,29 @@ module.exports = {
     },
 
     /* req.body format
-     * {
-     *   "eventID": id,
-     *   "comment": {
-     *     content,
-     *     username, (The one who make the comment)
-     *     timestamp
-     *   }
+     * {  event: id,
+     *    comment: {
+     *      content,
+     *      owner
+     *  }
      * }
      */
 
     comment: function(req, res) {
-        // current user leave a comment to someone's event, put this commentId into this event
-        let newComment = new db.Comment(req.body.comment);
-
-        newComment.save(function(err, newComment) {
-            if (err) throw err;
-            // add comment to event
-            db.Event.findOneAndUpdate({
-                "_id": req.body.eventID
-            }, {
-                $push: {
-                    "comments": newComment.id
-                }
-            }, function(err, event) {
-                newComment.save();
-                return res.send("Success");
-            });
+      let newComment = new db.Comment(req.body.comment);
+      newComment.owner = req.session.username;
+      console.log(req.body.comment);
+      console.log(newComment);
+      newComment.save(funciton(err, newEvent){
+        if (err) throw err;
+        db.Event.findOneAndUpdate({
+          "_id": req.body.event}, {
+            $push: {"comments" : newComment.id}
+        }, function(err, event) {
+          newComment.save();
+          return res.send("Success");
         });
+      });
     },
     /* req.body format
      * {

@@ -13,9 +13,9 @@ let commentSchema = new Schema(
         username: {
             type: String, required: true
         },
-        timestamp: {
-            type: Date, required: true, default: Date.now
-        }
+        // timestamp: {
+        //     type: Date, required: true, default: Date.now
+        // }
     },
     {
         collection: 'comments'
