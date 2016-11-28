@@ -13,6 +13,8 @@ body {
 .hide {
     display: none;
 }
+
+
 /* To test the layout of divisions */
 
 
@@ -23,6 +25,7 @@ body {
 
 #feeds {
     /*height: 90%;*/
+    margin-bottom: 10%;
 }
 
 ul {
@@ -41,7 +44,7 @@ li {
 }
 
 li a {
-    font-style:bold;
+    font-style: bold;
     display: block;
     color: black;
     text-align: right;
@@ -77,7 +80,7 @@ li a:hover {
 }
 
 #left {
-    width: 80%;
+    width: 600px;
     /*margin-left: 15%;*/
     float: left;
 }
@@ -92,6 +95,7 @@ li a:hover {
 .logo-button {
     height: 24px;
 }
+
 .logo-button-signup {
     width: 150px;
 }
@@ -114,11 +118,9 @@ li a:hover {
     transition: height 0.4s ease-in-out;
 }
 
-
-
 table {
     font-size: 16px;
-    color:#666666;
+    color: #666666;
     border-collapse: collapse;
     width: 100%;
 }
@@ -137,6 +139,44 @@ tr:hover {
     background-color: #f5f5f5
 }
 
+.topBar {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    border-radius: 4px;
+    /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
+    background-color: white;
+    /*overflow-x: auto;*/
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    background-color: white;
+    background-size: 2.5%;
+    background-position: 10px 19px;
+    background-repeat: no-repeat;
+    padding: 20px 20px 20px 40px;
+    background-image: url("../images/add.svg");
+    background-repeat: no-repeat;
+    transition: width 0.4s ease-in-out;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.topBar:focus {
+    outline: none;
+    /*border-bottom: 2px solid #ccc;
+    width: 100%;*/
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/*.fixTop {
+    position: fixed;
+    top: 10px;
+    input {
+        width: 250px;
+    }
+}*/
 
 input[type=text] {
     width: 100%;
@@ -211,7 +251,6 @@ input[type=password]:focus {
 }
 
 
-
 /*input[type=date] {
     width: 200px;
     border: none;
@@ -235,12 +274,13 @@ input[type=date]:focus {
     margin-right: 10px;
     display: inline-block;
 }
+
 #hint {
     /*display: none;*/
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    color:#F44336;
+    color: #F44336;
     background-color: #FFCDD2;
     border: 1px;
     border-style: solid;
@@ -252,11 +292,11 @@ input[type=date]:focus {
 
 button {
     background-color: #ddd;
-    color:#aaa;
+    color: #aaa;
     font-size: 16px;
     float: right;
     padding: 10px;
-    border:none;
+    border: none;
     border-radius: 4px;
     /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
     margin-left: 15px;
@@ -265,12 +305,54 @@ button {
 }
 
 button:hover {
-    color:#ddd;
+    color: #ddd;
 }
 
 button:active {
-    color:#eee;
+    color: #eee;
     outline: none;
+}
+
+.animate-opacity {
+    -webkit-animation: opac 3s;
+    animation: opac 3s
+}
+
+@-webkit-keyframes opac {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes opac {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+.tags {
+    display: block;
+}
+
+.tag{
+    display: inline-block;
+    /*float: left;*/
+    width:auto;
+    color: #FFFFFF;
+    background-color: #ccc;
+    border-radius: 4px;
+    margin-right: 6px;
+    padding: 4px 6px;
+}
+
+.new{
+    background-color: #F44336;
 }
 
 footer {

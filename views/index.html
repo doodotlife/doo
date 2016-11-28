@@ -5,18 +5,18 @@
 <div id="container">
 
     <div id="left">
-        <div id="addBar" class="card">
-            <input id="titleEntry" type="text" for="newEvent" name="title" placeholder="New Event">
-        </div>
+        <!-- <div id="addBar" class="card"> -->
+            <input id="titleEntry" type="text" form="newEvent" name="title" placeholder="New Event" Class="topBar" required>
+        <!-- </div> -->
         <div id="addTable" class="hide card">
-            <form id="newEvent" method="post">
+            <form id="newEvent" action="/event" method="post">
                 <table>
                     <tr>
                         <td>
                             Time
                         </td>
                         <td>
-                            <input id="timeEntry"name="time" type="date" />
+                            <input id="timeEntry"name="time" type="date" required/>
                         </td>
                     </tr>
                     <tr>
@@ -24,7 +24,7 @@
                             Type
                         </td>
                         <td>
-                            <input name="type" id="typeD" type="radio" value="deadline" />
+                            <input name="type" id="typeD" type="radio" value="deadline" required/>
                             <label for="typeD"> Deadline </label>
                             <input name="type" id="typeA"type="radio" value="anniversary" />
                             <label for="typeA"> Anniversary </label>
@@ -35,7 +35,7 @@
                             Private
                         </td>
                         <td>
-                            <input name="private" id="privateT" type="radio" value=true />
+                            <input name="private" id="privateT" type="radio" value=true required/>
                             <label for="privateT"> Yes </label>
                             <input name="private" id="privateF" type="radio" value=false />
                             <label for="privateF"> No </label>
@@ -46,21 +46,55 @@
                         </td>
                         <td>
                             <button type="button" id="cancelAdd">Cancel</button>
-                            <input type="submit" value="Add" />
+                            <!-- <input type="submit" value="Add" /> -->
+                            <button id="addButton"><Strong>Add</Strong></button>
                         </td>
                     </tr>
                 </table>
             </form>
         </div>
         <div id="feeds">
+            {% for event in events %}
+            <div id={{event._id}} class="card animate-opacity">
+                <h1>{{event.title}}</h1>
+                <div class="tags">
+                    <div class="tag">
+                        {{event.type}}
+                    </div>
+                    {% if new == event._id %}
+                        <div class="tag new">
+                            new
+                        </div>
+                    {% endif %}
+                </div>
 
+                <div class="date">
+                    {{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}
+                </div>
+                {% if event.type=="anniversary"%}
+                <p>
+                    {{event.value}} Congrats
+                </p>
+                {% endif %}
+                {% if event.type=="deadline"%}
+                <p>
+                    {{event.value}} Cheer Ons
+                </p>
+
+                {% endif %}
+
+            </div>
+            {% endfor %}
+            <div class="card">
+                Oops, no more events! Fork others' or create your own!
+            </div>
         </div>
     </div>
 
     <div id="right">
         <ul>
             <li>
-                <a href="base.html" class="logo-button">
+                <a href="/" class="logo-button">
                     <img src="images/logo.svg" id="logo" />
                 </a>
             </li>
