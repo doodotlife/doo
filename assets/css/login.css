@@ -23,6 +23,7 @@ body {
     margin-bottom: 10px;
 }
 
+
 .animate-opacity {
     -webkit-animation: opac 3s;
     animation: opac 3s

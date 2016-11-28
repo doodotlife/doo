@@ -4,6 +4,7 @@ let path = require('path');
 let bodyParser = require('body-parser');
 let nunjucks = require('nunjucks');
 let session = require('express-session');
+let db = require('./models/data');
 
 
 let app = express();
@@ -32,15 +33,26 @@ app.listen(3000, function () {
 
 /**Routing functions go here**/
 // Get the index page:
-app.get('/', (req,res)=> {
+app.get('/', (req, res) => {
     console.log(req.session.username);
-    if(req.session.username !==undefined){
-        res.render('index.html');
+    if (req.session.username !== undefined) {
+        // res.render('index.html');
+        db.Event.find({
+            "owner": req.session.username
+        }, function(err, result) {
+            if (err) {
+                throw err
+            }
+            // res.send({"events":events});
+            // console.log(events);
+            res.render('index.html', {
+                events: result
+            });
+        });
     } else {
         res.redirect('/login');
     }
 });
-
 app.get('/login', (req,res)=> {
     console.log(req.session.username);
     if(req.session.username !==undefined){
