@@ -110,7 +110,8 @@ li a:hover {
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;
     background-color: white;
-    overflow-x: auto;
+    overflow-x: none;
+    overflow-y: none;
 }
 
 #addTable {
@@ -183,7 +184,7 @@ input[type=email]:focus {
     /*width: 100%;*/
 }
 
-input[type=date] {
+input[type=datetime-local] {
     width: 100%;
     border: none;
     border-bottom: 2px solid #eee;
@@ -195,7 +196,7 @@ input[type=date] {
     transition: width 0.4s ease-in-out;
 }
 
-input[type=date]:focus {
+input[type=datetime-local]:focus {
     outline: none;
     border-bottom: 2px solid #ccc;
     /*width: 100%;*/
@@ -217,6 +218,24 @@ input[type=password]:focus {
     outline: none;
     border-bottom: 2px solid #ccc;
     /*width: 100%;*/
+}
+
+input[name=content] {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    /*overflow-x: auto;*/
+    width: 450px;
+    font-size: 16px;
+    padding: 10px;
+}
+input[name=content]:focus{
+    outline: none;
+    background-color: #efefef;
+    border: 1px solid #ccc;
 }
 
 .topBar {
@@ -251,23 +270,6 @@ input[type=password]:focus {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/*input[type=date] {
-    width: 200px;
-    border: none;
-    border-bottom: 2px solid #000000;
-    font-size: 16px;
-    background-color: white;
-    background-repeat: no-repeat;
-    padding: none;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
-
-input[type=date]:focus {
-    outline: none;
-    border-bottom: 2px solid #ccc;
-    width: 100%;
-}*/
 
 .event {
     padding-bottom: 0px;
@@ -279,7 +281,7 @@ input[type=date]:focus {
     /*margin-left: auto;
     margin-right: auto;
     display: block;*/
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #efefef;
 }
 
 .buttonText {
@@ -291,6 +293,24 @@ input[type=date]:focus {
     border-left: 1px solid #ccc;
 }
 
+.commentButtonText {
+    border-left: none;
+}
+
+.commentBar {
+    height:0px;
+    width: 100%;
+    overflow-y: hidden;
+    /*margin-top: 10px;*/
+    /*margin-left: auto;
+    margin-right: auto;
+    display: block;*/
+    /*transition: all 0.4s;*/
+    border-top: 1px solid #FFFFFF;
+    -webkit-transition: height 0.4s ease-in-out;
+    transition: height 0.4s ease-in-out;
+}
+
 .action {
     margin: 0;
     color: #666;
@@ -300,11 +320,12 @@ input[type=date]:focus {
     margin: 0 0 0 0px;
     padding:1px 0;
     width: 184px;
+    cursor: pointer;
     /*border-right: 1px solid #ccc;*/
 }
 
 .action:hover {
-    background-color: #eee;
+    background-color: #efefef;
 }
 
 /*.doFork {
@@ -353,6 +374,12 @@ button:hover {
 button:active {
     color: #eee;
     outline: none;
+}
+
+.sendButton {
+    margin-top: 10px;
+    margin-left: 20px;
+    /*margin-right: auto;*/
 }
 
 .animate-opacity {
