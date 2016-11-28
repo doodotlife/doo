@@ -26,20 +26,33 @@ let helper = {
                 );
             });
     },
+    calculateCountdown: function(array) {
+        console.log("calculateCountdown");
+        time = new Date();
+        for (let i = 0; i < array.length; i++) {
+            array[i].countdown = time - (new Date(array[i].time));
+        }
+    },
 
-    // getEventsHelper: function(username) {
-    //     db.Event.find({
-    //         "owner": username
-    //     }, function(err, events) {
-    //         if (err) {
-    //             throw err
-    //         }
-    //         // res.send({"events":events});
-    //         // console.log(events);
-    //         return events;
-    //     });
-    // }
+    // formatCountdown: function(c) {
+    //     let result = "";
+    //     let date = new Date(c);
+    //     console.log("formatting" + date.toDateString());
+    //     if (c > 0) {
+    //
+    //     } else if (c == 0) {
+    //         result = "Now";
+    //     } else {
+    //         result += 'Ago'
+    //     }
+    // },
 
+    toDate: function(array) {
+        for (let i = 0; i < array.length; i++) {
+            let d = new Date(array[i].countdown);
+            array[i].countdown = d.toLocaleString();
+        }
+    }
 };
 
 module.exports = {
@@ -50,7 +63,6 @@ module.exports = {
 
         let newUser = new db.User(req.body);
         newUser.notification = false;
-        console.log(newUser);
         db.User.findOne({
             username: newUser.username
         }, function(err, result) {
@@ -62,8 +74,8 @@ module.exports = {
             if (!result) {
                 newUser.save(function(err) {
                     if (err) return res.send(500, {
-                            error: err
-                        });
+                        error: err
+                    });
                     // res.send('Success');
                     // res.redirect('/');
                     res.render('login.html', {
@@ -111,14 +123,12 @@ module.exports = {
     },
 
     logIn: function(req, res) {
-        console.log(req.body);
         // email/username and password (encrypted, decrypt here and check with db)
         // TODO: Replace response msg with standarized responses
         //check if email exists
         db.User.findOne({
             email: req.body.username
         }, function(err, user) {
-            console.log(user);
             if (err) throw err;
             if (user) {
                 if (user.password == req.body.password) {
@@ -136,7 +146,6 @@ module.exports = {
                 db.User.findOne({
                     username: req.body.username
                 }, function(err, user) {
-                    console.log(user);
                     if (err) throw err;
                     if (user) {
                         if (user.password == req.body.password) {
@@ -183,8 +192,6 @@ module.exports = {
 
         let newEvent = new db.Event(req.body);
         newEvent.owner = req.session.username;
-        console.log(req.body);
-        console.log(newEvent);
         newEvent.save(function(err, newEvent) {
             if (err) throw err;
             // add event id to user
@@ -205,8 +212,11 @@ module.exports = {
                         if (err) {
                             throw err
                         }
-                        // res.send({"events":events});
-                        // console.log(events);
+                        helper.calculateCountdown(result);
+                        result.sort(function(a, b) {
+                            return new Date(a.countdown) - new Date(b.countdown);
+                        });
+                        // helper.toDate(result);
                         return res.render('index.html', {
                             events: result,
                             new: newEvent.id
@@ -217,11 +227,11 @@ module.exports = {
     },
 
 
-        /* req.body format
-        {
-            "event": id
-        } */
-        //TODO:verify if user is the owner by session
+    /* req.body format
+    {
+        "event": id
+    } */
+    //TODO:verify if user is the owner by session
     deleteEvent: function(req, res) {
         // With dates, event name, event type
         db.Event.findOne({
@@ -283,11 +293,13 @@ module.exports = {
         // With dates, event name, event type
         db.Event.findOneAndUpdate({
             _id: req.body.event.id
-        },{
+        }, {
             $set: req.body.event
-        }, function(err,event){
-            if(err){
-                return res.send(500,{error: err})
+        }, function(err, event) {
+            if (err) {
+                return res.send(500, {
+                    error: err
+                })
             }
             event.save();
             res.send('Success');
@@ -435,7 +447,9 @@ module.exports = {
                 throw err
             }
             // res.send({"events":events});
-            res.render('index.html', {"events":events});
+            res.render('index.html', {
+                "events": events
+            });
         })
     },
 

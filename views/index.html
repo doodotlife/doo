@@ -1,14 +1,12 @@
-{% extends "base.html" %}
-
-{% block body %}
+{% extends "base.html" %} {% block body %}
 
 <div id="container">
 
     <div id="left">
         <!-- <div id="addBar" class="card"> -->
-            <input id="titleEntry" type="text" form="newEvent" name="title" placeholder="New Event" Class="topBar" required>
+        <input id="titleEntry" type="text" form="newEvent" name="title" placeholder="New Event" Class="topBar" required>
         <!-- </div> -->
-        <div id="addTable" class="hide card">
+        <div id="addTable" class="card">
             <form id="newEvent" action="/event" method="post">
                 <table>
                     <tr>
@@ -16,7 +14,7 @@
                             Time
                         </td>
                         <td>
-                            <input id="timeEntry"name="time" type="date" required/>
+                            <input id="timeEntry" name="time" type="datetime-local" required/>
                         </td>
                     </tr>
                     <tr>
@@ -26,7 +24,7 @@
                         <td>
                             <input name="type" id="typeD" type="radio" value="deadline" required/>
                             <label for="typeD"> Deadline </label>
-                            <input name="type" id="typeA"type="radio" value="anniversary" />
+                            <input name="type" id="typeA" type="radio" value="anniversary" />
                             <label for="typeA"> Anniversary </label>
                         </td>
                     </tr>
@@ -45,9 +43,10 @@
                         <td>
                         </td>
                         <td>
+                            <button id="addButton"><Strong>Add</Strong></button>
+
                             <button type="button" id="cancelAdd">Cancel</button>
                             <!-- <input type="submit" value="Add" /> -->
-                            <button id="addButton"><Strong>Add</Strong></button>
                         </td>
                     </tr>
                 </table>
@@ -55,33 +54,44 @@
         </div>
         <div id="feeds">
             {% for event in events %}
-            <div id={{event._id}} class="card animate-opacity">
-                <h1>{{event.title}}</h1>
+            <div id={{event._id}} class="card event animate-opacity">
+                <h1>{{event.title}}<div class="countdown">{{event.countdown}}</div></h1>
+                <!-- {% if event.countdown %}
+                <div class="countdown">
+                    <h1>{{event.countdown}}</h1>
+                </div>
+                {% endif %} -->
+
+                <div class="date">
+                    <h3>{{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}</h3>
+                </div>
                 <div class="tags">
                     <div class="tag">
                         {{event.type}}
                     </div>
                     {% if new == event._id %}
-                        <div class="tag new">
-                            new
-                        </div>
+                    <div class="tag new">
+                        new
+                    </div>
                     {% endif %}
                 </div>
 
-                <div class="date">
-                    {{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}
+                <div class="interactions">
+                    <a class="action doComment" role="button">
+                        <span class="buttonText commentButtonText">
+                            {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
+                        </span>
+                    </a>
+                    <a class="action doPlus1" role="button"><span class="buttonText">+ {{event.value}}</span></a>
+                    <a class="action doFork" role="button"><span class="buttonText">Fork<span></a>
                 </div>
-                {% if event.type=="anniversary"%}
-                <p>
-                    {{event.value}} Congrats
-                </p>
-                {% endif %}
-                {% if event.type=="deadline"%}
-                <p>
-                    {{event.value}} Cheer Ons
-                </p>
-
-                {% endif %}
+                <div class="commentBar">
+                    <form action="/comment" method="post">
+                        <input name="content" type="text" placeholder="Type here" required/>
+                        <button class="sendButton" type="submit">Send</button>
+                        <input name="event" value={{event.id}} hidden/>
+                    </form>
+                </div>
 
             </div>
             {% endfor %}
