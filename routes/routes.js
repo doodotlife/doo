@@ -246,9 +246,37 @@ module.exports = {
                 });
             }
         });
-
-
     },
+
+    /* req.body format
+    {
+      event: id
+    } */
+    getEvent: function(req, res) {
+      db.Event.findOne({
+        "_id":req.body.event
+      }, function(err, eventObj) {
+        console.log(eventObj);
+        if (err) throw err;
+        if (eventObj) {
+          req.session.event_id           = eventObj._id;
+          req.session.event_title        = eventObj.title;
+          req.session.event_time         = eventObj.time;
+          req.session.event_owner        = eventObj.owner;
+          req.session.event_type         = eventObj.type;
+          req.session.event_private      = eventObj.private;
+          req.session.event_notification = eventObj.notification;
+          req.session.event_value        = eventObj.value;
+          req.session.event_share        = eventObj.share;
+          req.session.event_comments     = eventObj.comments;
+
+          res.redirect('/singleEvent')
+        } else {
+          console.log("Error: getEvent failed.");
+        }
+      });
+    },
+
     /* req.body format
     {
         "event" : {
@@ -435,35 +463,31 @@ module.exports = {
     },
 
     /* req.body format
-     * {
-     *   "eventID": id,
-     *   "comment": {
-     *     content,
-     *     username, (The one who make the comment)
-     *     timestamp
-     *   }
+     * {  event: id,
+     *    comment: {
+     *      content,
+     *      owner
+     *  }
      * }
      */
 
     comment: function(req, res) {
-        // current user leave a comment to someone's event, put this commentId into this event
-        let newComment = new db.Comment(req.body.comment);
-
-        newComment.save(function(err, newComment) {
-            if (err) throw err;
-            // add comment to event
-            db.Event.findOneAndUpdate({
-                "_id": req.body.eventID
-            }, {
-                $push: {
-                    "comments": newComment.id
-                }
-            }, function(err, event) {
-                newComment.save();
-                return res.send("Success");
-            });
+      let newComment = new db.Comment(req.body.comment);
+      newComment.owner = req.session.username;
+      console.log(req.body.comment);
+      console.log(newComment);
+      newComment.save(funciton(err, newEvent){
+        if (err) throw err;
+        db.Event.findOneAndUpdate({
+          "_id": req.body.event}, {
+            $push: {"comments" : newComment.id}
+        }, function(err, event) {
+          newComment.save();
+          return res.send("Success");
         });
+      });
     },
+
     /* req.body format
      * {
      *   "comment": id,
