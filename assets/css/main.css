@@ -26,6 +26,7 @@ body {
 #feeds {
     /*height: 90%;*/
     margin-bottom: 10%;
+    transition: all 0.4s;
 }
 
 ul {
@@ -113,7 +114,12 @@ li a:hover {
 }
 
 #addTable {
-    /*height: 0;*/
+    overflow: auto;
+    overflow-y: hidden;
+    padding: 0 20;
+    height: 0;
+    width: 560px;
+    float: left;
     -webkit-transition: height 0.4s ease-in-out;
     transition: height 0.4s ease-in-out;
 }
@@ -134,49 +140,12 @@ th {
     background-color: #333;
     color: white;
 }
-
+/*
 tr:hover {
     background-color: #f5f5f5
-}
-
-.topBar {
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
-    border-radius: 4px;
-    /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
-    background-color: white;
-    /*overflow-x: auto;*/
-    width: 100%;
-    border: none;
-    font-size: 16px;
-    background-color: white;
-    background-size: 2.5%;
-    background-position: 10px 19px;
-    background-repeat: no-repeat;
-    padding: 20px 20px 20px 40px;
-    background-image: url("../images/add.svg");
-    background-repeat: no-repeat;
-    transition: width 0.4s ease-in-out;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease-in-out;
-}
-
-.topBar:focus {
-    outline: none;
-    /*border-bottom: 2px solid #ccc;
-    width: 100%;*/
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/*.fixTop {
-    position: fixed;
-    top: 10px;
-    input {
-        width: 250px;
-    }
 }*/
+
+
 
 input[type=text] {
     width: 100%;
@@ -250,6 +219,37 @@ input[type=password]:focus {
     /*width: 100%;*/
 }
 
+.topBar {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    border-radius: 4px;
+    /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
+    background-color: white;
+    /*overflow-x: auto;*/
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    background-color: white;
+    background-size: 2.5%;
+    background-position: 10px 19px;
+    background-repeat: no-repeat;
+    background-image :("../images/add.svg");
+
+    padding: 20px 20px 20px 40px;
+    background-repeat: no-repeat;
+    transition: width 0.4s ease-in-out;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.topBar:focus {
+    outline: none;
+    /*border-bottom: 2px solid #ccc;
+    width: 100%;*/
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
 
 /*input[type=date] {
     width: 200px;
@@ -267,6 +267,48 @@ input[type=date]:focus {
     outline: none;
     border-bottom: 2px solid #ccc;
     width: 100%;
+}*/
+
+.event {
+    padding-bottom: 0px;
+}
+
+.interactions {
+    width: 100%;
+    margin-top: 10px;
+    /*margin-left: auto;
+    margin-right: auto;
+    display: block;*/
+    border-top: 1px solid #ccc;
+}
+
+.buttonText {
+    display: block;
+    height: 22px;
+    line-height: 22px;
+    margin: 7px 0px 7px 0px;
+    /*padding: 5px 0;*/
+    border-left: 1px solid #ccc;
+}
+
+.action {
+    margin: 0;
+    color: #666;
+    font-size: 12px;
+    text-align: center;
+    display: inline-block;
+    margin: 0 0 0 0px;
+    padding:1px 0;
+    width: 184px;
+    /*border-right: 1px solid #ccc;*/
+}
+
+.action:hover {
+    background-color: #eee;
+}
+
+/*.doFork {
+    border-right: none;
 }*/
 
 #warning {
@@ -334,6 +376,10 @@ button:active {
     to {
         opacity: 1
     }
+}
+
+.countdown {
+    float: right;
 }
 
 .tags {

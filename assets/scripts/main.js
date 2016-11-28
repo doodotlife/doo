@@ -1,8 +1,26 @@
 $(document).ready(function() {
 
     $("#titleEntry").on("click", function() {
-        $("#addTable").addClass("expandUp");
+        // $("#addTable").addClass("expandUp");
         $("#titleEntry").prop("placeholder", "Title");
+        $("#feeds").css("margin-top", "250px");
+        $("#addTable").css({
+            "height": "225px",
+            "padding": "20 20"
+        });
+        $('html').one('click', function() {
+            $("#titleEntry").prop("placeholder", "New Event");
+            $("#feeds").css("margin-top", "10px");
+            $("#addTable").css({
+                "height": "0px",
+                "padding": "0 20"
+            });
+        });
+        event.stopPropagation();
+    });
+
+    $("#addTable").on("click", function() {
+        event.stopPropagation();
     });
 
     // $("#newEvent").submit(function(e) {
@@ -21,9 +39,13 @@ $(document).ready(function() {
     // });
 
     $("#cancelAdd").on("click", function() {
+
         $("#titleEntry").prop("placeholder", "New Event");
-        $("#addTable").removeClass("expandUp");
-        $("#addTable").hide();
+        $("#feeds").css("margin-top", "10px");
+        $("#addTable").css({
+            "height": "0px",
+            "padding": "0 20"
+        });
         // $("input").val('');
     });
     // let events = $(".animate-opacity");
@@ -39,13 +61,13 @@ $(document).ready(function() {
     //         $(".topBar").removeClass("fix-search");
     //     }
     // });
-        // $("button").click(function(){
-        //     $("#div1").delay("slow").fadeIn();
-        //     $("#div2").delay("fast").fadeIn();
-        //     $("#div3").delay(800).fadeIn();
-        //     $("#div4").delay(2000).fadeIn();
-        //     $("#div5").delay(4000).fadeIn();
-        //   });
-        // $.post('/events');
-        // Stuff to do as soon as the DOM is ready
-    });
+    // $("button").click(function(){
+    //     $("#div1").delay("slow").fadeIn();
+    //     $("#div2").delay("fast").fadeIn();
+    //     $("#div3").delay(800).fadeIn();
+    //     $("#div4").delay(2000).fadeIn();
+    //     $("#div5").delay(4000).fadeIn();
+    //   });
+    // $.post('/events');
+    // Stuff to do as soon as the DOM is ready
+});
