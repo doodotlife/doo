@@ -10,7 +10,7 @@ let commentSchema = new Schema(
         content: {
             type: String, required: true
         },
-        username: {
+        owner: {
             type: String, required: true
         },
         // timestamp: {
