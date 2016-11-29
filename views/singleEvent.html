@@ -1,34 +1,31 @@
-{% extends "base.html" %}
-{% block body %}
+{% extends "base.html" %} {% block body %}
 
 <div id="container">
-  <div id="left">
+    <div id="left">
 
-    <div id="eventContainer">
-      <div id={{session.event_id}} class="">
-        <h1>{{session.event_title}}</h1>
-        <div class="tags">
-          <div class="tag">
-            {{session.event_type}}
-          </div>
+        <div id="eventContainer">
+            <div id={{event.id}} class="">
+                <h1>{{event.title}}</h1>
+                <div class="tags">
+                    <div class="tag">
+                        {{event.type}}
+                    </div>
+                </div>
+
+                <!-- <div class="date">
+                    {{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}
+                </div> -->
+
+                {% if event.type=="anniversary" %}
+                <p> {{event.value}} Congrats </p>
+                {% endif %} {% if event.type == "deadline" %}
+                <p> {{event.value}} Cheer Ons </p>
+                {% endif %}
+            </div>
         </div>
 
-        <div class="date">
-          {{session.event_time.getFullYear()}}-{{session.event_time.getMonth() + 1}}-{{event.time.getDate()}}
-        </div>
-
-        {% if event.type=="anniversary" %}
-        <p> {{event.value}} Congrats </p>
-        {% endif %}
-
-        {% if event.type = "deadline" %}
-        <p> {{event.value}} Cheer Ons </p>
-        {% endif %}
-      </div>
-    </div>
-
-    <div id="feeds">
-      {% for comment in session.event_comments %}
+        <!-- <div id="feeds">
+      {% for comment in session.comments %}
       <div id={{comment.id}} class="card animate-opacity">
         <h2>{{comment.owner}}</h2>
         <p>{{comment.content}}</p>
@@ -38,32 +35,31 @@
           <button class="deleteComment">Delete</button>
         {% endif %}
       </div>
+    </div> -->
+
     </div>
 
-  </div>
-
-  <div id="right">
-    <ul>
-      <li>
-        <a href="/" class="logo-button">
-          <img src="images/logo.svg" id="logo" />
-        </a>
-      </li>
-      {% if session.username %}
-      <li>
-        <a href="#" class="">{{ session.username }} </a>
-      </li>
-      {% endif %}
-      <li>
-        <a href="#" class="">Setting</a>
-      </li>
-      {% if session.username %}
-      <li>
-        <a id="signout" class="" role="button" href="/logout">Sign out</a>
-      </li>
-      {% endif %}
-    </ul>
-  </div>
+    <div id="right">
+        <ul>
+            <li>
+                <a href="/" class="logo-button">
+                    <img src="images/logo.svg" id="logo" />
+                </a>
+            </li>
+            {% if session.username %}
+            <li>
+                <a href="#" class="">{{ session.username }} </a>
+            </li>
+            {% endif %}
+            <li>
+                <a href="#" class="">Setting</a>
+            </li>
+            {% if session.username %}
+            <li>
+                <a id="signout" class="" role="button" href="/logout">Sign out</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
 </div>
-
 {% endblock %}

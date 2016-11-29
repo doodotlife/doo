@@ -63,31 +63,46 @@ module.exports = {
 
         let newUser = new db.User(req.body);
         newUser.notification = false;
-        db.User.findOne({
-            username: newUser.username
-        }, function(err, result) {
+
+        db.User.register(new db.User(newUser), req.body.password, function(err) {
             if (err) {
-                for (let field in err.errors) {
-                    console.log(field);
-                }
-            }
-            if (!result) {
-                newUser.save(function(err) {
-                    if (err) return res.send(500, {
-                        error: err
-                    });
-                    // res.send('Success');
-                    // res.redirect('/');
-                    res.render('login.html', {
-                        success: 'Successfully registered! Login now and doo on.'
-                    });
-                })
-            } else {
                 res.render('signup.html', {
                     error: 'Username Already exists'
                 });
+
+            }else{
+                res.render('login.html', {
+                    success: 'Successfully registered! Login now and doo on.'
+                });
             }
+
+
         });
+        // db.User.findOne({
+        //     username: newUser.username
+        // }, function(err, result) {
+        //     if (err) {
+        //         for (let field in err.errors) {
+        //             console.log(field);
+        //         }
+        //     }
+        //     if (!result) {
+        //         newUser.save(function(err) {
+        //             if (err) return res.send(500, {
+        //                 error: err
+        //             });
+        //             // res.send('Success');
+        //             // res.redirect('/');
+        //             res.render('login.html', {
+        //                 success: 'Successfully registered! Login now and doo on.'
+        //             });
+        //         })
+        //     } else {
+        //         res.render('signup.html', {
+        //             error: 'Username Already exists'
+        //         });
+        //     }
+        // });
 
 
 
@@ -126,54 +141,72 @@ module.exports = {
         // email/username and password (encrypted, decrypt here and check with db)
         // TODO: Replace response msg with standarized responses
         //check if email exists
-        db.User.findOne({
-            email: req.body.username
-        }, function(err, user) {
-            if (err) throw err;
-            if (user) {
-                if (user.password == req.body.password) {
-                    req.session.user_id = user._id;
-                    req.session.username = user.username;
-                    req.session.is_admin = user._doc.adminPrivilege;
-                    res.redirect('/');
-                } else {
-                    return res.render('login.html', {
-                        error: 'Username or password invalid. Please try again.'
-                    });
-                }
-            } else {
-                //check if username exists
-                db.User.findOne({
-                    username: req.body.username
-                }, function(err, user) {
-                    if (err) throw err;
-                    if (user) {
-                        if (user.password == req.body.password) {
-                            req.session.user_id = user._id;
-                            req.session.username = user.username;
-                            req.session.is_admin = user._doc.adminPrivilege;
-                            return res.redirect('/');
-                        } else {
-                            return res.render('login.html', {
-                                error: 'Username or password invalid. Please try again.'
-                            });
-                        }
-                    } else {
-                        return res.render('login.html', {
-                            error: 'Username or password invalid. Please try again.'
-                        });
-                    }
 
+        let username = req.body.username;
+        db.User.authenticate()(username, req.body.password, function (err, user, options) {
+            if (err) {
+                console.log(err);
+            }
+            if (user === false) {
+                res.render('login.html', {
+                    error: 'Username or password invalid. Please try again.'
+                });
+            } else {
+                req.login(user, function (err) {
+                    if(err) console.log(err);
+                    res.redirect('/');
                 });
             }
-
         });
+
+        // db.User.findOne({
+        //     email: req.body.username
+        // }, function(err, user) {
+        //     if (err) throw err;
+        //     if (user) {
+        //         if (user.password == req.body.password) {
+        //             req.session.user_id = user._id;
+        //             req.session.username = user.username;
+        //             req.session.is_admin = user._doc.adminPrivilege;
+        //             res.redirect('/');
+        //         } else {
+        //             return res.render('login.html', {
+        //                 error: 'Username or password invalid. Please try again.'
+        //             });
+        //         }
+        //     } else {
+        //         //check if username exists
+        //         db.User.findOne({
+        //             username: req.body.username
+        //         }, function(err, user) {
+        //             if (err) throw err;
+        //             if (user) {
+        //                 if (user.password == req.body.password) {
+        //                     req.session.user_id = user._id;
+        //                     req.session.username = user.username;
+        //                     req.session.is_admin = user._doc.adminPrivilege;
+        //                     return res.redirect('/');
+        //                 } else {
+        //                     return res.render('login.html', {
+        //                         error: 'Username or password invalid. Please try again.'
+        //                     });
+        //                 }
+        //             } else {
+        //                 return res.render('login.html', {
+        //                     error: 'Username or password invalid. Please try again.'
+        //                 });
+        //             }
+        //
+        //         });
+        //     }
+        //
+        // });
 
     },
 
     logOut: function(req, res) {
         // clear session, return to main page
-        req.session.destroy();
+        req.logout();
         res.redirect('/');
     },
 
@@ -191,12 +224,12 @@ module.exports = {
         // With dates, event name, event type
 
         let newEvent = new db.Event(req.body);
-        newEvent.owner = req.session.username;
+        newEvent.owner = req.user.username;
         newEvent.save(function(err, newEvent) {
             if (err) throw err;
             // add event id to user
             db.User.findOneAndUpdate({
-                    username: req.session.username
+                    username: req.user.username
                 }, {
                     $push: {
                         "events": newEvent.id
@@ -207,7 +240,7 @@ module.exports = {
                         error: err
                     });
                     db.Event.find({
-                        "owner": req.session.username
+                        "owner": req.user.username
                     }, function(err, result) {
                         if (err) {
                             throw err
@@ -218,6 +251,7 @@ module.exports = {
                         });
                         // helper.toDate(result);
                         return res.render('index.html', {
+                            user: req.user,
                             events: result,
                             new: newEvent.id
                         });
@@ -237,7 +271,7 @@ module.exports = {
         db.Event.findOne({
             "_id": req.body.event
         }, function(err, eventObj) {
-            if (req.session.username == eventObj.owner) {
+            if (req.user.username == eventObj.owner) {
                 helper.deleteEventHelper(req.body.event);
                 res.send("success");
             } else {
@@ -253,28 +287,32 @@ module.exports = {
       event: id
     } */
     getEvent: function(req, res) {
-      db.Event.findOne({
-        "_id":req.body.event
-      }, function(err, eventObj) {
-        console.log(eventObj);
-        if (err) throw err;
-        if (eventObj) {
-          req.session.event_id           = eventObj._id;
-          req.session.event_title        = eventObj.title;
-          req.session.event_time         = eventObj.time;
-          req.session.event_owner        = eventObj.owner;
-          req.session.event_type         = eventObj.type;
-          req.session.event_private      = eventObj.private;
-          req.session.event_notification = eventObj.notification;
-          req.session.event_value        = eventObj.value;
-          req.session.event_share        = eventObj.share;
-          req.session.event_comments     = eventObj.comments;
+        console.log(req.query.event);
+        db.Event.findOne({
 
-          res.redirect('/singleEvent')
-        } else {
-          console.log("Error: getEvent failed.");
-        }
-      });
+            "_id": req.query.event
+        }, function(err, eventObj) {
+            console.log(eventObj);
+            if (err) throw err;
+            if (eventObj) {
+                //   req.session.event_id           = eventObj._id;
+                //   req.session.event_title        = eventObj.title;
+                //   req.session.event_time         = eventObj.time;
+                //   req.session.event_owner        = eventObj.owner;
+                //   req.session.event_type         = eventObj.type;
+                //   req.session.event_private      = eventObj.private;
+                //   req.session.event_notification = eventObj.notification;
+                //   req.session.event_value        = eventObj.value;
+                //   req.session.event_share        = eventObj.share;
+                //   req.session.event_comments     = eventObj.comments;
+
+                return res.render('singleEvent.html', {
+                    event: eventObj
+                })
+            } else {
+                console.log("Error: getEvent failed.");
+            }
+        });
     },
 
     /* req.body format
@@ -448,7 +486,8 @@ module.exports = {
             }
             // res.send({"events":events});
             res.render('index.html', {
-                "events": events
+                user: req.user,
+                events: events
             });
         })
     },
@@ -478,15 +517,15 @@ module.exports = {
     /* req.body format
      * {  event: id,
      *    comment: {
-     *      content,
-     *      owner
+     *      content
      *  }
      * }
      */
 
     comment: function(req, res) {
+
         let newComment = new db.Comment(req.body.comment);
-        newComment.owner = req.session.username;
+        newComment.owner = req.user.username;
         console.log(req.body.comment);
         console.log(newComment);
         newComment.save(function(err, newComment) {
