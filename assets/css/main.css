@@ -238,6 +238,10 @@ input[name=content]:focus{
     border: 1px solid #ccc;
 }
 
+input[name=content]:hover {
+    background-color: #F5F5F5;;
+}
+
 .topBar {
     margin-top: 10px;
     margin-left: auto;
@@ -325,7 +329,7 @@ input[name=content]:focus{
 }
 
 .action:hover {
-    background-color: #efefef;
+    background-color: #F5F5F5;
 }
 
 /*.doFork {

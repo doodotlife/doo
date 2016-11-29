@@ -287,28 +287,32 @@ module.exports = {
       event: id
     } */
     getEvent: function(req, res) {
-      db.Event.findOne({
-        "_id":req.body.event
-      }, function(err, eventObj) {
-        console.log(eventObj);
-        if (err) throw err;
-        if (eventObj) {
-          req.session.event_id           = eventObj._id;
-          req.session.event_title        = eventObj.title;
-          req.session.event_time         = eventObj.time;
-          req.session.event_owner        = eventObj.owner;
-          req.session.event_type         = eventObj.type;
-          req.session.event_private      = eventObj.private;
-          req.session.event_notification = eventObj.notification;
-          req.session.event_value        = eventObj.value;
-          req.session.event_share        = eventObj.share;
-          req.session.event_comments     = eventObj.comments;
+        console.log(req.query.event);
+        db.Event.findOne({
 
-          res.redirect('/singleEvent')
-        } else {
-          console.log("Error: getEvent failed.");
-        }
-      });
+            "_id": req.query.event
+        }, function(err, eventObj) {
+            console.log(eventObj);
+            if (err) throw err;
+            if (eventObj) {
+                //   req.session.event_id           = eventObj._id;
+                //   req.session.event_title        = eventObj.title;
+                //   req.session.event_time         = eventObj.time;
+                //   req.session.event_owner        = eventObj.owner;
+                //   req.session.event_type         = eventObj.type;
+                //   req.session.event_private      = eventObj.private;
+                //   req.session.event_notification = eventObj.notification;
+                //   req.session.event_value        = eventObj.value;
+                //   req.session.event_share        = eventObj.share;
+                //   req.session.event_comments     = eventObj.comments;
+
+                return res.render('singleEvent.html', {
+                    event: eventObj
+                })
+            } else {
+                console.log("Error: getEvent failed.");
+            }
+        });
     },
 
     /* req.body format
@@ -513,13 +517,13 @@ module.exports = {
     /* req.body format
      * {  event: id,
      *    comment: {
-     *      content,
-     *      owner
+     *      content
      *  }
      * }
      */
 
     comment: function(req, res) {
+
         let newComment = new db.Comment(req.body.comment);
         newComment.owner = req.user.username;
         console.log(req.body.comment);
