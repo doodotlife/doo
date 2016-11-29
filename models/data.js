@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+let passportLocalMongoose = require('passport-local-mongoose');
 
 let Schema = mongoose.Schema;
 
@@ -65,9 +66,9 @@ let userSchema = new Schema(
         username: {
             type: String, required: true, unique:true
         },
-        password: {
-            type: String, required: true
-        },
+        // password: {
+        //     type: String, required: true
+        //},
         birthday: {
             type: String, required: true
         },
@@ -104,9 +105,7 @@ let userSchema = new Schema(
     }
 );
 
-
-
-
+userSchema.plugin(passportLocalMongoose, {usernameField: 'email'});
 
 mongoose.connect('mongodb://localhost/usersdb');
 let schema = {'User': mongoose.model('User', userSchema), 'Event': mongoose.model('Event', eventSchema),
