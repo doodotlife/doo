@@ -110,9 +110,9 @@
                 </a>
             </li>
 
-            {% if session.username %}
+            {% if user %}
             <li>
-                <a href="#" class="">{{ session.username }}</a>
+                <a href="#" class="">{{ user.username }}</a>
             </li>
             {%endif%}
             <li>
@@ -121,7 +121,7 @@
             <li>
                 <a href="#" class="">Settings</a>
             </li>
-            {% if session.username %}
+            {% if user %}
             <li>
                 <a id="signout" class="" role="button" href="/logout">Sign out</a>
             </li>
