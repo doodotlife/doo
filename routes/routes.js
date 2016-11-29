@@ -254,31 +254,31 @@ module.exports = {
     } */
     getEvent: function(req, res) {
         console.log(req.query.event);
-      db.Event.findOne({
+        db.Event.findOne({
 
-        "_id":req.query.event
-      }, function(err, eventObj) {
-        console.log(eventObj);
-        if (err) throw err;
-        if (eventObj) {
-        //   req.session.event_id           = eventObj._id;
-        //   req.session.event_title        = eventObj.title;
-        //   req.session.event_time         = eventObj.time;
-        //   req.session.event_owner        = eventObj.owner;
-        //   req.session.event_type         = eventObj.type;
-        //   req.session.event_private      = eventObj.private;
-        //   req.session.event_notification = eventObj.notification;
-        //   req.session.event_value        = eventObj.value;
-        //   req.session.event_share        = eventObj.share;
-        //   req.session.event_comments     = eventObj.comments;
+            "_id": req.query.event
+        }, function(err, eventObj) {
+            console.log(eventObj);
+            if (err) throw err;
+            if (eventObj) {
+                //   req.session.event_id           = eventObj._id;
+                //   req.session.event_title        = eventObj.title;
+                //   req.session.event_time         = eventObj.time;
+                //   req.session.event_owner        = eventObj.owner;
+                //   req.session.event_type         = eventObj.type;
+                //   req.session.event_private      = eventObj.private;
+                //   req.session.event_notification = eventObj.notification;
+                //   req.session.event_value        = eventObj.value;
+                //   req.session.event_share        = eventObj.share;
+                //   req.session.event_comments     = eventObj.comments;
 
-          return res.render('singleEvent.html', {
-              event: eventObj
-          })
-        } else {
-          console.log("Error: getEvent failed.");
-        }
-      });
+                return res.render('singleEvent.html', {
+                    event: eventObj
+                })
+            } else {
+                console.log("Error: getEvent failed.");
+            }
+        });
     },
 
     /* req.body format
@@ -475,12 +475,12 @@ module.exports = {
      */
 
     comment: function(req, res) {
-        let newComment = new db.Comment(req.body);
-        console.log(req.body);
+
+        let newComment = new db.Comment(req.body.comment);
         newComment.owner = req.session.username;
         console.log(req.body.comment);
         console.log(newComment);
-        newComment.save(function(err, newEvent) {
+        newComment.save(function(err, newComment) {
             if (err) throw err;
             db.Event.findOneAndUpdate({
                 "_id": req.body.event
@@ -489,7 +489,6 @@ module.exports = {
                     "comments": newComment.id
                 }
             }, function(err, event) {
-                // newComment.save();
                 return res.send("Success");
             });
         });
