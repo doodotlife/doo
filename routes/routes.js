@@ -496,20 +496,49 @@ module.exports = {
     // {
     //     event:id;
     // }
-    plusOne: function(req,res) {
+    plusOne: function(req, res) {
         // pass in event id, change +1 value
-        db.Event.findOneAndUpdate({
+        db.Event.findOne({
             "_id": req.body.event
-        }, {
-            $inc: {
-                "value": 1
-            }
-        }, function(err, event) {
+        }, function(err, theEvent) {
             if (err) throw err;
-            return res.send("Success");
+            let username = req.user.username;
+            console.log(theEvent.liked);
+            console.log(username);
+            //if cannot find
+            if (theEvent.liked.indexOf(username) == -1) {
+                console.log("Cannot find, liked+1, push user");
+                db.Event.findOneAndUpdate({
+                    "_id": req.body.event
+                }, {
+                    $inc: {
+                        "value": 1
+                    },
+                    $push: {
+                        "liked": username
+                    }
+                }, function(err, event) {
+                    if (err) throw err;
+                    return res.send("Success");
+                });
+            } else {//if can find
+                console.log("Can find, liked-1, pull user");
+                db.Event.findOneAndUpdate({
+                    "_id": req.body.event
+                }, {
+                    $inc: {
+                        "value": -1
+                    },
+                    $pull: {
+                        "liked": username
+                    }
+                }, function(err, event) {
+                    if (err) throw err;
+                    return res.send("Success");
+                });
+            }
         });
-        },
-
+    },
     addTheDDLToMyList: function() {
         // add someone's deadline event to the current user's own list
     },
