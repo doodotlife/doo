@@ -28,7 +28,7 @@ let helper = {
     },
     calculateCountdown: function(array) {
         console.log("calculateCountdown");
-        time = new Date();
+        let time = new Date();
         for (let i = 0; i < array.length; i++) {
             array[i].countdown = time - (new Date(array[i].time));
         }
@@ -488,10 +488,23 @@ module.exports = {
         })
     },
 
-
-    plusOne: function() {
+    // req.body:
+    // {
+    //     event:id;
+    // }
+    plusOne: function(req,res) {
         // pass in event id, change +1 value
-    },
+        db.Event.findOneAndUpdate({
+            "_id": req.body.event
+        }, {
+            $inc: {
+                "value": 1
+            }
+        }, function(err, event) {
+            if (err) throw err;
+            return res.send("Success");
+        });
+        },
 
     addTheDDLToMyList: function() {
         // add someone's deadline event to the current user's own list
