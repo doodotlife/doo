@@ -14,6 +14,9 @@ let commentSchema = new Schema(
         owner: {
             type: String, required: true
         },
+        event: {
+            type: String
+        }
         // timestamp: {
         //     type: Date, required: true, default: Date.now
         // }
