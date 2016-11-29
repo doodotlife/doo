@@ -524,9 +524,9 @@ module.exports = {
 
     comment: function(req, res) {
 
-        let newComment = new db.Comment(req.body.comment);
+        let newComment = new db.Comment(req.body);
         newComment.owner = req.user.username;
-        console.log(req.body.comment);
+        console.log(req.body.content);
         console.log(newComment);
         newComment.save(function(err, newComment) {
             if (err) throw err;
