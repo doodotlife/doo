@@ -539,7 +539,13 @@ module.exports = {
                     "comments": newComment.id
                 }
             }, function(err, event) {
-                return res.send("Success");
+                if (err) throw err;
+                db.Event.findOne({
+                  "_id": req.body.event
+                }, function(err, eventObj) {
+                  if (err) throw err
+                  return res.send(eventObj.comments.length)
+                });
             });
         });
     },
