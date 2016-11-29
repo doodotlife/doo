@@ -91,6 +91,7 @@ app.delete('/account',doo.deleteAccount);
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
 
+app.get('/event', doo.getEvent);
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 app.post('/events',doo.getEvents);
