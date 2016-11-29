@@ -472,20 +472,22 @@ module.exports = {
      */
 
     comment: function(req, res) {
-      let newComment = new db.Comment(req.body.comment);
-      newComment.owner = req.session.username;
-      console.log(req.body.comment);
-      console.log(newComment);
-      newComment.save(funciton(err, newEvent){
-        if (err) throw err;
-        db.Event.findOneAndUpdate({
-          "_id": req.body.event}, {
-            $push: {"comments" : newComment.id}
-        }, function(err, event) {
-          newComment.save();
-          return res.send("Success");
+        let newComment = new db.Comment(req.body.comment);
+        newComment.owner = req.session.username;
+        console.log(req.body.comment);
+        console.log(newComment);
+        newComment.save(function(err, newComment) {
+            if (err) throw err;
+            db.Event.findOneAndUpdate({
+                "_id": req.body.event
+            }, {
+                $push: {
+                    "comments": newComment.id
+                }
+            }, function(err, event) {
+                return res.send("Success");
+            });
         });
-      });
     },
 
     /* req.body format
