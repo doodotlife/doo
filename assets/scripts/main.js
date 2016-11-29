@@ -1,42 +1,97 @@
+showCommentBar = function(e) {
+    let id = e.closest(".event").id;
+    $("#" + id).children(".commentBar").css("height", "60");
+    e.on("click", hideCommentBar(this));
+}
 
-
-
-
-
-
-
-
-
-
-
-
+hideCommentBar = function(e) {
+    let id = e.closest(".event").id;
+    $("#" + id).children(".commentBar").css("height", "0");
+    e.on("click", showCommentBar(this));
+}
 
 $(document).ready(function() {
-
+    // $(".commentBar").hide();
     $("#titleEntry").on("click", function() {
-        $("#addTable").addClass("expandUp");
+        // $("#addTable").addClass("expandUp");
         $("#titleEntry").prop("placeholder", "Title");
+        $("#feeds").css("margin-top", "250px");
+        $("#addTable").css({
+            "height": "225px",
+            "padding": "20 20"
+        });
+        $('html').one('click', function() {
+            $("#titleEntry").prop("placeholder", "New Event");
+            $("#feeds").css("margin-top", "10px");
+            $("#addTable").css({
+                "height": "0px",
+                "padding": "0 20"
+            });
+        });
+        event.stopPropagation();
     });
 
-    $("#newEvent").submit( function(e) {
-        e.preventDefault();
-
-        let newEvent = {};
-        newEvent.title = $("#titleEntry").val();
-        newEvent.time = $("#timeEntry").val();
-        newEvent.type = $("input[name=type]:checked").val();
-        newEvent.private = $("input[name=private]:checked").val();
-        let newReq = {};
-        newReq.user = "5836a530597db1297c3894a2";
-        newReq.event = newEvent;
-        $.post('/event', newReq);
-        // location.reload(false);
+    $("#addTable").on("click", function() {
+        event.stopPropagation();
     });
+
+    $(".doComment").on("click", function(e) {
+        let id = this.closest(".event").id;
+        $("#" + id).children(".commentBar").css(
+            {
+                "height": "60",
+                "border-top": "1px solid #efefef"
+            });
+        // $("#" + id).children(".doComment").one('click', function() {
+        //     console.log("one click");
+        //     $("#" + id).children(".commentBar").css("height", "0");
+        // });
+    });
+
+    // $("#newEvent").submit(function(e) {
+    //     e.preventDefault();
+    //
+    //     let newEvent = {};
+    //     newEvent.title = $("#titleEntry").val();
+    //     newEvent.time = $("#timeEntry").val();
+    //     newEvent.type = $("input[name=type]:checked").val();
+    //     newEvent.private = $("input[name=private]:checked").val();
+    //     let newReq = {};
+    //     newReq.user = "583907353f48805ef162143a";
+    //     newReq.event = newEvent;
+    //     $.post('/event', newReq);
+    //     // location.reload(false);
+    // });
 
     $("#cancelAdd").on("click", function() {
-        $("#addTable").removeClass("expandUp");
-        $("#addTable").hide();
-        // $("input").val('');
+
+        $("#titleEntry").prop("placeholder", "New Event");
+        $("#feeds").css("margin-top", "10px");
+        $("#addTable").css({
+            "height": "0px",
+            "padding": "0 20"
+        });
     });
-     // Stuff to do as soon as the DOM is ready
+    // let events = $(".animate-opacity");
+    // for (var i = 0; i < events.length; i++) {
+    //     events[i].delay(i * 1000);
+    // }
+
+    // $(".topBar").on("scroll", function(e) {
+    //
+    //     if (this.scrollTop > 147) {
+    //         $(".topBar").addClass("fix-search");
+    //     } else {
+    //         $(".topBar").removeClass("fix-search");
+    //     }
+    // });
+    // $("button").click(function(){
+    //     $("#div1").delay("slow").fadeIn();
+    //     $("#div2").delay("fast").fadeIn();
+    //     $("#div3").delay(800).fadeIn();
+    //     $("#div4").delay(2000).fadeIn();
+    //     $("#div5").delay(4000).fadeIn();
+    //   });
+    // $.post('/events');
+    // Stuff to do as soon as the DOM is ready
 });

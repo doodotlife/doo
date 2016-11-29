@@ -1,30 +1,58 @@
 let db = require('../models/data');
 
-let helper = {};
+let helper = {
 
-helper.deleteEventHelper =  function(id) {
-    db.Event.findOne({
-            "_id": id
-        },
-        function(err, eventObj) {
-            console.log(eventObj);
-            db.User.findOneAndUpdate({
-                    username: eventObj.owner
-                }, {
-                    $pull: {
-                        "events": eventObj.id
+    deleteEventHelper: function(id) {
+        db.Event.findOne({
+                "_id": id
+            },
+            function(err, eventObj) {
+                console.log(eventObj);
+                db.User.findOneAndUpdate({
+                        username: eventObj.owner
+                    }, {
+                        $pull: {
+                            "events": eventObj.id
+                        }
+                    },
+                    function(err, user) {
+                        if (err) return res.send(500, {
+                            error: err
+                        });
+                        eventObj.remove(function(err) {
+                            if (err) throw err;
+                        });
                     }
-                },
-                function(err, user) {
-                    if (err) return res.send(500, {
-                        error: err
-                    });
-                    eventObj.remove(function(err) {
-                        if (err) throw err;
-                    });
-                }
-            );
-        });
+                );
+            });
+    },
+    calculateCountdown: function(array) {
+        console.log("calculateCountdown");
+        time = new Date();
+        for (let i = 0; i < array.length; i++) {
+            array[i].countdown = time - (new Date(array[i].time));
+        }
+    },
+
+    // formatCountdown: function(c) {
+    //     let result = "";
+    //     let date = new Date(c);
+    //     console.log("formatting" + date.toDateString());
+    //     if (c > 0) {
+    //
+    //     } else if (c == 0) {
+    //         result = "Now";
+    //     } else {
+    //         result += 'Ago'
+    //     }
+    // },
+
+    toDate: function(array) {
+        for (let i = 0; i < array.length; i++) {
+            let d = new Date(array[i].countdown);
+            array[i].countdown = d.toLocaleString();
+        }
+    }
 };
 
 module.exports = {
@@ -34,18 +62,20 @@ module.exports = {
         //TODO: Deal with encryption/decryption, replace 'success' with standarized responses
 
         let newUser = new db.User(req.body);
+        newUser.notification = false;
         db.User.findOne({
             username: newUser.username
         }, function(err, result) {
-            console.log("result");
-            console.log(result);
             if (err) {
                 for (let field in err.errors) {
                     console.log(field);
                 }
             }
             if (!result) {
-                newUser.save(function() {
+                newUser.save(function(err) {
+                    if (err) return res.send(500, {
+                        error: err
+                    });
                     // res.send('Success');
                     // res.redirect('/');
                     res.render('login.html', {
@@ -93,13 +123,12 @@ module.exports = {
     },
 
     logIn: function(req, res) {
-        console.log(req.body);
         // email/username and password (encrypted, decrypt here and check with db)
         // TODO: Replace response msg with standarized responses
+        //check if email exists
         db.User.findOne({
-            username: req.body.username
+            email: req.body.username
         }, function(err, user) {
-            console.log(user);
             if (err) throw err;
             if (user) {
                 if (user.password == req.body.password) {
@@ -108,17 +137,37 @@ module.exports = {
                     req.session.is_admin = user._doc.adminPrivilege;
                     res.redirect('/');
                 } else {
-                    res.render('login.html', {
+                    return res.render('login.html', {
                         error: 'Username or password invalid. Please try again.'
                     });
                 }
             } else {
-                res.render('login.html', {
-                    error: 'Username or password invalid. Please try again.'
+                //check if username exists
+                db.User.findOne({
+                    username: req.body.username
+                }, function(err, user) {
+                    if (err) throw err;
+                    if (user) {
+                        if (user.password == req.body.password) {
+                            req.session.user_id = user._id;
+                            req.session.username = user.username;
+                            req.session.is_admin = user._doc.adminPrivilege;
+                            return res.redirect('/');
+                        } else {
+                            return res.render('login.html', {
+                                error: 'Username or password invalid. Please try again.'
+                            });
+                        }
+                    } else {
+                        return res.render('login.html', {
+                            error: 'Username or password invalid. Please try again.'
+                        });
+                    }
+
                 });
             }
 
-        })
+        });
 
     },
 
@@ -141,8 +190,8 @@ module.exports = {
     addEvent: function(req, res) {
         // With dates, event name, event type
 
-        let newEvent = new db.Event(req.body.event);
-
+        let newEvent = new db.Event(req.body);
+        newEvent.owner = req.session.username;
         newEvent.save(function(err, newEvent) {
             if (err) throw err;
             // add event id to user
@@ -157,19 +206,32 @@ module.exports = {
                     if (err) return res.send(500, {
                         error: err
                     });
-                    newEvent.owner = req.session.username;
-                    newEvent.save();
-                    return res.send("Success");
+                    db.Event.find({
+                        "owner": req.session.username
+                    }, function(err, result) {
+                        if (err) {
+                            throw err
+                        }
+                        helper.calculateCountdown(result);
+                        result.sort(function(a, b) {
+                            return new Date(a.countdown) - new Date(b.countdown);
+                        });
+                        // helper.toDate(result);
+                        return res.render('index.html', {
+                            events: result,
+                            new: newEvent.id
+                        });
+                    });
                 });
         });
     },
 
 
-        /* req.body format
-        {
-            "event": id
-        } */
-        //TODO:verify if user is the owner by session
+    /* req.body format
+    {
+        "event": id
+    } */
+    //TODO:verify if user is the owner by session
     deleteEvent: function(req, res) {
         // With dates, event name, event type
         db.Event.findOne({
@@ -184,9 +246,37 @@ module.exports = {
                 });
             }
         });
-
-
     },
+
+    /* req.body format
+    {
+      event: id
+    } */
+    getEvent: function(req, res) {
+      db.Event.findOne({
+        "_id":req.body.event
+      }, function(err, eventObj) {
+        console.log(eventObj);
+        if (err) throw err;
+        if (eventObj) {
+          req.session.event_id           = eventObj._id;
+          req.session.event_title        = eventObj.title;
+          req.session.event_time         = eventObj.time;
+          req.session.event_owner        = eventObj.owner;
+          req.session.event_type         = eventObj.type;
+          req.session.event_private      = eventObj.private;
+          req.session.event_notification = eventObj.notification;
+          req.session.event_value        = eventObj.value;
+          req.session.event_share        = eventObj.share;
+          req.session.event_comments     = eventObj.comments;
+
+          res.redirect('/singleEvent')
+        } else {
+          console.log("Error: getEvent failed.");
+        }
+      });
+    },
+
     /* req.body format
     {
         "event" : {
@@ -203,11 +293,13 @@ module.exports = {
         // With dates, event name, event type
         db.Event.findOneAndUpdate({
             _id: req.body.event.id
-        },{
+        }, {
             $set: req.body.event
-        }, function(err,event){
-            if(err){
-                return res.send(500,{error: err})
+        }, function(err, event) {
+            if (err) {
+                return res.send(500, {
+                    error: err
+                })
             }
             event.save();
             res.send('Success');
@@ -354,7 +446,10 @@ module.exports = {
             if (err) {
                 throw err
             }
-            res.send({"events":events});
+            // res.send({"events":events});
+            res.render('index.html', {
+                "events": events
+            });
         })
     },
 
@@ -368,35 +463,33 @@ module.exports = {
     },
 
     /* req.body format
-     * {
-     *   "eventID": id,
-     *   "comment": {
-     *     content,
-     *     username, (The one who make the comment)
-     *     timestamp
-     *   }
+     * {  event: id,
+     *    comment: {
+     *      content,
+     *      owner
+     *  }
      * }
      */
 
     comment: function(req, res) {
-        // current user leave a comment to someone's event, put this commentId into this event
         let newComment = new db.Comment(req.body.comment);
-
+        newComment.owner = req.session.username;
+        console.log(req.body.comment);
+        console.log(newComment);
         newComment.save(function(err, newComment) {
             if (err) throw err;
-            // add comment to event
             db.Event.findOneAndUpdate({
-                "_id": req.body.eventID
+                "_id": req.body.event
             }, {
                 $push: {
                     "comments": newComment.id
                 }
             }, function(err, event) {
-                newComment.save();
                 return res.send("Success");
             });
         });
     },
+
     /* req.body format
      * {
      *   "comment": id,

@@ -13,6 +13,8 @@ body {
 .hide {
     display: none;
 }
+
+
 /* To test the layout of divisions */
 
 
@@ -23,6 +25,8 @@ body {
 
 #feeds {
     /*height: 90%;*/
+    margin-bottom: 10%;
+    transition: all 0.4s;
 }
 
 ul {
@@ -41,7 +45,7 @@ li {
 }
 
 li a {
-    font-style:bold;
+    font-style: bold;
     display: block;
     color: black;
     text-align: right;
@@ -77,7 +81,7 @@ li a:hover {
 }
 
 #left {
-    width: 80%;
+    width: 600px;
     /*margin-left: 15%;*/
     float: left;
 }
@@ -92,6 +96,7 @@ li a:hover {
 .logo-button {
     height: 24px;
 }
+
 .logo-button-signup {
     width: 150px;
 }
@@ -105,20 +110,24 @@ li a:hover {
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;
     background-color: white;
-    overflow-x: auto;
+    overflow-x: none;
+    overflow-y: none;
 }
 
 #addTable {
-    /*height: 0;*/
+    overflow: auto;
+    overflow-y: hidden;
+    padding: 0 20;
+    height: 0;
+    width: 560px;
+    float: left;
     -webkit-transition: height 0.4s ease-in-out;
     transition: height 0.4s ease-in-out;
 }
 
-
-
 table {
     font-size: 16px;
-    color:#666666;
+    color: #666666;
     border-collapse: collapse;
     width: 100%;
 }
@@ -132,10 +141,11 @@ th {
     background-color: #333;
     color: white;
 }
-
+/*
 tr:hover {
     background-color: #f5f5f5
-}
+}*/
+
 
 
 input[type=text] {
@@ -174,7 +184,7 @@ input[type=email]:focus {
     /*width: 100%;*/
 }
 
-input[type=date] {
+input[type=datetime-local] {
     width: 100%;
     border: none;
     border-bottom: 2px solid #eee;
@@ -186,7 +196,7 @@ input[type=date] {
     transition: width 0.4s ease-in-out;
 }
 
-input[type=date]:focus {
+input[type=datetime-local]:focus {
     outline: none;
     border-bottom: 2px solid #ccc;
     /*width: 100%;*/
@@ -210,24 +220,116 @@ input[type=password]:focus {
     /*width: 100%;*/
 }
 
-
-
-/*input[type=date] {
-    width: 200px;
-    border: none;
-    border-bottom: 2px solid #000000;
-    font-size: 16px;
+input[name=content] {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
     background-color: white;
-    background-repeat: no-repeat;
-    padding: none;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    /*overflow-x: auto;*/
+    width: 450px;
+    font-size: 16px;
+    padding: 10px;
+}
+input[name=content]:focus{
+    outline: none;
+    background-color: #efefef;
+    border: 1px solid #ccc;
 }
 
-input[type=date]:focus {
-    outline: none;
-    border-bottom: 2px solid #ccc;
+.topBar {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    border-radius: 4px;
+    /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
+    background-color: white;
+    /*overflow-x: auto;*/
     width: 100%;
+    border: none;
+    font-size: 16px;
+    background-color: white;
+    background-size: 2.5%;
+    background-position: 10px 19px;
+    background-repeat: no-repeat;
+    background-image :("../images/add.svg");
+
+    padding: 20px 20px 20px 40px;
+    background-repeat: no-repeat;
+    transition: width 0.4s ease-in-out;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.topBar:focus {
+    outline: none;
+    /*border-bottom: 2px solid #ccc;
+    width: 100%;*/
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+.event {
+    padding-bottom: 0px;
+}
+
+.interactions {
+    width: 100%;
+    margin-top: 10px;
+    /*margin-left: auto;
+    margin-right: auto;
+    display: block;*/
+    border-top: 1px solid #efefef;
+}
+
+.buttonText {
+    display: block;
+    height: 22px;
+    line-height: 22px;
+    margin: 7px 0px 7px 0px;
+    /*padding: 5px 0;*/
+    border-left: 1px solid #ccc;
+}
+
+.commentButtonText {
+    border-left: none;
+}
+
+.commentBar {
+    height:0px;
+    width: 100%;
+    overflow-y: hidden;
+    /*margin-top: 10px;*/
+    /*margin-left: auto;
+    margin-right: auto;
+    display: block;*/
+    /*transition: all 0.4s;*/
+    border-top: 1px solid #FFFFFF;
+    -webkit-transition: height 0.4s ease-in-out;
+    transition: height 0.4s ease-in-out;
+}
+
+.action {
+    margin: 0;
+    color: #666;
+    font-size: 12px;
+    text-align: center;
+    display: inline-block;
+    margin: 0 0 0 0px;
+    padding:1px 0;
+    width: 184px;
+    cursor: pointer;
+    /*border-right: 1px solid #ccc;*/
+}
+
+.action:hover {
+    background-color: #efefef;
+}
+
+/*.doFork {
+    border-right: none;
 }*/
 
 #warning {
@@ -235,12 +337,13 @@ input[type=date]:focus {
     margin-right: 10px;
     display: inline-block;
 }
+
 #hint {
     /*display: none;*/
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    color:#F44336;
+    color: #F44336;
     background-color: #FFCDD2;
     border: 1px;
     border-style: solid;
@@ -252,11 +355,11 @@ input[type=date]:focus {
 
 button {
     background-color: #ddd;
-    color:#aaa;
+    color: #aaa;
     font-size: 16px;
     float: right;
     padding: 10px;
-    border:none;
+    border: none;
     border-radius: 4px;
     /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
     margin-left: 15px;
@@ -265,12 +368,64 @@ button {
 }
 
 button:hover {
-    color:#ddd;
+    color: #ddd;
 }
 
 button:active {
-    color:#eee;
+    color: #eee;
     outline: none;
+}
+
+.sendButton {
+    margin-top: 10px;
+    margin-left: 20px;
+    /*margin-right: auto;*/
+}
+
+.animate-opacity {
+    -webkit-animation: opac 3s;
+    animation: opac 3s
+}
+
+@-webkit-keyframes opac {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes opac {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+.countdown {
+    float: right;
+}
+
+.tags {
+    display: block;
+}
+
+.tag{
+    display: inline-block;
+    /*float: left;*/
+    width:auto;
+    color: #FFFFFF;
+    background-color: #ccc;
+    border-radius: 4px;
+    margin-right: 6px;
+    padding: 4px 6px;
+}
+
+.new{
+    background-color: #F44336;
 }
 
 footer {
