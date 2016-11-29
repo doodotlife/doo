@@ -14,6 +14,9 @@ let commentSchema = new Schema(
         owner: {
             type: String, required: true
         },
+        event: {
+            type: String
+        }
         // timestamp: {
         //     type: Date, required: true, default: Date.now
         // }
@@ -51,6 +54,9 @@ let eventSchema = new Schema(
         },
         share: {
             type: Number, required: true, default: 0
+        },
+        liked: {
+            type:[String], default:[]
         },
         comments: {
             type:[Schema.Types.ObjectId], default:[]

@@ -96,6 +96,7 @@ app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 app.post('/events',doo.getEvents);
 app.put('/editevent', doo.editEvent);
+app.get('/event', doo.getEvent);
 
 app.post('/plusone',doo.plusOne);
 

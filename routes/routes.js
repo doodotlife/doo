@@ -287,34 +287,47 @@ module.exports = {
       event: id
     } */
     getEvent: function(req, res) {
-        console.log(req.query.event);
-        db.Event.findOne({
+      console.log(req.query.event); // Log the event id
+      /* Find the event by id */
+      db.Event.findOne({
+          "_id": req.query.event
+      }, function(err, eventObj) {
+          if (err) throw err;
+          console.log(eventObj); // Log the event contents
+          /* If find the event */
+          if (eventObj) {
+              // let commentList = []
+              //
+              // for (var i = 0; i < eventObj.comments.length; i++) {
+              //     let commentID = eventObj.comments[i]
+              //     let temp = db.Comment.find({
+              //         "_id": commentID
+              //     }, function(err, commentObj) {
+              //         if (err) throw err
+              //         commentList.push(commentObj)
+              //     });
+              // }
+              //
+              // console.log(commentList)
+              // return res.render('singleEvent.html', {
+              //     event: eventObj,
+              //     commentList: commentList
+              // })
 
-            "_id": req.query.event
-        }, function(err, eventObj) {
-            console.log(eventObj);
-            if (err) throw err;
-            if (eventObj) {
-                //   req.session.event_id           = eventObj._id;
-                //   req.session.event_title        = eventObj.title;
-                //   req.session.event_time         = eventObj.time;
-                //   req.session.event_owner        = eventObj.owner;
-                //   req.session.event_type         = eventObj.type;
-                //   req.session.event_private      = eventObj.private;
-                //   req.session.event_notification = eventObj.notification;
-                //   req.session.event_value        = eventObj.value;
-                //   req.session.event_share        = eventObj.share;
-                //   req.session.event_comments     = eventObj.comments;
-
+              db.Comment.find({
+                "event":req.query.event
+            }, function(err, commentList) {
+                if (err) throw err
                 return res.render('singleEvent.html', {
-                    event: eventObj
+                    event:eventObj,
+                    commentList: commentList
                 })
-            } else {
-                console.log("Error: getEvent failed.");
-            }
-        });
-    },
-
+            })
+          } else {
+              console.log("Error: getEvent failed.");
+          }
+      });
+  },
     /* req.body format
     {
         "event" : {
@@ -496,20 +509,49 @@ module.exports = {
     // {
     //     event:id;
     // }
-    plusOne: function(req,res) {
+    plusOne: function(req, res) {
         // pass in event id, change +1 value
-        db.Event.findOneAndUpdate({
+        db.Event.findOne({
             "_id": req.body.event
-        }, {
-            $inc: {
-                "value": 1
-            }
-        }, function(err, event) {
+        }, function(err, theEvent) {
             if (err) throw err;
-            return res.send("Success");
+            let username = req.user.username;
+            console.log(theEvent.liked);
+            console.log(username);
+            //if cannot find
+            if (theEvent.liked.indexOf(username) == -1) {
+                console.log("Cannot find, liked+1, push user");
+                db.Event.findOneAndUpdate({
+                    "_id": req.body.event
+                }, {
+                    $inc: {
+                        "value": 1
+                    },
+                    $push: {
+                        "liked": username
+                    }
+                }, function(err, event) {
+                    if (err) throw err;
+                    return res.send("Success");
+                });
+            } else {//if can find
+                console.log("Can find, liked-1, pull user");
+                db.Event.findOneAndUpdate({
+                    "_id": req.body.event
+                }, {
+                    $inc: {
+                        "value": -1
+                    },
+                    $pull: {
+                        "liked": username
+                    }
+                }, function(err, event) {
+                    if (err) throw err;
+                    return res.send("Success");
+                });
+            }
         });
-        },
-
+    },
     addTheDDLToMyList: function() {
         // add someone's deadline event to the current user's own list
     },
@@ -526,6 +568,7 @@ module.exports = {
 
         let newComment = new db.Comment(req.body);
         newComment.owner = req.user.username;
+        newComment.event = req.body.event;
         console.log(req.body.content);
         console.log(newComment);
         newComment.save(function(err, newComment) {
@@ -537,7 +580,13 @@ module.exports = {
                     "comments": newComment.id
                 }
             }, function(err, event) {
-                return res.send("Success");
+                if (err) throw err;
+                db.Event.findOne({
+                  "_id": req.body.event
+                }, function(err, eventObj) {
+                  if (err) throw err
+                  return res.send("" + eventObj.comments.length)
+                });
             });
         });
     },

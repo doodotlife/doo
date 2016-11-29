@@ -12,31 +12,32 @@
                     </div>
                 </div>
 
-                <!-- <div class="date">
+                <div class="date">
                     {{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}
-                </div> -->
+                </div>
 
                 {% if event.type=="anniversary" %}
                 <p> {{event.value}} Congrats </p>
-                {% endif %} {% if event.type == "deadline" %}
+                {% endif %}
+                {% if event.type=="deadline" %}
                 <p> {{event.value}} Cheer Ons </p>
                 {% endif %}
             </div>
         </div>
 
-        <!-- <div id="feeds">
-      {% for comment in session.comments %}
-      <div id={{comment.id}} class="card animate-opacity">
-        <h2>{{comment.owner}}</h2>
-        <p>{{comment.content}}</p>
-        {% if session.event_owner == session.username %}
-          <button class="deleteComment">Delete</button>
-        {% elif comment.owner == session.username %}
-          <button class="deleteComment">Delete</button>
-        {% endif %}
-      </div>
-    </div> -->
-
+        <div id="feeds">
+            {% for comment in commentList %}
+            <div id={{comment.id}} class="card animate-opacity">
+                <h2>{{comment.owner}}</h2>
+                <p>{{comment.content}}</p>
+                {% if session.event_owner == session.username %}
+                <button class="deleteComment">Delete</button>
+                {% elif comment.owner == session.username %}
+                <button class="deleteComment">Delete</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
     </div>
 
     <div id="right">
@@ -46,15 +47,15 @@
                     <img src="images/logo.svg" id="logo" />
                 </a>
             </li>
-            {% if session.username %}
+            {% if user %}
             <li>
-                <a href="#" class="">{{ session.username }} </a>
+                <a href="#" class="">{{ user.username }} </a>
             </li>
             {% endif %}
             <li>
                 <a href="#" class="">Setting</a>
             </li>
-            {% if session.username %}
+            {% if user %}
             <li>
                 <a id="signout" class="" role="button" href="/logout">Sign out</a>
             </li>
@@ -62,4 +63,5 @@
         </ul>
     </div>
 </div>
+
 {% endblock %}
