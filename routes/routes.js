@@ -259,16 +259,16 @@ module.exports = {
         console.log(eventObj);
         if (err) throw err;
         if (eventObj) {
-          req.session.event_id           = eventObj._id;
-          req.session.event_title        = eventObj.title;
-          req.session.event_time         = eventObj.time;
-          req.session.event_owner        = eventObj.owner;
-          req.session.event_type         = eventObj.type;
-          req.session.event_private      = eventObj.private;
-          req.session.event_notification = eventObj.notification;
-          req.session.event_value        = eventObj.value;
-          req.session.event_share        = eventObj.share;
-          req.session.event_comments     = eventObj.comments;
+          // req.session.event_id           = eventObj._id;
+          // req.session.event_title        = eventObj.title;
+          // req.session.event_time         = eventObj.time;
+          // req.session.event_owner        = eventObj.owner;
+          // req.session.event_type         = eventObj.type;
+          // req.session.event_private      = eventObj.private;
+          // req.session.event_notification = eventObj.notification;
+          // req.session.event_value        = eventObj.value;
+          // req.session.event_share        = eventObj.share;
+          // req.session.event_comments     = eventObj.comments;
 
           res.redirect('/singleEvent')
         } else {
