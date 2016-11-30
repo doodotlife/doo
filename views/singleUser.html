@@ -2,8 +2,8 @@
 
 <!-- <div id="eventContainer"> -->
 <h1>{{targetUser.username}}</h1>
+<h3>Profile</h3>
 <div id={{targetUser.username}} class="card user">
-    <h3>Profile</h3>
     <table>
         <tr>
             <td>
@@ -45,19 +45,58 @@
 <div class="card">
     <button id="followButton" type="button">Follow</button>
 </div>
-
+<h3>Events</h3>
 <div id="feeds">
     {% for event in events %}
-    <div id={{event._id}} class="card event animate-opacity">
-        <h1>{{event.title}}<div class="countdown">{{event.countdown}}</div></h1>
+    <div id={{event._id}} class="card event {% if event.finished %}finished{% endif %} animate-opacity">
+        <h1>
+            {{event.title}}
+            <div class="countdown">
+                {% if event.finished %}
+                    <span class="countdownValue">
+                        Passed
+                    </span>
+                {% else %}
+                    <span class="countdownValue" hidden>
+                        {{event.countdown}}
+                    </span>
+                    <span class="countdownDisplay">
+                        {{event.countdown}}
+                    </span>
+                {% endif %}
+            </div>
+        </h1>
+        <!-- {% if event.countdown %}
+            <div class="countdown">
+                <h1>{{event.countdown}}</h1>
+            </div>
+            {% endif %} -->
+
         <div class="date">
-            <h3>{{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}</h3>
+            <h3>
+                {{event.time.getFullYear()}}
+                - {% if (event.time.getMonth() + 1) <= 9 %}0{{event.time.getMonth() + 1}}
+                {% else %}{{event.time.getMonth() + 1}}
+                {% endif %}
+                - {% if (event.time.getDate()) <= 9 %}0{{event.time.getDate()}}
+                {% else %}{{event.time.getDate()}}
+                {% endif %}
+                {% if event.type == "deadline" %}
+                    {% if event.time.getHours() <= 9 %}0{{event.time.getHours()}}
+                    {% else %}00{% endif %}:{% if event.time.getMinutes() <= 9 %}0{{event.time.getMinutes()}}
+                    {% else %}00{% endif %}
+                {% endif %}
+            </h3>
         </div>
         <div class="tags">
             <div class="tag">
                 {{event.type}}
             </div>
-            {% if new == event._id %}
+            {% if event.finished %}
+            <div class="tag">
+                Passed
+            </div>
+            {% endif %} {% if new == event._id %}
             <div class="tag new">
                 new
             </div>
@@ -67,16 +106,22 @@
         <div class="interactions">
             <a class="action doComment" role="button">
                 <span class="buttonText commentButtonText">
-                            {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
+                        {{event.comments.length}}
+                        Comment{% if event.comments.length != 1 %}s{% endif%}
                         </span>
             </a>
             <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
                 <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
                 <span class="buttonText plus1ButtonText">
-                             {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
-                         </span>
+                            {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
+                        </span>
+
             </a>
-            <a class="action getEvent" role="button"><span class="buttonText">>><span></a>
+            <a class="action getEvent" role="button">
+                <span class="buttonText">
+                    >>
+                </span>
+            </a>
         </div>
         <div class="commentBar">
             <form class="commentEntry" action="/comment" method="post">
