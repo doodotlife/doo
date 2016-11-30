@@ -57,6 +57,7 @@ let helper = {
                 );
             });
     },
+
     calculateCountdown: function(array) {
         console.log("calculateCountdown");
         let time = new Date();
@@ -66,28 +67,14 @@ let helper = {
         }
     },
 
-    // formatCountdown: function(c) {
-    //     let result = "";
-    //     let date = new Date(c);
-    //     console.log("formatting" + date.toDateString());
-    //     if (c > 0) {
-    //
-    //     } else if (c == 0) {
-    //         result = "Now";
-    //     } else {
-    //         result += 'Ago'
-    //     }
-    // },
-
     getAllEvents: function(req, res, newEvent) {
         let userArray = req.user.following.concat([req.user.username]);
         db.Event.find({
             "owner": {
-                $in: ["BeforeWhitby", "zwx"]
+                $in: userArray
             }
         }, function(err, events) {
             result = helper.sortEvent(events).result;
-            console.log(result);
             res.render('index.html', {
                 user: req.user,
                 events: result,
@@ -95,6 +82,18 @@ let helper = {
             });
         });
 
+    },
+
+    getSingleUserEvents: function(req, res) {
+        db.Event.find({
+            "owner": req.user.username
+        }, function(err, events) {
+            result = helper.sortEvent(events).result;
+            res.render('singleUser.html', {
+                user: req.user,
+                events: result,
+            });
+        });
     },
 };
 
@@ -272,6 +271,7 @@ module.exports = {
                     // res.send({"events":events});
                     // console.log(events);
                     user.eventsObjs = result;
+                    result = helper.sortEvent(result).result;
                     console.log(user);
                     res.render('singleUser.html', {
                         targetUser: user,
@@ -322,23 +322,6 @@ module.exports = {
                     if (err) return res.send(500, {
                         error: err
                     });
-                    // db.Event.find({
-                    //     "owner": req.user.username
-                    // }, function(err, result) {
-                    //     if (err) {
-                    //         throw err
-                    //     }
-                    //     helper.calculateCountdown(result);
-                    //     result.sort(function(a, b) {
-                    //         return new Date(a.countdown) - new Date(b.countdown);
-                    //     });
-                    //     // helper.toDate(result);
-                    //     return res.render('index.html', {
-                    //         user: req.user,
-                    //         events: result,
-                    //         new: newEvent.id
-                    //     });
-                    // });
                     helper.getAllEvents(req, res, newEvent.id);
                 });
         });
@@ -381,23 +364,6 @@ module.exports = {
             console.log(eventObj); // Log the event contents
             /* If find the event */
             if (eventObj) {
-                // let commentList = []
-                //
-                // for (var i = 0; i < eventObj.comments.length; i++) {
-                //     let commentID = eventObj.comments[i]
-                //     let temp = db.Comment.find({
-                //         "_id": commentID
-                //     }, function(err, commentObj) {
-                //         if (err) throw err
-                //         commentList.push(commentObj)
-                //     });
-                // }
-                //
-                // console.log(commentList)
-                // return res.render('singleEvent.html', {
-                //     event: eventObj,
-                //     commentList: commentList
-                // })
 
                 db.Comment.find({
                     "event": req.query.event
@@ -409,7 +375,8 @@ module.exports = {
                     commentList.sort(function(a, b) {
                         return new Date(b.timestamp) - new Date(a.timestamp);
                     });
-
+                    let time = new Date();
+                    eventObj.countdown = (eventObj.time) - time;
                     return res.render('singleEvent.html', {
                         user: req.user,
                         event: eventObj,
