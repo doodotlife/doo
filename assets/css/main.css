@@ -14,6 +14,14 @@ body {
     display: none;
 }
 
+hr {
+    border-color: #efefef;
+    background-color: #efefef;
+    color: #efefef;
+    border: 0;
+    height: 1px;
+}
+
 
 /* To test the layout of divisions */
 
@@ -141,12 +149,12 @@ th {
     background-color: #333;
     color: white;
 }
+
+
 /*
 tr:hover {
     background-color: #f5f5f5
 }*/
-
-
 
 input[type=text] {
     width: 100%;
@@ -225,21 +233,23 @@ input[name=content] {
     margin-left: auto;
     margin-right: auto;
     background-color: white;
-    border: 1px solid #FFFFFF;
+    border: 1px solid #efefef;
     border-radius: 4px;
     /*overflow-x: auto;*/
     width: 450px;
     font-size: 16px;
     padding: 10px;
 }
-input[name=content]:focus{
+
+input[name=content]:focus {
     outline: none;
     background-color: #efefef;
     border: 1px solid #ccc;
 }
 
 input[name=content]:hover {
-    background-color: #F5F5F5;;
+    background-color: #F5F5F5;
+    ;
 }
 
 .topBar {
@@ -249,7 +259,6 @@ input[name=content]:hover {
     width: auto;
     border-radius: 4px;
     /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
-    background-color: white;
     /*overflow-x: auto;*/
     width: 100%;
     border: none;
@@ -258,8 +267,7 @@ input[name=content]:hover {
     background-size: 2.5%;
     background-position: 10px 19px;
     background-repeat: no-repeat;
-    background-image :("../images/add.svg");
-
+    background-image: url("../images/add.svg");
     padding: 20px 20px 20px 40px;
     background-repeat: no-repeat;
     transition: width 0.4s ease-in-out;
@@ -273,7 +281,6 @@ input[name=content]:hover {
     width: 100%;*/
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
-
 
 .event {
     padding-bottom: 0px;
@@ -302,7 +309,7 @@ input[name=content]:hover {
 }
 
 .commentBar {
-    height:0px;
+    height: 0px;
     width: 100%;
     overflow-y: hidden;
     /*margin-top: 10px;*/
@@ -315,23 +322,65 @@ input[name=content]:hover {
     transition: height 0.4s ease-in-out;
 }
 
+.comment {
+    font-size: 12px;
+    height: 22px;
+    line-height: 22px;
+    padding: 12px 0px;
+    border-top: 1px solid #efefef;
+}
+
+
+
+.timestamp {
+    color: #ccc;
+    font-size: 9px;
+    float: right;
+}
+
 .action {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     margin: 0;
     color: #666;
     font-size: 12px;
     text-align: center;
     display: inline-block;
     margin: 0 0 0 0px;
-    padding:1px 0;
+    padding: 1px 0;
     width: 184px;
     cursor: pointer;
     /*border-right: 1px solid #ccc;*/
 }
 
+.plus1ButtonText {
+    padding: 0 0 0 35;
+}
 .action:hover {
     background-color: #F5F5F5;
 }
 
+.doPlus1 {
+    /*background-repeat: no-repeat;*/
+    background-image: url("../images/like.svg");
+    /*padding: 20px 20px 20px 40px;*/
+    background-size: 14px;
+    background-position: 72;
+    background-repeat: no-repeat;
+}
+
+.liked {
+    /*background-repeat: no-repeat;*/
+    background-image: url("../images/liked.svg");
+    /*padding: 20px 20px 20px 40px;*/
+    background-size: 14px;
+    background-position: 72;
+    background-repeat: no-repeat;
+}
 /*.doFork {
     border-right: none;
 }*/
@@ -417,10 +466,10 @@ button:active {
     display: block;
 }
 
-.tag{
+.tag {
     display: inline-block;
     /*float: left;*/
-    width:auto;
+    width: auto;
     color: #FFFFFF;
     background-color: #ccc;
     border-radius: 4px;
@@ -428,10 +477,38 @@ button:active {
     padding: 4px 6px;
 }
 
-.new{
+.new {
     background-color: #F44336;
 }
 
+.placeholder {
+    color: #ccc;
+    font-size: 12px;
+    height: 22px;
+    line-height: 22px;
+    padding: 12px 0px;
+}
+
+.singleCommentBar {
+    height: 60px;
+}
+
+.deleteComment {
+    line-height: 22px;
+    font-size: 9px;
+    background: none;
+    padding: none;
+    margin: none;
+}
+
+.commentOwner {
+    color: #aaa;
+}
+
+
+/*.likeIcon {
+    height:12px;
+}*/
 footer {
     right: 0;
     bottom: 0;

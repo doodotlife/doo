@@ -14,7 +14,7 @@
                             Time
                         </td>
                         <td>
-                            <input id="timeEntry" name="time" type="datetime-local" required/>
+                            <input id="dateEntry" name="time" type="date" required/>
                         </td>
                     </tr>
                     <tr>
@@ -26,6 +26,14 @@
                             <label for="typeD"> Deadline </label>
                             <input name="type" id="typeA" type="radio" value="anniversary" />
                             <label for="typeA"> Anniversary </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Time
+                        </td>
+                        <td>
+                            <input id="timeEntry" name="time" type="time" required/>
                         </td>
                     </tr>
                     <tr>
@@ -82,22 +90,26 @@
                             {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
                         </span>
                     </a>
-                    <a class="action doPlus1" role="button"><span class="buttonText">+ {{event.value}}</span></a>
-                    <a class="action doFork" role="button"><span class="buttonText">Fork<span></a>
+                    <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
+                        <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
+                        <span class="buttonText plus1ButtonText">
+                             {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
+                         </span>
+                     </a>
+                    <a class="action getEvent" role="button"><span class="buttonText">>><span></a>
                 </div>
                 <div class="commentBar">
-                    <form action="/comment" method="post">
+                    <form class="commentEntry" action="/comment" method="post">
                         <input name="content" type="text" placeholder="Type here" required/>
                         <button class="sendButton" type="submit">Send</button>
                         <input name="event" value={{event.id}} hidden/>
                     </form>
-                    <a class="moreComment">View more >></a>
                 </div>
 
             </div>
             {% endfor %}
             <div class="card">
-                Oops, no more events! Fork others' or create your own!
+                Oops, no more events! Follow more people or create your own!
             </div>
         </div>
     </div>
