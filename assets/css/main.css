@@ -210,6 +210,42 @@ input[type=datetime-local]:focus {
     /*width: 100%;*/
 }
 
+input[type=date] {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #eee;
+    font-size: 16px;
+    background-color: none;
+    background-repeat: no-repeat;
+    padding: none;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=date]:focus {
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    /*width: 100%;*/
+}
+
+input[type=time] {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #eee;
+    font-size: 16px;
+    background-color: none;
+    background-repeat: no-repeat;
+    padding: none;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=time]:focus {
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    /*width: 100%;*/
+}
+
 input[type=password] {
     width: 100%;
     border: none;
