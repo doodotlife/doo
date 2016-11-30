@@ -18,10 +18,8 @@ $(document).ready(function() {
         $('html').one('click', function() {
             $("#titleEntry").prop("placeholder", "New Event");
             $("#feeds").css("margin-top", "10px");
-            $("#addTable").css({
-                "height": "0px",
-                "padding": "0 20"
-            });
+            $("#addTable").css({"height": "0px"});
+            $("#addTable").css({"padding": "0 20"});
         });
         event.stopPropagation();
     });

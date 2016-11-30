@@ -12,11 +12,42 @@
 </head>
 
 <body>
+    <div id="container">
+        <div id="left">
+            {% block left %} {% endblock %} {% block right %}
+        </div>
+        <div id="right">
+            <ul>
+                <li>
+                    <a href="/" class="logo-button">
+                        <img src="../images/logo.svg" id="logo" />
+                    </a>
+                </li>
+                {% if user %}
+                <li>
+                    <a href="#" class="">{{ user.username }} </a>
+                </li>
+                <li>
+                    <a href="#" class="">Setting</a>
+                </li>
+                <li>
+                    <a id="signout" class="" role="button" href="/logout">Sign out</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login" class="">Login</a>
+                </li>
+                <li>
+                    <a href="/signup" class="">Sign Up</a>
+                </li>
+                {% endif %}
 
-{% block body %}
-{% endblock %}
+            </ul>
+        </div>
+        {% endblock %}
+    </div>
 
-<!-- <footer>
+    <!-- <footer>
     <p>Posted by: Hege Refsnes</p>
     <p>Contact information: <a href="mailto:someone@example.com">
   someone@example.com</a>.</p>
