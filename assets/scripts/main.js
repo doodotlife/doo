@@ -102,13 +102,44 @@ $(document).ready(function() {
         $.ajax({
             url: "/comment",
             type: "POST",
-            dataType: "text",
+            dataType: "json",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(comment),
             // data:comment,
             success: function(res) {
-
-                $("#" + id).find(".commentButtonText").html(res + " Comments");
+                let newComment = $('<div>');
+                newComment.id = res.comment._id;
+                newComment.addClass("comment");
+                newComment.addClass("animate-opacity");
+                let owner = $('<span>');
+                owner.addClass("commentOwner");
+                let strong = $("<strong>");
+                strong.html(res.comment.owner + ": ");
+                owner.append(strong);
+                newComment.append(owner);
+                newComment.append(res.comment.content);
+                let timestamp = $("<span>")
+                timestamp.addClass("timestamp");
+                let time = new Date(parseInt(res.comment._id.toString().substring(0, 8), 16) * 1000);
+                timestamp.html("" + time.getFullYear() + "-" +
+                (time.getMonth() + 1) + "-" +
+                time.getDate() + " " +
+                time.getHours() + ":" +
+                time.getMinutes());
+                newComment.append(timestamp);
+                let deleteButton = $("<button>");
+                deleteButton.addClass("deleteComment");
+                deleteButton.html("Delete")
+                newComment.append(deleteButton);
+                //     <span class="commentOwner"><strong>{{comment.owner}}: </strong></span>{{comment.content}} {% if session.event_owner == session.username %}
+                //     <span class="timestamp">
+                //             {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
+                //         </span>
+                //     <button class="deleteComment">Delete</button> {% elif comment.owner == session.username %}
+                //     <button class="deleteComment">Delete</button> {% endif %}
+                // </div>
+                $("#comments").prepend(newComment);
+                $("#" + id).find(".commentButtonText").html(res.count + " Comments");
                 $("#" + id).find("input[name=content]").val("");
             }
         });
