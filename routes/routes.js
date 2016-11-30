@@ -203,6 +203,28 @@ module.exports = {
         // });
 
     },
+    /*
+     * req.params {
+     *     username:username
+     * }
+     */
+    getUser: function(req, res) {
+        console.log(req.params);
+        db.User.findOne( {
+            username:req.params.username
+        },
+        function(err, user) {
+            if (err) {
+                return res.send(500, {
+                    error: err
+                });
+            }
+            console.log(user)
+            return res.render("singleUser.html", {
+                targetUser:user
+            })
+        });
+    },
 
     logOut: function(req, res) {
         // clear session, return to main page
