@@ -324,7 +324,7 @@ module.exports = {
                     commentList.sort(function(a, b) {
                         return new Date(b.timestamp) - new Date(a.timestamp);
                     });
-                    
+
                     return res.render('singleEvent.html', {
                         event: eventObj,
                         commentList: commentList
@@ -539,7 +539,8 @@ module.exports = {
                     }
                 }, function(err, event) {
                     if (err) throw err;
-                    return res.send("Success");
+                    console.log(event.value + 1);
+                    return res.send("" + (event.value + 1));
                 });
             } else { //if can find
                 console.log("Can find, liked-1, pull user");
@@ -554,7 +555,8 @@ module.exports = {
                     }
                 }, function(err, event) {
                     if (err) throw err;
-                    return res.send("Success");
+                    console.log(0-event.value);
+                    return res.send("" + (0 - (event.value - 1)));
                 });
             }
         });

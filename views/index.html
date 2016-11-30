@@ -90,7 +90,12 @@
                             {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
                         </span>
                     </a>
-                    <a class="action doPlus1" role="button"><span class="buttonText plus1ButtonText">+ {{event.value}}</span></a>
+                    <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
+                        <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
+                        <span class="buttonText plus1ButtonText">
+                             {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
+                         </span>
+                     </a>
                     <a class="action getEvent" role="button"><span class="buttonText">>><span></a>
                 </div>
                 <div class="commentBar">

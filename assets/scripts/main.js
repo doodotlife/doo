@@ -116,6 +116,32 @@ $(document).ready(function() {
         });
     });
 
+    $(".doPlus1").on("click", function(e) {
+        e.preventDefault();
+        let id = this.closest(".event").id;
+        $.ajax({
+            url: "/plusone",
+            type: "POST",
+            dataType: "text",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({event:id}),
+            success: function(res) {
+                console.log(res);
+                let value = parseInt(res);
+
+
+                if (value > 0) {
+                    $("#" + id).find(".plus1ButtonText").html(value);
+                    $("#" + id).find(".doPlus1").addClass("liked");
+                } else {
+                    $("#" + id).find(".plus1ButtonText").html(0 - value);
+                    $("#" + id).find(".doPlus1").removeClass("liked");
+                }
+            }
+
+        });
+    })
+
     $(".getEvent").on("click", function(e) {
         let id = this.closest(".event").id;
         $.ajax({
