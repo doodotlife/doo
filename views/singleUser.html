@@ -1,0 +1,77 @@
+{% extends "base.html" %} {% block body %}
+
+<div id="container">
+    <div id="left">
+
+        <!-- <div id="eventContainer"> -->
+        <div id={{targetUser.id}} class="card user">
+            <h1>{{targetUser.username}}</h1>
+            <table>
+                <tr>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        {{targetUser.name}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Birthday
+                    </td>
+                    <td>
+                        {{targetUser.birthday}}
+                    </td>
+                </tr>
+
+                </tr>
+                <tr>
+                    <td>
+                        Gender
+                    </td>
+                    <td>
+                        {{targetUser.gender}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email
+                    </td>
+                    <td>
+                        {{targetUser.email}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- </div> -->
+        <div>
+            <button id="followButton" type="button">Follow</button>
+        </div>
+    </div>
+
+    <div id="right">
+        <ul>
+            <li>
+                <a href="/" class="logo-button">
+                    <img src="../images/logo.svg" id="logo" />
+                </a>
+            </li>
+            {% if user %}
+            <li>
+                <a href="#" class="">{{ user.username }} </a>
+            </li>
+            {% endif %}
+            <li>
+                <a href="#" class="">Setting</a>
+            </li>
+            {% if user %}
+            <li>
+                <a id="signout" class="" role="button" href="/logout">Sign out</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
