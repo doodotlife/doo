@@ -3,41 +3,53 @@
 <div id="container">
     <div id="left">
 
-        <div id="eventContainer">
-            <div id={{event.id}} class="">
-                <h1>{{event.title}}</h1>
-                <div class="tags">
-                    <div class="tag">
-                        {{event.type}}
-                    </div>
+        <!-- <div id="eventContainer"> -->
+        <div id={{event.id}} class="card event">
+            <h3>{{event.owner}}'s</h3>
+            <hr />
+            <h1>{{event.title}}</h1>
+            <div class="date">
+                <h3>{{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}</h3>
+            </div>
+            <div class="tags">
+                <div class="tag">
+                    {{event.type}}
                 </div>
-
-                <div class="date">
-                    {{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}
+            </div>
+            <div class="interactions">
+                <a class="action doComment" role="button">
+                    <span class="buttonText commentButtonText">
+                        {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
+                    </span>
+                </a>
+                <a class="action doPlus1" role="button"><span class="buttonText plus1ButtonText">+ {{event.value}}</span></a>
+            </div>
+            {% if user.username %}
+            <div class="singleCommentBar">
+                <form class="commentEntry" action="/comment" method="post">
+                    <input name="content" type="text" placeholder="New Comment" required/>
+                    <button class="sendButton" type="submit">Send</button>
+                    <input name="event" value={{event.id}} hidden/>
+                </form>
+            </div>
+            {% endif %}
+            <div id="feeds">
+                {% for comment in commentList %}
+                <div id={{comment.id}} class="comment animate-opacity">
+                    <span class="commentOwner"><strong>{{comment.owner}}: </strong></span>{{comment.content}} {% if session.event_owner == session.username %}
+                    <span class="timestamp">
+                            {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
+                        </span>
+                    <button class="deleteComment">Delete</button> {% elif comment.owner == session.username %}
+                    <button class="deleteComment">Delete</button> {% endif %}
                 </div>
-
-                {% if event.type=="anniversary" %}
-                <p> {{event.value}} Congrats </p>
-                {% endif %}
-                {% if event.type=="deadline" %}
-                <p> {{event.value}} Cheer Ons </p>
-                {% endif %}
+                {% endfor %}
+                <div id="commentPlaceholder" class="comment placeholder animate-opacity">
+                    Oops, no more comments. Do say something about this event!
+                </div>
             </div>
         </div>
-
-        <div id="feeds">
-            {% for comment in commentList %}
-            <div id={{comment.id}} class="card animate-opacity">
-                <h2>{{comment.owner}}</h2>
-                <p>{{comment.content}}</p>
-                {% if session.event_owner == session.username %}
-                <button class="deleteComment">Delete</button>
-                {% elif comment.owner == session.username %}
-                <button class="deleteComment">Delete</button>
-                {% endif %}
-            </div>
-            {% endfor %}
-        </div>
+        <!-- </div> -->
     </div>
 
     <div id="right">

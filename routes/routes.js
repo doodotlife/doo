@@ -70,7 +70,7 @@ module.exports = {
                     error: 'Username Already exists'
                 });
 
-            }else{
+            } else {
                 res.render('login.html', {
                     success: 'Successfully registered! Login now and doo on.'
                 });
@@ -143,7 +143,7 @@ module.exports = {
         //check if email exists
 
         let username = req.body.username;
-        db.User.authenticate()(username, req.body.password, function (err, user, options) {
+        db.User.authenticate()(username, req.body.password, function(err, user, options) {
             if (err) {
                 console.log(err);
             }
@@ -152,8 +152,8 @@ module.exports = {
                     error: 'Username or password invalid. Please try again.'
                 });
             } else {
-                req.login(user, function (err) {
-                    if(err) console.log(err);
+                req.login(user, function(err) {
+                    if (err) console.log(err);
                     res.redirect('/');
                 });
             }
@@ -287,47 +287,54 @@ module.exports = {
       event: id
     } */
     getEvent: function(req, res) {
-      console.log(req.query.event); // Log the event id
-      /* Find the event by id */
-      db.Event.findOne({
-          "_id": req.query.event
-      }, function(err, eventObj) {
-          if (err) throw err;
-          console.log(eventObj); // Log the event contents
-          /* If find the event */
-          if (eventObj) {
-              // let commentList = []
-              //
-              // for (var i = 0; i < eventObj.comments.length; i++) {
-              //     let commentID = eventObj.comments[i]
-              //     let temp = db.Comment.find({
-              //         "_id": commentID
-              //     }, function(err, commentObj) {
-              //         if (err) throw err
-              //         commentList.push(commentObj)
-              //     });
-              // }
-              //
-              // console.log(commentList)
-              // return res.render('singleEvent.html', {
-              //     event: eventObj,
-              //     commentList: commentList
-              // })
+        console.log(req.query.event); // Log the event id
+        /* Find the event by id */
+        db.Event.findOne({
+            "_id": req.query.event
+        }, function(err, eventObj) {
+            if (err) throw err;
+            console.log(eventObj); // Log the event contents
+            /* If find the event */
+            if (eventObj) {
+                // let commentList = []
+                //
+                // for (var i = 0; i < eventObj.comments.length; i++) {
+                //     let commentID = eventObj.comments[i]
+                //     let temp = db.Comment.find({
+                //         "_id": commentID
+                //     }, function(err, commentObj) {
+                //         if (err) throw err
+                //         commentList.push(commentObj)
+                //     });
+                // }
+                //
+                // console.log(commentList)
+                // return res.render('singleEvent.html', {
+                //     event: eventObj,
+                //     commentList: commentList
+                // })
 
-              db.Comment.find({
-                "event":req.query.event
-            }, function(err, commentList) {
-                if (err) throw err
-                return res.render('singleEvent.html', {
-                    event:eventObj,
-                    commentList: commentList
+                db.Comment.find({
+                    "event": req.query.event
+                }, function(err, commentList) {
+                    if (err) throw err
+                    for (let i = 0; i < commentList.length; i++) {
+                        commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
+                    }
+                    commentList.sort(function(a, b) {
+                        return new Date(b.timestamp) - new Date(a.timestamp);
+                    });
+
+                    return res.render('singleEvent.html', {
+                        event: eventObj,
+                        commentList: commentList
+                    })
                 })
-            })
-          } else {
-              console.log("Error: getEvent failed.");
-          }
-      });
-  },
+            } else {
+                console.log("Error: getEvent failed.");
+            }
+        });
+    },
     /* req.body format
     {
         "event" : {
@@ -532,9 +539,10 @@ module.exports = {
                     }
                 }, function(err, event) {
                     if (err) throw err;
-                    return res.send("Success");
+                    console.log(event.value + 1);
+                    return res.send("" + (event.value + 1));
                 });
-            } else {//if can find
+            } else { //if can find
                 console.log("Can find, liked-1, pull user");
                 db.Event.findOneAndUpdate({
                     "_id": req.body.event
@@ -547,7 +555,8 @@ module.exports = {
                     }
                 }, function(err, event) {
                     if (err) throw err;
-                    return res.send("Success");
+                    console.log(0-event.value);
+                    return res.send("" + (0 - (event.value - 1)));
                 });
             }
         });
@@ -569,7 +578,7 @@ module.exports = {
         let newComment = new db.Comment(req.body);
         newComment.owner = req.user.username;
         newComment.event = req.body.event;
-        console.log(req.body.content);
+        console.log(req.body);
         console.log(newComment);
         newComment.save(function(err, newComment) {
             if (err) throw err;
@@ -582,10 +591,10 @@ module.exports = {
             }, function(err, event) {
                 if (err) throw err;
                 db.Event.findOne({
-                  "_id": req.body.event
+                    "_id": req.body.event
                 }, function(err, eventObj) {
-                  if (err) throw err
-                  return res.send("" + eventObj.comments.length)
+                    if (err) throw err
+                    return res.send("" + eventObj.comments.length)
                 });
             });
         });
