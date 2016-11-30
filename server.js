@@ -100,7 +100,11 @@ app.post('/events',doo.getEvents);
 app.put('/editevent', doo.editEvent);
 
 app.post('/plusone',doo.plusOne);
-app.get('/search',doo.search);
+
+app.get('/search', (req,res) => {
+    res.render('search.html', {user:req.user});
+});
+app.post('/search',doo.search);
 
 app.post('/comment', doo.comment);
 app.delete('/comment', doo.deleteComment);

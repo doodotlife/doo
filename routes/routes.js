@@ -683,28 +683,30 @@ module.exports = {
     //  ?keyword: search eventTitle
     search: function(req,res) {
         // search by username/email/eventTitle/
+        console.log(req.body.keyword);
         db.User.find({
             $or: [{
-                "username": req.query.keyword
+                "username": req.body.keyword
             }, {
-                "name": req.query.keyword
+                "name": req.body.keyword
             }, {
-                "email": req.query.keyword
+                "email": req.body.keyword
             }]
         }, function(err, users) {
             if (err) throw err;
             db.Event.find({
                 $and: [{
-                    "title": req.query.keyword
+                    "title": req.body.keyword
                 }, {
                     "private": false
                 }]
             }, function(err, events) {
                 let r = {
-                    "user": users,
-                    "event": events
+                    "user":req.user,
+                    "users": users,
+                    "events": events
                 }
-                res.send(r);
+                res.render("search.html", r);
             })
         })
     },
