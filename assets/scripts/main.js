@@ -149,7 +149,7 @@ $(document).ready(function() {
             // contentType: "application/json; charset=utf-8",
             // data:comment,
             success: function(res) {
-                location.reload();
+                $(document.body).html(res);
             }
         });
         // $.get("/event?event=" + id);
