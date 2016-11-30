@@ -358,7 +358,7 @@ module.exports = {
                 db.Comment.find({
                     "event": req.query.event
                 }, function(err, commentList) {
-                    if (err) throw err
+                    if (err) throw err;
                     for (let i = 0; i < commentList.length; i++) {
                         commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
                     }
