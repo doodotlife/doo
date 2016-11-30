@@ -96,13 +96,16 @@
 
                 <div class="date">
                     <h3>
-                        {{event.time.getFullYear()}}-{% if (event.time.getMonth() + 1) < 10 %}0{{event.time.getMonth() + 1}}
-                        {% else %}
-                            {{event.time.getMonth() + 1}}
-                        {% endif %}-{{event.time.getDate()}}
+                        {{event.time.getFullYear()}}
+                        - {% if (event.time.getMonth() + 1) <= 9 %}0{{event.time.getMonth() + 1}}
+                        {% else %}{{event.time.getMonth() + 1}}
+                        {% endif %}
+                        - {% if (event.time.getDate()) <= 9 %}0{{event.time.getDate()}}
+                        {% else %}{{event.time.getDate()}}
+                        {% endif %}
                         {% if event.type == "deadline" %}
-                            {% if event.time.getHours() < 10 %}0{{event.time.getHours()}}
-                            {% else %}00{% endif %}:{% if event.time.getMinutes() < 10 %}0{{event.time.getMinutes()}}
+                            {% if event.time.getHours() <= 9 %}0{{event.time.getHours()}}
+                            {% else %}00{% endif %}:{% if event.time.getMinutes() <= 9 %}0{{event.time.getMinutes()}}
                             {% else %}00{% endif %}
                         {% endif %}
                     </h3>
