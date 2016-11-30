@@ -86,7 +86,7 @@ let helper = {
                 $in: ["BeforeWhitby", "zwx"]
             }
         }, function(err, events) {
-            result = helper.sortEvent(events).result;
+            let result = helper.sortEvent(events).result;
             console.log(result);
             res.render('index.html', {
                 user: req.user,
@@ -496,15 +496,14 @@ module.exports = {
 
     // req.body:
     //     {
-    //         "username":username;
-    //         "following":username
+    //         following: username
     //     }
     follow: function(req, res) {
         // add the person to current user's 'following' property
         // add the current user to the person's 'followedBy' property
         //TODO:handle duplicate follower
         db.User.findOneAndUpdate({
-            username: req.body.username
+            username: req.user.username
         }, {
             $push: {
                 "following": req.body.following
@@ -519,7 +518,7 @@ module.exports = {
                 username: req.body.following
             }, {
                 $push: {
-                    "followedBy": req.body.username
+                    "followedBy": req.user.username
                 }
             }, function(err, user) {
                 if (err) {
@@ -527,6 +526,7 @@ module.exports = {
                         error: err
                     });
                 };
+                console.log("Follow Success");
                 res.send("Success");
             });
         });
