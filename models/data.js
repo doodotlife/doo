@@ -97,10 +97,10 @@ let userSchema = new Schema(
             type: [Schema.Types.ObjectId],default: []
         },
         following: {
-            type: [Schema.Types.ObjectId], default: []
+            type: [String], default: []
         },
         followedBy: {
-            type: [Schema.Types.ObjectId] ,default: []
+            type: [String] ,default: []
         },
         adminPrivilege: {
             type: Boolean, required: true, default: false

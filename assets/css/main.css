@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
 * {
     font-family: 'Roboto', sans-serif;
 }
@@ -150,6 +150,10 @@ th {
     color: white;
 }
 
+#timeRow {
+    overflow: none;
+    height: 0;
+}
 
 /*
 tr:hover {
@@ -498,8 +502,14 @@ button:active {
     }
 }
 
-.countdown {
+.countdownDisplay {
     float: right;
+    font-weight: 100;
+}
+
+.countdownValue {
+    float: right;
+    font-weight: 100;
 }
 
 .tags {
@@ -581,6 +591,9 @@ button:active {
     box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
 }
 
+.finished {
+    color: #ccc;
+}
 /*.likeIcon {
     height:12px;
 }*/

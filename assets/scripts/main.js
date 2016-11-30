@@ -1,24 +1,117 @@
+"use strict"
+
+var parseCountdown = function(t) {
+    let time = new Date(t);
+    let result = {
+        year: time.getUTCFullYear() - 1970,
+        month: time.getUTCMonth(),
+        date: time.getUTCDate() - 1,
+        hour: time.getUTCHours(),
+        min: time.getUTCMinutes(),
+        s: time.getUTCSeconds()
+    };
+    return result;
+};
+
+
 $(document).ready(function() {
+    window.setInterval(function() {
+        $(".countdownDisplay").html(function() {
+            let result = "";
+            let id = this.closest(".event").id;
+            let raw = parseInt($("#" + id).find(".countdownValue").html());
+            raw = parseInt(raw / 1000) * 1000;
+            $("#" + id).find(".countdownValue").html(raw - 1000);
+            if (raw > 0) {
+                let time = parseCountdown(raw);
+                if (time.year != 0) {
+                    result += ("" + time.year + " Year ");
+                }
+                if (time.month != 0) {
+                    result += ("" + time.month + " Month ");
+                }
+                if (time.date != 0) {
+                    result += ("" + time.date + " Day ");
+                }
+                if (time.hour != 0) {
+                    result += ("" + time.hour + ":");
+                }
+                result += ("" + time.min + ":");
+                result += ("" + time.s);
+                return result;
+            } else {
+                $("#" + id).addClass("finished");
+                return "Now";
+            }
+
+        });
+    }, 1000);
+
+    $(".countdownDisplay").html(function() {
+        let result = "";
+        let id = this.closest(".event").id;
+        let raw = parseInt($("#" + id).find(".countdownValue").html());
+        $("#" + id).find(".countdownValue").html(raw - 10);
+        let time = parseCountdown(raw);
+        if (time.year != 0) {
+            result += ("" + time.year + " Year ");
+        }
+        if (time.month != 0) {
+            result += ("" + time.month + " Month ");
+        }
+        if (time.date != 0) {
+            result += ("" + time.date + " Day ");
+        }
+        if (time.hour != 0) {
+            result += ("" + time.hour + " Hour ");
+        }
+        result += ("" + time.min + " Min ");
+        result += ("" + (59 - (new Date()).getSeconds()) + "S");
+        return result;
+    });
     // $(".commentBar").hide();
     $("#titleEntry").on("click", function() {
+        $("#timeRow").hide();
         // $("#addTable").addClass("expandUp");
         $("#titleEntry").prop("placeholder", "Title");
         $("#feeds").css("margin-top", "250px");
+        $("#addTable").show();
         $("#addTable").css({
-            "height": "225px",
+            "height": "160",
             "padding": "20 20"
         });
         $('html').one('click', function() {
             $("#titleEntry").prop("placeholder", "New Event");
             $("#feeds").css("margin-top", "10px");
-            $("#addTable").css({"height": "0px"});
-            $("#addTable").css({"padding": "0 20"});
+            $("#addTable").css({
+                "height": "0px"
+            });
+            $("#addTable").hide();
+            $("#addTable").css({
+                "padding": "0 20"
+            });
         });
         event.stopPropagation();
     });
 
     $("#addTable").on("click", function() {
         event.stopPropagation();
+    });
+
+    $("#typeD").focus(function() {
+        $("#addTable").css({
+            "height": "182",
+            "padding": "20 20"
+        });
+        $("#timeRow").show();
+    });
+    $("#typeA").focus(function() {
+        $("#timeRow").hide();
+        $("#addTable").css({
+            "height": "160",
+            "padding": "20 20"
+        });
+        $("#timeRow").find("input").val("00:00");
     });
 
     $(".doComment").on("click", function(e) {
@@ -115,10 +208,10 @@ $(document).ready(function() {
                 timestamp.addClass("timestamp");
                 let time = new Date(parseInt(res.comment._id.toString().substring(0, 8), 16) * 1000);
                 timestamp.html("" + time.getFullYear() + "-" +
-                (time.getMonth() + 1) + "-" +
-                time.getDate() + " " +
-                time.getHours() + ":" +
-                time.getMinutes());
+                    (time.getMonth() + 1) + "-" +
+                    time.getDate() + " " +
+                    time.getHours() + ":" +
+                    time.getMinutes());
                 newComment.append(timestamp);
                 let deleteButton = $("<button>");
                 deleteButton.addClass("deleteComment");
@@ -146,7 +239,9 @@ $(document).ready(function() {
             type: "POST",
             dataType: "text",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({event:id}),
+            data: JSON.stringify({
+                event: id
+            }),
             success: function(res) {
                 console.log(res);
                 let value = parseInt(res);
@@ -179,6 +274,8 @@ $(document).ready(function() {
         // $.get("/event?event=" + id);
         //  window.reload("/event?event=" + id);
     });
+
+
     // let events = $(".animate-opacity");
     // for (var i = 0; i < events.length; i++) {
     //     events[i].delay(i * 1000);
