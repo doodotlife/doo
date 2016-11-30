@@ -5,7 +5,10 @@
 <img src-"image/logo.svg" id="logo-setting" />
 
 {% if error %}
-<div id="hint"><img src="images/warning.svg" id="warning" />{{error}}</div>
+<div id="error"><img src="images/warning.svg" class="icon animate-opacity"/>{{error}}</div>
+{% endif %}
+{% if success %}
+<div id="success"><img src="images/success.svg" class="icon animate-opacity"/>{{success}}</div>
 {% endif %}
 
 <div id="settingTable" class="card">
@@ -30,13 +33,13 @@
 
             <tr>
                 <td>Name</td>
-                <td><input id="name" name="name" type="text" placeholder={{ user.name }}></td>
+                <td><input id="name" name="name" type="text" placeholder="{{ user.name }}"></td>
             </tr>
 
             <tr>
                 <td>Birthday</td>
                 <td>
-                    <input id="birthday" name="birthday" type="date" placeholder={{ user.birthday }} min="1926-01-01">
+                    <input id="birthday" name="birthday" type="date" placeholder="{{ user.birthday }}" min="1926-01-01">
                 </td>
             </tr>
 
@@ -51,12 +54,12 @@
                     <label for="genderO"> I prefer not to say. </label>
                 </td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>Email</td>
                 <td>
-                    <input id="email" name="email" type="email" placeholder={{ user.email }}/>
+                    <input id="email" name="email" type="email" placeholder="{{ user.email }}"/>
                 </td>
-            </tr>
+            </tr> -->
 
             <tr>
                 <td>
@@ -70,4 +73,4 @@
     </form>
 </div>
 
-{% endleft %}
+{% endblock %}
