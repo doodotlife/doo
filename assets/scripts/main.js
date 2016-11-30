@@ -103,14 +103,15 @@ $(document).ready(function() {
         event.stopPropagation();
     });
 
-    $("#typeD").focus(function() {
+    $("label[for=typeD]").on("click", function() {
         $("#addTable").css({
             "height": "182",
             "padding": "20 20"
         });
         $("#timeRow").show();
     });
-    $("#typeA").focus(function() {
+    
+    $("label[for=typeA]").on("click", function() {
         $("#timeRow").hide();
         $("#addTable").css({
             "height": "160",

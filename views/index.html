@@ -12,7 +12,7 @@
                         Time
                     </td>
                     <td>
-                        <input id="dateEntry" name="time" type="date" required/>
+                        <input id="dateEntry" name="time" type="date" default="YYYY-MM-DD"required/>
                     </td>
                 </tr>
                 <tr>
@@ -20,22 +20,24 @@
                         Type
                     </td>
                     <td>
-                        <input name="type" id="typeD" type="radio" value="deadline" required/>
-                        <label for="typeD">
-                            Deadline
-                        </label>
-                        <input name="type" id="typeA" type="radio" value="anniversary"/>
-                        <label for="typeA">
-                            Anniversary
-                        </label>
+                        <div class="radio">
+                            <input name="type" id="typeD" type="radio" value="deadline" required />
+                            <label for="typeD">
+                                Deadline
+                            </label>
+                            <input name="type" id="typeA" type="radio" value="anniversary" />
+                            <label for="typeA">
+                                Anniversary
+                            </label>
+                        </div>
                     </td>
                 </tr>
-                <tr id="timeRow">
+                <tr id="timeRow" class="animate-opacity">
                     <td>
                         Time
                     </td>
                     <td>
-                        <input id="timeEntry" name="time" type="time" required/>
+                        <input id="timeEntry" name="time" type="time" value="00:00" required />
                     </td>
                 </tr>
                 <tr>
@@ -43,14 +45,16 @@
                         Private
                     </td>
                     <td>
-                        <input name="private" id="privateT" type="radio" value=true required/>
-                        <label for="privateT">
-                            Yes
-                        </label>
-                        <input name="private" id="privateF" type="radio" value=false/>
-                        <label for="privateF">
-                            No
-                        </label>
+                        <div class="radio">
+                            <input name="private" id="privateT" type="radio" value=true required />
+                            <label for="privateT">
+                                Yes
+                            </label>
+                            <input name="private" id="privateF" type="radio" value=false />
+                            <label for="privateF">
+                                No
+                            </label>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -105,8 +109,8 @@
                         {% endif %}
                         {% if event.type == "deadline" %}
                             {% if event.time.getHours() <= 9 %}0{{event.time.getHours()}}
-                            {% else %}00{% endif %}:{% if event.time.getMinutes() <= 9 %}0{{event.time.getMinutes()}}
-                            {% else %}00{% endif %}
+                            {% else %}{{event.time.getHours()}}{% endif %}:{% if event.time.getMinutes() <= 9 %}0{{event.time.getMinutes()}}
+                            {% else %}{{event.time.getMinutes()}}{% endif %}
                         {% endif %}
                     </h3>
                 </div>
