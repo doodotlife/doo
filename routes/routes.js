@@ -340,7 +340,7 @@ module.exports = {
                 db.Comment.find({
                     "event": req.query.event
                 }, function(err, commentList) {
-                    if (err) throw err
+                    if (err) throw err;
                     for (let i = 0; i < commentList.length; i++) {
                         commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
                     }
@@ -348,7 +348,8 @@ module.exports = {
                         return new Date(b.timestamp) - new Date(a.timestamp);
                     });
 
-                    return res.render('singleEvent.html', {
+                    res.render('singleEvent.html', {
+                        user: req.user,
                         event: eventObj,
                         commentList: commentList
                     })

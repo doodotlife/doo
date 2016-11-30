@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block body %}
+<div id="left">
+    <form id="search" action="/search" method="get">
+        <input id="searchEntry" type="text" name="keyword" placeholder="Search users/events" class="topBar" required>
+    </form>
+
+    <div id="feeds">
+        {% for event in event %}
+        <div id={{event._id}} class="card event animate-opacity">
+            <h1>{{event.title}}<div class="countdown">{{event.countdown}}</div></h1>
+
+            <div class="date">
+                <h3>{{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}</h3>
+            </div>
+            <div class="tags">
+                <div class="tag">
+                    {{event.type}}
+                </div>
+                {% if new == event._id %}
+                <div class="tag new">
+                    new
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="interactions">
+                <a class="action doComment" role="button">
+                    <span class="buttonText commentButtonText">
+                        {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
+                    </span>
+                </a>
+                <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
+
+                    <span class="buttonText plus1ButtonText">
+                         {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
+                     </span>
+                </a>
+                <a class="action getEvent" role="button"><span class="buttonText">>><span></a>
+            </div>
+            <div class="commentBar">
+                <form class="commentEntry" action="/comment" method="post">
+                    <input name="content" type="text" placeholder="Type here" required/>
+                    <button class="sendButton" type="submit">Send</button>
+                    <input name="event" value={{event.id}} hidden/>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for user in user %}
+            <div id={{user._id}} class="card event animate-opacity">
+                <h1>{{user.username}}</h1>
+                <h2>Gender :{{user.gender}}</h2>
+                <h2>{{user.email}}</h2>
+                <div>
+                    <button id="followButton" type="button">Follow</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<% blockend %>
