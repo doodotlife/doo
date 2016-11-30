@@ -1,86 +1,84 @@
-{% extends "base.html" %} {% block body %}
+{% extends "base.html" %} {% block left %}
 
 <!-- http://www.daterangepicker.com/ -->
 
 <script src="scripts/signup.js"></script>
-<div id="container">
+<a href="/" class="logo-button-signup">
+    <img src="images/logo.svg" id="logo-signup" />
+</a>
+{% if error %}
+<div id="hint"><img src="images/warning.svg" id="warning" />{{error}}</div>
+{% endif %}
+<div id="signUpTable" class="card">
+    <h3 id="signup-title">Sign up</h3>
+    <hr />
+    <form id="newUser" action="signup" method="post">
+        <table>
+            <tr>
+                <td>
+                    Username
+                </td>
+                <td>
+                    <input id="username" name="username" type="text" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    <input id="password" name="password" type="password" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Retype Password
+                </td>
+                <td>
+                    <input id="rePassword" name="rePassword" type="password" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Name
+                </td>
+                <td>
+                    <input id="name" name="name" type="text" required/>
+                </td>
+            </tr>
 
-    <div id="left">
-        <a href="/" class="logo-button-signup">
-            <img src="images/logo.svg" id="logo-signup" />
-        </a>
-        {% if error %}
-        <div id="hint"><img src="images/warning.svg" id="warning" />{{error}}</div>
-        {% endif %}
-        <div id="signUpTable" class="card">
-            <h3 id="signup-title">Sign up</h3>
-            <form id="newUser" action="signup" method="post">
-                <table>
-                    <tr>
-                        <td>
-                            Username
-                        </td>
-                        <td>
-                            <input id="username" name="username" type="text" required/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Password
-                        </td>
-                        <td>
-                            <input id="password" name="password" type="password" required/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Retype Password
-                        </td>
-                        <td>
-                            <input id="rePassword" name="rePassword" type="password" required/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Name
-                        </td>
-                        <td>
-                            <input id="name" name="name" type="text" required/>
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    Birthday
+                </td>
+                <td>
+                    <input id="birthday" name="birthday" type="date" placeholder="YYYY-MM-DD" min="1926-01-01" required/>
+                </td>
+            </tr>
 
-                    <tr>
-                        <td>
-                            Birthday
-                        </td>
-                        <td>
-                            <input id="birthday" name="birthday" type="date" placeholder="YYYY-MM-DD" min="1926-01-01" required/>
-                        </td>
-                    </tr>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            Gender
-                        </td>
-                        <td>
-                            <input name="gender" id="genderM" type="radio" value="male" />
-                            <label for="genderM"> Male </label>
-                            <input name="gender" id="genderF" type="radio" value="female" />
-                            <label for="genderF"> Female </label>
-                            <input name="gender" id="genderO" type="radio" value="other" />
-                            <label for="genderO"> I prefer not to say. </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Email
-                        </td>
-                        <td>
-                            <input id="email" name="email" type="email" required/>
-                        </td>
-                    </tr>
-                    <!-- <tr>
+            </tr>
+            <tr>
+                <td>
+                    Gender
+                </td>
+                <td>
+                    <input name="gender" id="genderM" type="radio" value="male" />
+                    <label for="genderM"> Male </label>
+                    <input name="gender" id="genderF" type="radio" value="female" />
+                    <label for="genderF"> Female </label>
+                    <input name="gender" id="genderO" type="radio" value="other" />
+                    <label for="genderO"> I prefer not to say. </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Email
+                </td>
+                <td>
+                    <input id="email" name="email" type="email" required/>
+                </td>
+            </tr>
+            <!-- <tr>
                         <td>
                         </td>
                         <td>
@@ -89,21 +87,14 @@
                         </td>
                     </tr> -->
 
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                            <button id="signUp"><strong>Sign Up</strong></button>
-                            <button type="button" onclick="$.get('/login')">Back (not working)</button>
-                        </td>
-                    </tr>
-                </table>
-
-            </form>
-        </div>
-        <div id="feeds">
-
-        </div>
-    </div>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <button id="signUp"><strong>Sign Up</strong></button>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 {% endblock %}
