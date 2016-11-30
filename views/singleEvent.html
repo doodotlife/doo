@@ -17,7 +17,12 @@
                         {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
                     </span>
         </a>
-        <a class="action doPlus1" role="button"><span class="buttonText plus1ButtonText">+ {{event.value}}</span></a>
+        <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
+            <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
+            <span class="buttonText plus1ButtonText">
+                         {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
+                     </span>
+        </a>
     </div>
     {% if user.username %}
     <div class="singleCommentBar">
@@ -28,15 +33,18 @@
         </form>
     </div>
     {% endif %}
-    <div id="feeds">
+    <div id="comments">
         {% for comment in commentList %}
         <div id={{comment.id}} class="comment animate-opacity">
-            <span class="commentOwner"><strong>{{comment.owner}}: </strong></span>{{comment.content}} {% if session.event_owner == session.username %}
+            <span class="commentOwner"><strong>{{comment.owner}}: </strong></span>{{comment.content}}
             <span class="timestamp">
                     {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
                 </span>
-            <button class="deleteComment">Delete</button> {% elif comment.owner == session.username %}
-            <button class="deleteComment">Delete</button> {% endif %}
+            {% if session.event_owner == session.username %}
+            <button class="deleteComment">Delete</button>
+            {% elif comment.owner == session.username %}
+            <button class="deleteComment">Delete</button>
+            {% endif %}
         </div>
         {% endfor %}
         <div id="commentPlaceholder" class="comment placeholder animate-opacity">

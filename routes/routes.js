@@ -367,6 +367,7 @@ module.exports = {
                     });
 
                     return res.render('singleEvent.html', {
+                        user:req.user,
                         event: eventObj,
                         commentList: commentList
                     })
@@ -635,7 +636,10 @@ module.exports = {
                     "_id": req.body.event
                 }, function(err, eventObj) {
                     if (err) throw err
-                    return res.send("" + eventObj.comments.length)
+                    return res.send({
+                        count: "" + eventObj.comments.length,
+                        comment:newComment
+                    })
                 });
             });
         });
