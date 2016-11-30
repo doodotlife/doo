@@ -555,7 +555,8 @@ module.exports = {
     //             notification:false
     //         }]
     // })
-    getEvents: function(req, res) {
+    getEvents: function(req, res, array) {
+        let events = [];
         db.Event.find({
             "owner": req.body.username
         }, function(err, events) {

@@ -1,10 +1,3 @@
-showCommentBar = function(e) {
-    let id = e.closest(".event").id;
-    $("#" + id).children(".commentBar").css("height", "60");
-    e.on("click", hideCommentBar(this));
-}
-
-
 $(document).ready(function() {
     // $(".commentBar").hide();
     $("#titleEntry").on("click", function() {

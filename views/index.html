@@ -60,7 +60,17 @@
 <div id="feeds">
     {% for event in events %}
     <div id={{event._id}} class="card event animate-opacity">
-        <h1>{{event.title}}<div class="countdown">{{event.countdown}}</div></h1>
+        <h1>
+            {{event.title}}
+            <div class="countdown">
+                <span class="countdownValue" hidden>
+                    {{event.countdown}}
+                </span>
+                <span class="countdownDisplay">
+                    {{event.countdown}}
+                </span>
+            </div>
+        </h1>
         <!-- {% if event.countdown %}
                 <div class="countdown">
                     <h1>{{event.countdown}}</h1>
