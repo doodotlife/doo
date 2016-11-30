@@ -158,6 +158,25 @@ $(document).ready(function() {
         });
     });
 
+    $(".deleteComment").on("click", function() {
+        let commentID = this.closest(".comment").id;
+        let eventID   = this.closest(".event").id;
+        $.ajax({
+            url:'/comment',
+            type:'delete',
+            dataType:'text',
+            contentType:'application/json; charset=utf-8',
+            data: JSON.stringify({
+                comment: commentID,
+                event: eventID
+            }),
+            success: function(res) {
+                console.log(res);
+                $('#' + commentID).remove();
+            }
+        });
+    });
+
     // $("#newEvent").submit(function(e) {
     //     e.preventDefault();
     //
