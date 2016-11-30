@@ -318,6 +318,10 @@ input[name=content]:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+.searchBar {
+    background-image: url("../images/search.svg");
+}
+
 .event {
     padding-bottom: 0px;
 }
@@ -541,6 +545,41 @@ button:active {
     color: #aaa;
 }
 
+.icon {
+    width: 12px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+#error {
+    /*display: none;*/
+    width: 578px;
+    margin-left: auto;
+    margin-right: auto;
+    color:#F44336;
+    background-color: #FFCDD2;
+    border: 1px;
+    border-style: solid;
+    border-color: #F44336;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
+}
+
+#success {
+    /*display: none;*/
+    width: 578px;
+    margin-left: auto;
+    margin-right: auto;
+    color:#4CAF50;
+    background-color: #B3E5FC;
+    border: 1px;
+    border-style: solid;
+    border-color: #4CAF50;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
+}
 
 /*.likeIcon {
     height:12px;

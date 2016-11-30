@@ -88,6 +88,9 @@ app.get('/signup', (req, res)=>{
 app.post('/signup', doo.signUp);
 app.delete('/account',doo.deleteAccount);
 app.get('/u/:username', doo.getUser);
+app.get('/settings',  (req,res) => {
+    res.render('settings.html', {user:req.user});
+});
 
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);

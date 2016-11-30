@@ -419,18 +419,34 @@ module.exports = {
     // }
     editProfile: function(req, res) {
         db.User.findOneAndUpdate({
-            username: req.body.username
+            username: req.user.username
         }, {
-            $set: req.body.profile
+            $set: req.body
         }, function(err, user) {
             if (err) {
-                return res.send(500, {
-                    error: err
+                return res.render("settings.html", {
+                    user: req.user,
+                    error: err + ": Error! Cannot change your profile!"
                 });
             }
-            //save error handler
-            user.save();
-            res.send("Success");
+            //save error handle
+            user.name = req.body.name;
+            return res.render("settings.html", {
+                user: user,
+                success: "Success!"
+            });
+            // user.save(function(err) {
+            //     if (err) {
+            //         return res.render("settings.html", {
+            //             user: req.user,
+            //             error: "Error! Cannot change your profile!2"
+            //         });
+            //     }
+            //     return res.render("settings.html", {
+            //         user: user,
+            //         success: "Success!"
+            //     });
+            // });
         });
     },
 
