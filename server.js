@@ -100,6 +100,7 @@ app.post('/events',doo.getEvents);
 app.put('/editevent', doo.editEvent);
 
 app.post('/plusone',doo.plusOne);
+app.get('/search',doo.search);
 
 app.post('/comment', doo.comment);
 app.delete('/comment', doo.deleteComment);
