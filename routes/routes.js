@@ -83,7 +83,7 @@ let helper = {
         let userArray = req.user.following.concat([req.user.username]);
         db.Event.find({
             "owner": {
-                $in: ["BeforeWhitby", "zwx"]
+                $in: userArray
             }
         }, function(err, events) {
             result = helper.sortEvent(events).result;
@@ -462,6 +462,7 @@ module.exports = {
     //     }
     // }
     editProfile: function(req, res) {
+        console.log(req.body);
         db.User.findOneAndUpdate({
             username: req.user.username
         }, {
