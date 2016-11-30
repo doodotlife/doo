@@ -281,6 +281,24 @@ $(document).ready(function() {
         //  window.reload("/event?event=" + id);
     });
 
+    $(".follow").on("click", function(e) {
+        e.preventDefault();
+        let username = this.closest(".user").id;
+        $.ajax({
+            url:"/follow",
+            type:"post",
+            dataType:"text",
+            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify({
+                following: username
+            }),
+            success: function(res) {
+                console.log(res);
+
+            }
+        });
+    });
+
 
     // let events = $(".animate-opacity");
     // for (var i = 0; i < events.length; i++) {
