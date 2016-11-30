@@ -43,7 +43,6 @@ $(document).ready(function() {
                 $("#" + id).addClass("finished");
                 return "Now";
             }
-
         });
     }, 1000);
 
@@ -51,23 +50,29 @@ $(document).ready(function() {
         let result = "";
         let id = this.closest(".event").id;
         let raw = parseInt($("#" + id).find(".countdownValue").html());
-        $("#" + id).find(".countdownValue").html(raw - 10);
-        let time = parseCountdown(raw);
-        if (time.year != 0) {
-            result += ("" + time.year + " Year ");
+        raw = parseInt(raw / 1000) * 1000;
+        $("#" + id).find(".countdownValue").html(raw - 1000);
+        if (raw > 0) {
+            let time = parseCountdown(raw);
+            if (time.year != 0) {
+                result += ("" + time.year + " Year ");
+            }
+            if (time.month != 0) {
+                result += ("" + time.month + " Month ");
+            }
+            if (time.date != 0) {
+                result += ("" + time.date + " Day ");
+            }
+            if (time.hour != 0) {
+                result += ("" + time.hour + ":");
+            }
+            result += ("" + time.min + ":");
+            result += ("" + time.s);
+            return result;
+        } else {
+            $("#" + id).addClass("finished");
+            return "Now";
         }
-        if (time.month != 0) {
-            result += ("" + time.month + " Month ");
-        }
-        if (time.date != 0) {
-            result += ("" + time.date + " Day ");
-        }
-        if (time.hour != 0) {
-            result += ("" + time.hour + " Hour ");
-        }
-        result += ("" + time.min + " Min ");
-        result += ("" + (59 - (new Date()).getSeconds()) + "S");
-        return result;
     });
     // $(".commentBar").hide();
     $("#titleEntry").on("click", function() {
@@ -273,6 +278,24 @@ $(document).ready(function() {
         });
         // $.get("/event?event=" + id);
         //  window.reload("/event?event=" + id);
+    });
+
+    $(".follow").on("click", function(e) {
+        e.preventDefault();
+        let username = this.closest(".user").id;
+        $.ajax({
+            url:"/follow",
+            type:"post",
+            dataType:"text",
+            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify({
+                following: username
+            }),
+            success: function(res) {
+                console.log(res);
+
+            }
+        });
     });
 
 
