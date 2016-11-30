@@ -311,7 +311,8 @@ module.exports = {
         db.Event.findOne({
             "_id": req.body.event
         }, function(err, eventObj) {
-            if (req.user.username == eventObj.owner) {
+            if ((req.user.username == eventObj.owner)||
+            (req.user.adminPrivilege)) {
                 helper.deleteEventHelper(req.body.event);
                 res.send("success");
             } else {
@@ -510,7 +511,7 @@ module.exports = {
     },
 
 
-    // rea.body:
+    // req.body:
     // {
     //     "username":username
     // }
@@ -673,18 +674,40 @@ module.exports = {
         // future feature
     },
 
-    search: function() {
-        // search by username/date/keyword/category
-        // How to know if the input is a username or a date or a keyword or a category?
+    //req.query:
+    //  ?keyword: search username or name or email
+    //  ?keyword: search eventTitle
+    search: function(req,res) {
+        // search by username/email/eventTitle/
+        db.User.find({
+            $or: [{
+                "username": req.query.keyword
+            }, {
+                "name": req.query.keyword
+            }, {
+                "email": req.query.keyword
+            }]
+        }, function(err, users) {
+            if (err) throw err;
+            db.Event.find({
+                $and: [{
+                    "title": req.query.keyword
+                }, {
+                    "private": false
+                }]
+            }, function(err, events) {
+                let r = {
+                    "user": users,
+                    "event": events
+                }
+                res.send(r);
+            })
+        })
     },
 
     /**Functions for Admin users**/
     deleteUsers: function() {
         // delete the selected users from database
-    },
-
-    deleteEvents: function() {
-        // delete events from database
     },
 
     /* req.body format
