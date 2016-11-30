@@ -75,7 +75,6 @@ let helper = {
             }
         }, function(err, events) {
             let result = helper.sortEvent(events).result;
-            console.log(result);
             res.render('index.html', {
                 user: req.user,
                 events: result,
@@ -430,36 +429,30 @@ module.exports = {
     //     }
     // }
     editProfile: function(req, res) {
-        db.User.findOneAndUpdate({
+        db.User.findOne({
             username: req.user.username
-        }, {
-            $set: req.body
-        }, function(err, user) {
+        },function(err,user) {
             if (err) {
                 return res.render("settings.html", {
                     user: req.user,
                     error: err + ": Error! Cannot change your profile!"
                 });
             }
-            //save error handle
-            user.name = req.body.name;
+            if (req.body.birthday && (req.body.birthday!="")) {
+                user.birthday = req.body.birthday;
+            }
+            if (req.body.name && (req.body.name!="")) {
+                user.name = req.body.name;
+            }
+            if (req.body.gender && (req.body.gender != "")) {
+                user.gender = req.body.gender;
+            }
+            user.save();
             return res.render("settings.html", {
                 user: user,
                 success: "Success!"
             });
-            // user.save(function(err) {
-            //     if (err) {
-            //         return res.render("settings.html", {
-            //             user: req.user,
-            //             error: "Error! Cannot change your profile!2"
-            //         });
-            //     }
-            //     return res.render("settings.html", {
-            //         user: user,
-            //         success: "Success!"
-            //     });
-            // });
-        });
+        })
     },
 
     // req.body:
