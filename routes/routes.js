@@ -2,6 +2,20 @@ let db = require('../models/data');
 
 let helper = {
 
+    sortEvent: function(array) {
+        calculateCountdown(array);
+        array.sort(function(a, b) {
+          return a.countdown - b.countdown;
+        });
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].countdown > 0) {
+                array[i].finished = true;
+            }else {
+                array[i].finished = false;
+            }
+        }
+    },
+
     deleteEventHelper: function(id) {
         db.Event.findOne({
                 "_id": id
