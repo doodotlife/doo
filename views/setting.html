@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% block left %}
+
+<script src="scripts/setting.js"></script>
+
+<img src-"image/logo.svg" id="logo-setting" />
+
+{% if error %}
+<div id="hint"><img src="images/warning.svg" id="warning" />{{error}}</div>
+{% endif %}
+
+<div id="settingTable" class="card">
+    <h3 id="setting-title">Edit Your Profile<h3>
+    <hr />
+    <form id="editProfileForm" action="profile" method="post">
+        <table>
+            <!-- <tr>
+                <td>Username</td>
+                <td><input id="username" name="username" type="text" placeholder={{ user.username }}></td>
+            </tr>
+
+            <tr>
+                <td>Password</td>
+                <td><input id="password" name="password" type="password"></td>
+            </tr>
+
+            <tr>
+                <td>Retype Password</td>
+                <td><input id="rePassword" name="rePassword" type="password"></td>
+            </tr> -->
+
+            <tr>
+                <td>Name</td>
+                <td><input id="name" name="name" type="text" placeholder={{ user.name }}></td>
+            </tr>
+
+            <tr>
+                <td>Birthday</td>
+                <td>
+                    <input id="birthday" name="birthday" type="date" placeholder={{ user.birthday }} min="1926-01-01">
+                </td>
+            </tr>
+
+            <tr>
+                <td>Gender</td>
+                <td>
+                    <input name="gender" id="genderM" type="radio" value="male" />
+                    <label for="genderM"> Male </label>
+                    <input name="gender" id="genderF" type="radio" value="female" />
+                    <label for="genderF"> Female </label>
+                    <input name="gender" id="genderO" type="radio" value="other" />
+                    <label for="genderO"> I prefer not to say. </label>
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>
+                    <input id="email" name="email" type="email" placeholder={{ user.email }}/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <button id="editProfile"><strong>Save Changes</strong></button>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+{% endleft %}
