@@ -220,9 +220,27 @@ module.exports = {
                 });
             }
             console.log(user)
-            return res.render("singleUser.html", {
-                targetUser:user
-            })
+            db.Event.find({
+                "owner": req.params.username
+            }, function(err, result) {
+                if (err) {
+                    throw err
+                }
+                // res.send({"events":events});
+                // console.log(events);
+                user.eventsObjs = result;
+                console.log(user);
+                res.render('singleUser.html', {
+                    targetUser:user,
+                    events:result
+                });
+            });
+            // for (let i = 0; i < user.events.length; i++) {
+            //
+            // }
+            // return res.render("singleUser.html", {
+            //     targetUser:user
+            // })
         });
     },
 
