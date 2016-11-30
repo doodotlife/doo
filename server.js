@@ -92,13 +92,12 @@ app.get('/u/:username', doo.getUser);
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
 
-app.get('/e/:event', doo.getEvent);
+
 app.get('/event', doo.getEvent);
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 app.post('/events',doo.getEvents);
 app.put('/editevent', doo.editEvent);
-app.get('/event', doo.getEvent);
 
 app.post('/plusone',doo.plusOne);
 
