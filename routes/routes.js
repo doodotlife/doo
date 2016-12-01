@@ -207,22 +207,7 @@ module.exports = {
                         user: req.user
                     });
                 });
-<<<<<<< HEAD
-            }
-            console.log(user);
-            return res.render("singleUser.html", {
-                targetUser:user
-            })
         });
-=======
-                // for (let i = 0; i < user.events.length; i++) {
-                //
-                // }
-                // return res.render("singleUser.html", {
-                //     targetUser:user
-                // })
-            });
->>>>>>> CSC309-Fall-2016/master
     },
 
     logOut: function(req, res) {
