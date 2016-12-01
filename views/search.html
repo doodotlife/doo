@@ -1,27 +1,13 @@
 {% extends "base.html" %} {% block left %}
 <form id="search" action="/search" method="post">
-    <input id="searchEntry" type="text" name="keyword" placeholder="Search users/events" class="topBar searchBar" required>
+    <input id="searchEntry" type="text" name="keyword" placeholder="Search by event title, username or email" class="topBar searchBar" required>
 </form>
 
 <div id="feeds">
     {% for event in events %}
     <div id={{event._id}} class="card event animate-opacity">
-        <h1>{{event.title}}<div class="countdown">{{event.countdown}}</div></h1>
-
-        <div class="date">
-            <h3>{{event.time.getFullYear()}}-{{event.time.getMonth() + 1}}-{{event.time.getDate()}}</h3>
-        </div>
-        <div class="tags">
-            <div class="tag">
-                {{event.type}}
-            </div>
-            {% if new == event._id %}
-            <div class="tag new">
-                new
-            </div>
-            {% endif %}
-        </div>
-
+        <h3><a href="/u/{{event.owner}}">{{event.owner}}</a>'s</h3>
+        {% include "eventContent.html" %}
         <div class="interactions">
             <a class="action doComment" role="button">
                 <span class="buttonText commentButtonText">
