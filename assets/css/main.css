@@ -441,6 +441,7 @@ input[name=content]:hover {
 .follow{
     margin-left: 400px;
     background-color: #F5F5F5;
+    border-radius: 10px;
 }
 
 .buttonText:hover {
