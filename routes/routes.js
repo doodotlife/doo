@@ -276,7 +276,8 @@ module.exports = {
                     console.log(user);
                     res.render('singleUser.html', {
                         targetUser: user,
-                        events: result
+                        events: result,
+                        user: req.user
                     });
                 });
                 // for (let i = 0; i < user.events.length; i++) {
@@ -389,6 +390,41 @@ module.exports = {
             }
         });
     },
+
+    getEvent2: function(req, res) {
+        console.log(req.params.event); // Log the event id
+        /* Find the event by id */
+        db.Event.findOne({
+            "_id": req.params.event
+        }, function(err, eventObj) {
+            if (err) throw err;
+            console.log(eventObj); // Log the event contents
+            /* If find the event */
+            if (eventObj) {
+
+                db.Comment.find({
+                    "event": req.params.event
+                }, function(err, commentList) {
+                    if (err) throw err;
+                    for (let i = 0; i < commentList.length; i++) {
+                        commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
+                    }
+                    commentList.sort(function(a, b) {
+                        return new Date(b.timestamp) - new Date(a.timestamp);
+                    });
+                    let time = new Date();
+                    eventObj.countdown = (eventObj.time) - time;
+                    return res.render('singleEvent.html', {
+                        user: req.user,
+                        event: eventObj,
+                        commentList: commentList
+                    })
+                })
+            } else {
+                console.log("Error: getEvent failed.");
+            }
+        });
+    },
     /* req.body format
     {
         "event" : {
@@ -478,9 +514,7 @@ module.exports = {
             }
         }, function(err, user) {
             if (err) {
-                return res.send(500, {
-                    error: err
-                });
+                return res.send("Error: Failed to Follow");
             };
             db.User.findOneAndUpdate({
                 username: req.body.following
@@ -490,9 +524,7 @@ module.exports = {
                 }
             }, function(err, user) {
                 if (err) {
-                    return res.send(500, {
-                        error: err
-                    });
+                    return res.send("Error: Failed to Follow");
                 };
                 console.log("Follow Success");
                 res.send("Success");

@@ -1,0 +1,54 @@
+{% block eventbody %}
+    <a class="eventBody" href="/e/{{event._id}}">
+        <h1>
+            {{event.title}}
+            <div class="countdown">
+                {% if event.finished %}
+                    <span class="countdownValue">
+                        Passed
+                    </span>
+                {% else %}
+                    <span class="countdownValue" hidden>
+                        {{event.countdown}}
+                    </span>
+                    <span class="countdownDisplay">
+                        {{event.countdown}}
+                    </span>
+                {% endif %}
+            </div>
+        </h1>
+        <div class="date">
+            <h3>
+                {{event.time.getFullYear()}}
+                -
+                {% if (event.time.getMonth() + 1) <= 9 %}0{{event.time.getMonth() + 1}}
+                {% else %}{{event.time.getMonth() + 1}}
+                {% endif %}
+                -
+                {% if (event.time.getDate()) <= 9 %}0{{event.time.getDate()}}
+                {% else %}{{event.time.getDate()}}
+                {% endif %}
+                {% if event.type == "deadline" %}
+                    {% if event.time.getHours() <= 9 %}0{{event.time.getHours()}}
+                    {% else %}{{event.time.getHours()}}{% endif %}:{% if event.time.getMinutes() <= 9 %}0{{event.time.getMinutes()}}
+                    {% else %}{{event.time.getMinutes()}}{% endif %}
+                {% endif %}
+            </h3>
+        </div>
+        <div class="tags">
+            <div class="tag">
+                {{event.type}}
+            </div>
+            {% if event.finished %}
+                <div class="tag">
+                    Passed
+                </div>
+            {% endif %}
+            {% if new == event._id %}
+                <div class="tag new">
+                    new
+                </div>
+            {% endif %}
+        </div>
+    </a>
+{% endblock %}

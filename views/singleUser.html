@@ -40,69 +40,18 @@
             </td>
         </tr>
     </table>
+    <div class="interactions">
+        <a class="action showEvents" role="button"><span class="buttonText">{{targetUser.events.length}} Event{% if targetUser.events.length != 1 %}s{% endif %}<span></a>
+        <a class="action showFollowers" role="button"><span class="buttonText">{{targetUser.followedBy.length}} Follower{% if targetUser.followedBy.length != 1 %}s{% endif %}<span></a>
+        <a class="action follow" role="button"><span class="buttonText">Follow<span></a>
+    </div>
 </div>
-<!-- </div> -->
-<div class="card">
-    <button id="followButton" type="button">Follow</button>
-</div>
+
 <h3>Events</h3>
 <div id="feeds">
     {% for event in events %}
     <div id={{event._id}} class="card event {% if event.finished %}finished{% endif %} animate-opacity">
-        <h1>
-            {{event.title}}
-            <div class="countdown">
-                {% if event.finished %}
-                    <span class="countdownValue">
-                        Passed
-                    </span>
-                {% else %}
-                    <span class="countdownValue" hidden>
-                        {{event.countdown}}
-                    </span>
-                    <span class="countdownDisplay">
-                        {{event.countdown}}
-                    </span>
-                {% endif %}
-            </div>
-        </h1>
-        <!-- {% if event.countdown %}
-            <div class="countdown">
-                <h1>{{event.countdown}}</h1>
-            </div>
-            {% endif %} -->
-
-        <div class="date">
-            <h3>
-                {{event.time.getFullYear()}}
-                - {% if (event.time.getMonth() + 1) <= 9 %}0{{event.time.getMonth() + 1}}
-                {% else %}{{event.time.getMonth() + 1}}
-                {% endif %}
-                - {% if (event.time.getDate()) <= 9 %}0{{event.time.getDate()}}
-                {% else %}{{event.time.getDate()}}
-                {% endif %}
-                {% if event.type == "deadline" %}
-                    {% if event.time.getHours() <= 9 %}0{{event.time.getHours()}}
-                    {% else %}00{% endif %}:{% if event.time.getMinutes() <= 9 %}0{{event.time.getMinutes()}}
-                    {% else %}00{% endif %}
-                {% endif %}
-            </h3>
-        </div>
-        <div class="tags">
-            <div class="tag">
-                {{event.type}}
-            </div>
-            {% if event.finished %}
-            <div class="tag">
-                Passed
-            </div>
-            {% endif %} {% if new == event._id %}
-            <div class="tag new">
-                new
-            </div>
-            {% endif %}
-        </div>
-
+        {% include "eventContent.html" %}
         <div class="interactions">
             <a class="action doComment" role="button">
                 <span class="buttonText commentButtonText">

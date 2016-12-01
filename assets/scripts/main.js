@@ -1,20 +1,37 @@
 "use strict"
 
-var parseCountdown = function(t) {
-    let time = new Date(t);
-    let result = {
-        year: time.getUTCFullYear() - 1970,
-        month: time.getUTCMonth(),
-        date: time.getUTCDate() - 1,
-        hour: time.getUTCHours(),
-        min: time.getUTCMinutes(),
-        s: time.getUTCSeconds()
-    };
-    return result;
-};
-
 
 $(document).ready(function() {
+    let parseCountdown = function(t) {
+        let time = new Date(t);
+        let result = {
+            year: time.getUTCFullYear() - 1970,
+            month: time.getUTCMonth(),
+            date: time.getUTCDate() - 1,
+            hour: time.getUTCHours(),
+            min: time.getUTCMinutes(),
+            s: time.getUTCSeconds()
+        };
+        return result;
+    };
+
+    let resHandler = function(status, s) {
+
+        if (status == "Success") {
+            $("#message").text(s);
+            // $("#handlerIcon").src = "images/success.svg";
+            $("#resHandler").removeClass("error");
+            $("#resHandler").addClass("success");
+            $("#resHandler").show();
+        } else {
+            $("#message").text(s);
+            // $("#handlerIcon").src = "images/warning.svg";
+            $("#resHandler").removeClass("success");
+            $("#resHandler").addClass("error");
+            $("#resHandler").show();
+        }
+    };
+
     window.setInterval(function() {
         $(".countdownDisplay").html(function() {
             let result = "";
@@ -110,7 +127,7 @@ $(document).ready(function() {
         });
         $("#timeRow").show();
     });
-    
+
     $("label[for=typeA]").on("click", function() {
         $("#timeRow").hide();
         $("#addTable").css({
@@ -265,6 +282,32 @@ $(document).ready(function() {
         });
     })
 
+    $(".eventBody").on("click", function(e) {
+        let id = this.closest(".event").id;
+        $.ajax({
+            url: "/event?event=" + id,
+            type: "GET",
+            dataType: "html",
+            // contentType: "application/json; charset=utf-8",
+            // data:comment,
+            success: function(res) {
+                $(document.body).html(res);
+            }
+        });
+        // $.get("/event?event=" + id);
+        //  window.reload("/event?event=" + id);
+    });
+
+    $(".eventBody").hover(function(e) {
+        let id = this.closest(".event").id;
+        $("#" + id).css("padding","30 20 30 20");
+        // $.get("/event?event=" + id);
+        //  window.reload("/event?event=" + id);
+    }, function(e) {
+        let id = this.closest(".event").id;
+        $("#" + id).css("padding","20 20 20 20");
+    });
+
     $(".getEvent").on("click", function(e) {
         let id = this.closest(".event").id;
         $.ajax({
@@ -294,7 +337,7 @@ $(document).ready(function() {
             }),
             success: function(res) {
                 console.log(res);
-
+                resHandler(res, res);
             }
         });
     });
