@@ -22,13 +22,13 @@ $(document).ready(function() {
             // $("#handlerIcon").src = "images/success.svg";
             $("#resHandler").removeClass("error");
             $("#resHandler").addClass("success");
-            $("#resHandler").show();
+            $("#resHandler").show().delay(3000).fadeOut();
         } else {
             $("#message").text(s);
             // $("#handlerIcon").src = "images/warning.svg";
             $("#resHandler").removeClass("success");
             $("#resHandler").addClass("error");
-            $("#resHandler").show();
+            $("#resHandler").show().delay(3000).fadeOut();
         }
     };
 
@@ -96,7 +96,7 @@ $(document).ready(function() {
         $("#timeRow").hide();
         // $("#addTable").addClass("expandUp");
         $("#titleEntry").prop("placeholder", "Title");
-        $("#feeds").css("margin-top", "250px");
+        $("#feeds").css("margin-top", "220px");
         $("#addTable").show();
         $("#addTable").css({
             "height": "160",
@@ -122,9 +122,10 @@ $(document).ready(function() {
 
     $("label[for=typeD]").on("click", function() {
         $("#addTable").css({
-            "height": "182",
+            "height": "202",
             "padding": "20 20"
         });
+        $("#feeds").css("margin-top", "262px");
         $("#timeRow").show();
     });
 
@@ -134,6 +135,7 @@ $(document).ready(function() {
             "height": "160",
             "padding": "20 20"
         });
+        $("#feeds").css("margin-top", "220px");
         $("#timeRow").find("input").val("00:00");
     });
 
@@ -164,26 +166,49 @@ $(document).ready(function() {
         //     $("#" + id).children(".commentBar").css("height", "0");
         // });
     });
-
-    $(".moreComment").on("click", function() {
+    $(".deleteEvent").on("click", function() {
         let id = this.closest(".event").id;
-        $.ajax({
-            url: '/event',
-            type: 'get',
-            dataType: "text",
-            contentType: "text",
-            data: "event=" + id,
-        });
+        if (confirm("Are you sure you want to delete this Event?")) {
+            $.ajax({
+                url: '/event',
+                type: 'delete',
+                dataType: 'text',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    event: id,
+                }),
+                success: function(res) {
+                    console.log(res);
+                    resHandler(res, res);
+                    if (res=="Success") {
+                        $("#" + id).removeClass("event");
+                        $("#" + id).css("padding", "20");
+                        $("#" + id).html("<p style='color:black'>Deleted</p>")
+                        $("#" + id).delay(3000).fadeOut();
+                    }
+                }
+            });
+        }
     });
+    // $(".moreComment").on("click", function() {
+    //     let id = this.closest(".event").id;
+    //     $.ajax({
+    //         url: '/event',
+    //         type: 'get',
+    //         dataType: "text",
+    //         contentType: "text",
+    //         data: "event=" + id,
+    //     });
+    // });
 
     $(".deleteComment").on("click", function() {
         let commentID = this.closest(".comment").id;
-        let eventID   = this.closest(".event").id;
+        let eventID = this.closest(".event").id;
         $.ajax({
-            url:'/comment',
-            type:'delete',
-            dataType:'text',
-            contentType:'application/json; charset=utf-8',
+            url: '/comment',
+            type: 'delete',
+            dataType: 'text',
+            contentType: 'application/json; charset=utf-8',
             data: JSON.stringify({
                 comment: commentID,
                 event: eventID
@@ -255,9 +280,24 @@ $(document).ready(function() {
                     time.getHours() + ":" +
                     time.getMinutes());
                 newComment.append(timestamp);
-                let deleteButton = $("<button>");
-                deleteButton.addClass("deleteComment");
-                deleteButton.html("Delete")
+                let deleteButton = $("<a class='deleteComment' role='button'><span class='buttonText'>Delete<span></a>");
+                deleteButton.on("click", function() {
+                    let eventID = this.closest(".event").id;
+                    $.ajax({
+                        url: '/comment',
+                        type: 'delete',
+                        dataType: 'text',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({
+                            comment: newComment.id,
+                            event: eventID
+                        }),
+                        success: function(res) {
+                            console.log(res);
+                            $('#' + newComment.id).remove();
+                        }
+                    });
+                });
                 newComment.append(deleteButton);
                 //     <span class="commentOwner"><strong>{{comment.owner}}: </strong></span>{{comment.content}} {% if session.event_owner == session.username %}
                 //     <span class="timestamp">
@@ -301,56 +341,56 @@ $(document).ready(function() {
         });
     })
 
-    $(".eventBody").on("click", function(e) {
-        let id = this.closest(".event").id;
-        $.ajax({
-            url: "/event?event=" + id,
-            type: "GET",
-            dataType: "html",
-            // contentType: "application/json; charset=utf-8",
-            // data:comment,
-            success: function(res) {
-                $(document.body).html(res);
-            }
-        });
-        // $.get("/event?event=" + id);
-        //  window.reload("/event?event=" + id);
-    });
+    // $(".eventBody").on("click", function(e) {
+    //     let id = this.closest(".event").id;
+    //     $.ajax({
+    //         url: "/event?event=" + id,
+    //         type: "GET",
+    //         dataType: "html",
+    //         // contentType: "application/json; charset=utf-8",
+    //         // data:comment,
+    //         success: function(res) {
+    //             $(document.body).html(res);
+    //         }
+    //     });
+    //     // $.get("/event?event=" + id);
+    //     //  window.reload("/event?event=" + id);
+    // });
 
     $(".eventBody").hover(function(e) {
         let id = this.closest(".event").id;
-        $("#" + id).css("padding","30 20 30 20");
+        $("#" + id).css("padding", "30 20 30 20");
         // $.get("/event?event=" + id);
         //  window.reload("/event?event=" + id);
     }, function(e) {
         let id = this.closest(".event").id;
-        $("#" + id).css("padding","20 20 20 20");
+        $("#" + id).css("padding", "20 20 0 20");
     });
 
-    $(".getEvent").on("click", function(e) {
-        let id = this.closest(".event").id;
-        $.ajax({
-            url: "/event?event=" + id,
-            type: "GET",
-            dataType: "html",
-            // contentType: "application/json; charset=utf-8",
-            // data:comment,
-            success: function(res) {
-                $(document.body).html(res);
-            }
-        });
-        // $.get("/event?event=" + id);
-        //  window.reload("/event?event=" + id);
-    });
+    // $(".getEvent").on("click", function(e) {
+    //     let id = this.closest(".event").id;
+    //     $.ajax({
+    //         url: "/event?event=" + id,
+    //         type: "GET",
+    //         dataType: "html",
+    //         // contentType: "application/json; charset=utf-8",
+    //         // data:comment,
+    //         success: function(res) {
+    //             $(document.body).html(res);
+    //         }
+    //     });
+    //     // $.get("/event?event=" + id);
+    //     //  window.reload("/event?event=" + id);
+    // });
 
     $(".follow").on("click", function(e) {
         e.preventDefault();
         let username = this.closest(".user").id;
         $.ajax({
-            url:"/follow",
-            type:"post",
-            dataType:"text",
-            contentType:"application/json; charset=utf-8",
+            url: "/follow",
+            type: "post",
+            dataType: "text",
+            contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
                 following: username
             }),
@@ -361,7 +401,19 @@ $(document).ready(function() {
         });
     });
 
+    $(".showFollowers").on("click", function(event) {
+        $(".events").hide();
+        $(".followers").show();
+    })
 
+    $(".showEvents").on("click", function(event) {
+        $(".followers").hide();
+        $(".events").show();
+    })
+
+    $('#color').on("change", function(event) {
+        $("body").css("background-color", $('#color').val());
+    });
     // let events = $(".animate-opacity");
     // for (var i = 0; i < events.length; i++) {
     //     events[i].delay(i * 1000);

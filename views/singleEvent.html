@@ -1,48 +1,54 @@
 {% extends "base.html" %} {% block left %}
-<div id={{event.id}} class="card event">
-    <h3><a href="/u/{{event.owner}}">{{event.owner}}'s</a></h3>
-    <hr />
-    {% include "eventContent.html" %}
-    <div class="interactions">
-        <a class="action doComment" role="button">
-            <span class="buttonText commentButtonText">
+<div id="feeds">
+    <h1 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>
+        <a href="/u/{{event.owner}}">{{event.owner}}'s</a>
+    </h1>
+    <div id={{event.id}} class="card event">
+        {% include "eventContent.html" %}
+        <div class="interactions">
+            <a class="action doComment" role="button">
+                <span class="buttonText commentButtonText">
                         {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
                     </span>
-        </a>
-        <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
-            <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
-            <span class="buttonText plus1ButtonText">
+            </a>
+            <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
+                <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
+                <span class="buttonText plus1ButtonText">
                          {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
                      </span>
-        </a>
-    </div>
-    {% if user.username %}
-    <div class="singleCommentBar">
-        <form class="commentEntry" action="/comment" method="post">
-            <input name="content" type="text" placeholder="New Comment" required/>
-            <button class="sendButton" type="submit">Send</button>
-            <input name="event" value={{event.id}} hidden/>
-        </form>
-    </div>
-    {% endif %}
-    <div id="comments">
-        {% for comment in commentList %}
-        <div id={{comment.id}} class="comment animate-opacity">
-            <span class="commentOwner"><strong><a href="/u/{{comment.owner}}">{{comment.owner}}</a>: </strong></span>{{comment.content}}
-            <span class="timestamp">
-                    {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
-                </span>
-            {% if session.event_owner == session.username %}
-            <a class="action deleteComment" role="button"><span class="buttonText">Delete<span></a>
-            <!-- <button class="deleteComment">Delete</button> -->
-            {% elif comment.owner == session.username %}
-            <a class="action deleteComment" role="button"><span class="buttonText">Delete<span></a>
-            <!-- <button class="deleteComment">Delete</button> -->
-            {% endif %}
+            </a>
+            {% if user.adminPrivilege %}
+            <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a> {% elif (user.username == event.owner) %}
+            <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a> {% else %}
+            <a class="action follow" role="button"><span class="buttonText">Follow<span></a> {% endif %}
         </div>
-        {% endfor %}
-        <div id="commentPlaceholder" class="comment placeholder animate-opacity">
-            Oops, no more comments. Do say something about this event!
+        {% if user.username %}
+        <div class="singleCommentBar">
+            <form class="commentEntry" action="/comment" method="post">
+                <input name="content" type="text" placeholder="New Comment" required/>
+                <button class="sendButton" type="submit">Send</button>
+                <input name="event" value={{event.id}} hidden/>
+            </form>
+        </div>
+        {% endif %}
+        <div id="comments">
+            {% for comment in commentList %}
+            <div id={{comment.id}} class="comment animate-opacity">
+                <span class="commentOwner"><strong><a href="/u/{{comment.owner}}">{{comment.owner}}</a>: </strong></span>{{comment.content}}
+                <span class="timestamp">
+                    {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
+                </span> {% if event.owner == user.username %}
+                <a class="deleteComment" role="button"><span class="buttonText">Delete<span></a>
+                <!-- <button class="deleteComment">Delete</button> -->
+                {% elif comment.owner == user.username %}
+                <a class="deleteComment" role="button"><span class="buttonText">Delete<span></a>
+                <!-- <button class="deleteComment">Delete</button> -->
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div id="commentPlaceholder" class="comment placeholder animate-opacity">
+                Oops, no more comments. Do say something about this event!
+            </div>
         </div>
     </div>
 </div>
