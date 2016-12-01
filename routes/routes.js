@@ -420,30 +420,39 @@ module.exports = {
         // add the person to current user's 'following' property
         // add the current user to the person's 'followedBy' property
         //TODO:handle duplicate follower
-        db.User.findOneAndUpdate({
-            username: req.user.username
-        }, {
-            $push: {
-                "following": req.body.following
-            }
-        }, function(err, user) {
-            if (err) {
-                return res.send("Error: Failed to Follow");
-            };
+        if (req.user.username == req.body.following) {
+            return res.send("Error: Cannot follow yourself");
+        }
+        //if we have followed this user
+        else if(req.user.following.indexOf(req.body.following)!=-1) {
+            return res.send("Error: Cannot follow this user again");
+        }
+        else{
             db.User.findOneAndUpdate({
-                username: req.body.following
+                username: req.user.username
             }, {
                 $push: {
-                    "followedBy": req.user.username
+                    "following": req.body.following
                 }
             }, function(err, user) {
                 if (err) {
                     return res.send("Error: Failed to Follow");
                 };
-                console.log("Follow Success");
-                res.send("Success");
+                db.User.findOneAndUpdate({
+                    username: req.body.following
+                }, {
+                    $push: {
+                        "followedBy": req.user.username
+                    }
+                }, function(err, user) {
+                    if (err) {
+                        return res.send("Error: Failed to Follow");
+                    };
+                    console.log("Follow Success");
+                    res.send("Success");
+                });
             });
-        });
+        }
     },
 
     unFollow: function() {
@@ -645,29 +654,43 @@ module.exports = {
     search: function(req, res) {
         // search by username/email/eventTitle/
         console.log(req.body.keyword);
+        let regExp = new RegExp(req.body.keyword,"i");
         db.User.find({
             $or: [{
-                "username": req.body.keyword
+                "username": regExp
             }, {
-                "name": req.body.keyword
+                "name": regExp
             }, {
-                "email": req.body.keyword
+                "email": regExp
             }]
         }, function(err, users) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             db.Event.find({
                 $and: [{
-                    "title": req.body.keyword
+                    "title": regExp
                 }, {
                     "private": false
                 }]
             }, function(err, events) {
-                let r = {
-                    "user": req.user,
-                    "users": users,
-                    "events": events
-                }
-                res.render("search.html", r);
+                db.Event.find({
+                    $and: [{
+                        "owner": req.user.username
+                    },{
+                        "title": regExp
+                    },{
+                        "private": true
+                    }]
+                }, function(err, privateEvents) {
+                    let returnEvents = events.concat(privateEvents);
+                    let r = {
+                        "user": req.user,
+                        "users": users,
+                        "events": returnEvents
+                    }
+                    res.render("search.html", r);
+                })
             })
         })
     },
@@ -686,13 +709,13 @@ module.exports = {
         }
         req.body.users.forEach(function (username) {
             db.User.findOneAndRemove({username: username},function () {
-                
+
             });
             db.Comment.remove({owner: username},function () {
-                
+
             });
             db.Event.remove({owner: username},function () {
-                
+
             });
         });
 
