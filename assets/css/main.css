@@ -1,6 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
 * {
     font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    text-decoration: none;
+    transition: all 0.4s;
 }
 
 body {
@@ -8,6 +11,20 @@ body {
     margin: 0px;
     padding: 0px;
     background-color: #FFFFFF;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover {
+    font-weight: 300;
+    /*padding: 0 10 0 10;*/
+}
+
+a:visited {
+    color: inherit;
 }
 
 .hide {
@@ -33,6 +50,7 @@ hr {
 
 #feeds {
     /*height: 90%;*/
+    align-content: center;
     margin-bottom: 10%;
     transition: all 0.4s;
 }
@@ -120,6 +138,7 @@ li a:hover {
     background-color: white;
     overflow-x: none;
     overflow-y: none;
+    transition: all 0.4s;
 }
 
 #addTable {
@@ -148,6 +167,11 @@ th, td {
 th {
     background-color: #333;
     color: white;
+}
+
+#timeRow {
+    overflow: none;
+    height: 0;
 }
 
 
@@ -318,8 +342,14 @@ input[name=content]:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+.searchBar {
+    background-image: url("../images/search.svg");
+    background-position: 10px 21px;
+}
+
 .event {
     padding-bottom: 0px;
+    /*height: 260px;*/
 }
 
 .interactions {
@@ -339,6 +369,7 @@ input[name=content]:hover {
     /*padding: 5px 0;*/
     border-left: 1px solid #ccc;
 }
+
 
 .commentButtonText {
     border-left: none;
@@ -366,8 +397,6 @@ input[name=content]:hover {
     border-top: 1px solid #efefef;
 }
 
-
-
 .timestamp {
     color: #ccc;
     font-size: 9px;
@@ -388,7 +417,7 @@ input[name=content]:hover {
     display: inline-block;
     margin: 0 0 0 0px;
     padding: 1px 0;
-    width: 184px;
+    width: 174px;
     cursor: pointer;
     /*border-right: 1px solid #ccc;*/
 }
@@ -396,8 +425,14 @@ input[name=content]:hover {
 .plus1ButtonText {
     padding: 0 0 0 35;
 }
+
 .action:hover {
-    background-color: #F5F5F5;
+    /*background-color: #F5F5F5;*/
+    /*padding: 0 0 0 10;*/
+}
+
+.buttonText:hover {
+    padding: 0 0 0 10;
 }
 
 .doPlus1 {
@@ -408,6 +443,9 @@ input[name=content]:hover {
     background-position: 72;
     background-repeat: no-repeat;
 }
+.doPlus1:hover {
+    background-position: 77;
+}
 
 .liked {
     /*background-repeat: no-repeat;*/
@@ -417,6 +455,15 @@ input[name=content]:hover {
     background-position: 72;
     background-repeat: no-repeat;
 }
+
+.liked:hover {
+    background-position: 77;
+}
+
+.plus1ButtonText:hover {
+    padding: 0 0 0 45;
+}
+
 /*.doFork {
     border-right: none;
 }*/
@@ -494,8 +541,14 @@ button:active {
     }
 }
 
-.countdown {
+.countdownDisplay {
     float: right;
+    font-weight: 100;
+}
+
+.countdownValue {
+    float: right;
+    font-weight: 100;
 }
 
 .tags {
@@ -541,10 +594,114 @@ button:active {
     color: #aaa;
 }
 
+.icon {
+    width: 12px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.error {
+    /*display: none;*/
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    color: #F44336;
+    background-image: url('../images/warning.svg');
+    background-repeat: no-repeat;
+    background-size: 3%;
+    background-position: 10px;
+    background-color: #FFCDD2;
+    border: 1px;
+    border-style: solid;
+    border-color: #F44336;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
+}
+
+.success {
+    /*display: none;*/
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    color: #4CAF50;
+    background-image: url('../images/success.svg');
+    background-repeat: no-repeat;
+    background-size: 3%;
+    background-position: 10px;
+    background-color: #B3E5FC;
+    border: 1px;
+    border-style: solid;
+    border-color: #4CAF50;
+    padding: 10 10 10 30;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
+}
+
+input[type=radio] {
+    display: none;
+}
+
+.radio {
+    padding:5px 3px;
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid #666666;
+}
+
+
+/*label:focus {
+    background-color: #666666;
+    color: #FFFFFF;
+}*/
+
+input[type=radio]~label {
+    border-radius: 2px;
+    padding: 2px 8px;
+    color: #666666;
+    background-color: #FFFFFF;
+}
+
+/*input[type=radio]:checked~.check {
+    border: 5px solid #0DFF92;
+}
+
+input[type=radio]:checked~.check::before {
+    background: #0DFF92;
+}*/
+
+/*label {
+    color: #666666;
+    background-color: #FFFFFF;
+}*/
+
+input[type=radio]:checked~label {
+    color: #FFFFFF;
+    background-color: #666666;
+}
+
+/*input[type=radio]:checked~label::before {
+    color: #666666;
+    background-color: #FFFFFF;
+}*/
+
+.finished {
+    color: #ccc;
+}
+
+.resHandler {
+    display: none;
+}
+
+.eventBody {
+    cursor: pointer
+}
+
 
 /*.likeIcon {
     height:12px;
 }*/
+
 footer {
     right: 0;
     bottom: 0;

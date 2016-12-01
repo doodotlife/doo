@@ -2,6 +2,37 @@ let db = require('../models/data');
 
 let helper = {
 
+    sortEvent: function(array) {
+        let finished = [];
+        let unfinished = [];
+        helper.calculateCountdown(array);
+        array.sort(function(a, b) {
+            return a.countdown - b.countdown;
+        });
+
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].countdown > 0) {
+                array[i].finished = true;
+                finished.push(array[i]);
+            } else {
+                array[i].finished = false;
+                array[i].countdown = 0 - array[i].countdown;
+                unfinished.push(array[i]);
+            }
+        }
+        finished.sort(function(a, b) {
+            return a.countdown - b.countdown;
+        });
+        // console.log(finished);
+        unfinished.sort(function(a, b) {
+            return a.countdown - b.countdown;
+        });
+        // console.log("Unfinished");
+        // console.log(unfinished);
+        array = unfinished.concat(finished);
+        return({result:array});
+    },
+
     deleteEventHelper: function(id) {
         db.Event.findOne({
                 "_id": id
@@ -26,33 +57,44 @@ let helper = {
                 );
             });
     },
+
     calculateCountdown: function(array) {
         console.log("calculateCountdown");
         let time = new Date();
         for (let i = 0; i < array.length; i++) {
-            array[i].countdown = time - (new Date(array[i].time));
+            // console.log(new Date(array[i].time + time.getTimezoneOffset()));
+            array[i].countdown = time - (array[i].time);
         }
     },
 
-    // formatCountdown: function(c) {
-    //     let result = "";
-    //     let date = new Date(c);
-    //     console.log("formatting" + date.toDateString());
-    //     if (c > 0) {
-    //
-    //     } else if (c == 0) {
-    //         result = "Now";
-    //     } else {
-    //         result += 'Ago'
-    //     }
-    // },
+    getAllEvents: function(req, res, newEvent) {
+        let userArray = req.user.following.concat([req.user.username]);
+        db.Event.find({
+            "owner": {
+                $in: userArray
+            }
+        }, function(err, events) {
+            let result = helper.sortEvent(events).result;
+            res.render('index.html', {
+                user: req.user,
+                events: result,
+                new: newEvent
+            });
+        });
 
-    toDate: function(array) {
-        for (let i = 0; i < array.length; i++) {
-            let d = new Date(array[i].countdown);
-            array[i].countdown = d.toLocaleString();
-        }
-    }
+    },
+
+    getSingleUserEvents: function(req, res) {
+        db.Event.find({
+            "owner": req.user.username
+        }, function(err, events) {
+            result = helper.sortEvent(events).result;
+            res.render('singleUser.html', {
+                user: req.user,
+                events: result,
+            });
+        });
+    },
 };
 
 module.exports = {
@@ -138,20 +180,49 @@ module.exports = {
      */
     getUser: function(req, res) {
         console.log(req.params);
-        db.User.findOne( {
-            username:req.params.username
-        },
-        function(err, user) {
-            if (err) {
-                return res.send(500, {
-                    error: err
+        db.User.findOne({
+                username: req.params.username
+            },
+            function(err, user) {
+                if (err) {
+                    return res.send(500, {
+                        error: err
+                    });
+                }
+                console.log(user)
+                db.Event.find({
+                    "owner": req.params.username
+                }, function(err, result) {
+                    if (err) {
+                        throw err
+                    }
+                    // res.send({"events":events});
+                    // console.log(events);
+                    user.eventsObjs = result;
+                    result = helper.sortEvent(result).result;
+                    console.log(user);
+                    res.render('singleUser.html', {
+                        targetUser: user,
+                        events: result,
+                        user: req.user
+                    });
                 });
+<<<<<<< HEAD
             }
             console.log(user);
             return res.render("singleUser.html", {
                 targetUser:user
             })
         });
+=======
+                // for (let i = 0; i < user.events.length; i++) {
+                //
+                // }
+                // return res.render("singleUser.html", {
+                //     targetUser:user
+                // })
+            });
+>>>>>>> CSC309-Fall-2016/master
     },
 
     logOut: function(req, res) {
@@ -189,23 +260,7 @@ module.exports = {
                     if (err) return res.send(500, {
                         error: err
                     });
-                    db.Event.find({
-                        "owner": req.user.username
-                    }, function(err, result) {
-                        if (err) {
-                            throw err
-                        }
-                        helper.calculateCountdown(result);
-                        result.sort(function(a, b) {
-                            return new Date(a.countdown) - new Date(b.countdown);
-                        });
-                        // helper.toDate(result);
-                        return res.render('index.html', {
-                            user: req.user,
-                            events: result,
-                            new: newEvent.id
-                        });
-                    });
+                    helper.getAllEvents(req, res, newEvent.id);
                 });
         });
     },
@@ -221,8 +276,8 @@ module.exports = {
         db.Event.findOne({
             "_id": req.body.event
         }, function(err, eventObj) {
-            if ((req.user.username == eventObj.owner)||
-            (req.user.adminPrivilege)) {
+            if ((req.user.username == eventObj.owner) ||
+                (req.user.adminPrivilege)) {
                 helper.deleteEventHelper(req.body.event);
                 res.send("success");
             } else {
@@ -257,8 +312,44 @@ module.exports = {
                     commentList.sort(function(a, b) {
                         return new Date(b.timestamp) - new Date(a.timestamp);
                     });
+                    let time = new Date();
+                    eventObj.countdown = (eventObj.time) - time;
+                    return res.render('singleEvent.html', {
+                        user: req.user,
+                        event: eventObj,
+                        commentList: commentList
+                    })
+                })
+            } else {
+                console.log("Error: getEvent failed.");
+            }
+        });
+    },
 
-                    res.render('singleEvent.html', {
+    getEvent2: function(req, res) {
+        console.log(req.params.event); // Log the event id
+        /* Find the event by id */
+        db.Event.findOne({
+            "_id": req.params.event
+        }, function(err, eventObj) {
+            if (err) throw err;
+            console.log(eventObj); // Log the event contents
+            /* If find the event */
+            if (eventObj) {
+
+                db.Comment.find({
+                    "event": req.params.event
+                }, function(err, commentList) {
+                    if (err) throw err;
+                    for (let i = 0; i < commentList.length; i++) {
+                        commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
+                    }
+                    commentList.sort(function(a, b) {
+                        return new Date(b.timestamp) - new Date(a.timestamp);
+                    });
+                    let time = new Date();
+                    eventObj.countdown = (eventObj.time) - time;
+                    return res.render('singleEvent.html', {
                         user: req.user,
                         event: eventObj,
                         commentList: commentList
@@ -310,59 +401,64 @@ module.exports = {
     //     }
     // }
     editProfile: function(req, res) {
-        db.User.findOneAndUpdate({
-            username: req.body.username
-        }, {
-            $set: req.body.profile
-        }, function(err, user) {
+        db.User.findOne({
+            username: req.user.username
+        },function(err,user) {
             if (err) {
-                return res.send(500, {
-                    error: err
+                return res.render("settings.html", {
+                    user: req.user,
+                    error: err + ": Error! Cannot change your profile!"
                 });
             }
-            //save error handler
+            if (req.body.birthday && (req.body.birthday!="")) {
+                user.birthday = req.body.birthday;
+            }
+            if (req.body.name && (req.body.name!="")) {
+                user.name = req.body.name;
+            }
+            if (req.body.gender && (req.body.gender != "")) {
+                user.gender = req.body.gender;
+            }
             user.save();
-            res.send("Success");
-        });
+            return res.render("settings.html", {
+                user: user,
+                success: "Success!"
+            });
+        })
     },
 
     // req.body:
     //     {
-    //         "username":username;
-    //         "following":username
+    //         following: username
     //     }
     follow: function(req, res) {
         // add the person to current user's 'following' property
         // add the current user to the person's 'followedBy' property
         //TODO:handle duplicate follower
         db.User.findOneAndUpdate({
-            username: req.body.username
+            username: req.user.username
         }, {
             $push: {
                 "following": req.body.following
             }
         }, function(err, user) {
             if (err) {
-                return res.send(500, {
-                    error: err
-                });
-            }
+                return res.send("Error: Failed to Follow");
+            };
+            db.User.findOneAndUpdate({
+                username: req.body.following
+            }, {
+                $push: {
+                    "followedBy": req.user.username
+                }
+            }, function(err, user) {
+                if (err) {
+                    return res.send("Error: Failed to Follow");
+                };
+                console.log("Follow Success");
+                res.send("Success");
+            });
         });
-        db.User.findOneAndUpdate({
-            username: req.body.following
-        }, {
-            $push: {
-                "followedBy": req.body.username
-            }
-        }, function(err, user) {
-            if (err) {
-                return res.send(500, {
-                    error: err
-                });
-            }
-        });
-        res.send("Success");
-
     },
 
     unFollow: function() {
@@ -431,21 +527,9 @@ module.exports = {
     //             notification:false
     //         }]
     // })
-    getEvents: function(req, res) {
-        db.Event.find({
-            "owner": req.body.username
-        }, function(err, events) {
-            if (err) {
-                throw err
-            }
-            // res.send({"events":events});
-            res.render('index.html', {
-                user: req.user,
-                events: events
-            });
-        })
+    getAllEvents: function(req, res) {
+        helper.getAllEvents(req, res)
     },
-
     // req.body:
     // {
     //     event:id;
@@ -489,7 +573,7 @@ module.exports = {
                     }
                 }, function(err, event) {
                     if (err) throw err;
-                    console.log(0-event.value);
+                    console.log(0 - event.value);
                     return res.send("" + (0 - (event.value - 1)));
                 });
             }
@@ -528,7 +612,10 @@ module.exports = {
                     "_id": req.body.event
                 }, function(err, eventObj) {
                     if (err) throw err
-                    return res.send("" + eventObj.comments.length)
+                    return res.send({
+                        count: "" + eventObj.comments.length,
+                        comment: newComment
+                    })
                 });
             });
         });
@@ -570,30 +657,32 @@ module.exports = {
     //req.query:
     //  ?keyword: search username or name or email
     //  ?keyword: search eventTitle
-    search: function(req,res) {
+    search: function(req, res) {
         // search by username/email/eventTitle/
+        console.log(req.body.keyword);
         db.User.find({
             $or: [{
-                "username": req.query.keyword
+                "username": req.body.keyword
             }, {
-                "name": req.query.keyword
+                "name": req.body.keyword
             }, {
-                "email": req.query.keyword
+                "email": req.body.keyword
             }]
         }, function(err, users) {
             if (err) throw err;
             db.Event.find({
                 $and: [{
-                    "title": req.query.keyword
+                    "title": req.body.keyword
                 }, {
                     "private": false
                 }]
             }, function(err, events) {
                 let r = {
-                    "user": users,
-                    "event": events
-                };
-                res.send(r);
+                    "user": req.user,
+                    "users": users,
+                    "events": events
+                }
+                res.render("search.html", r);
             })
         })
     },

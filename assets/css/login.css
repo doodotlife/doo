@@ -74,7 +74,7 @@ input[type=email] {
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
-    width: auto;
+    width: 350;
     padding: 10px;
     border-radius: 4px;
     /*box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;*/
@@ -154,7 +154,7 @@ button:visited {
 
 #error {
     /*display: none;*/
-    width: 100%;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
     color:#F44336;
@@ -169,7 +169,7 @@ button:visited {
 
 #success {
     /*display: none;*/
-    width: 100%;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
     color:#4CAF50;

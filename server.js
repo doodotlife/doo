@@ -49,23 +49,26 @@ app.get('/', (req, res) => {
     //console.log(req.user.username);
     if (req.user !== undefined) {
         // res.render('index.html');
-        db.Event.find({
-            "owner": req.user.username
-        }, function(err, result) {
-            if (err) {
-                throw err
-            }
-            // res.send({"events":events});
-            // console.log(events);
-            res.render('index.html', {
-                user: req.user,
-                events: result
-            });
-        });
+        // db.Event.find({
+        //     "owner": req.user.username
+        // }, function(err, result) {
+        //     if (err) {
+        //         throw err
+        //     }
+        //     // res.send({"events":events});
+        //     // console.log(events);
+        //     res.render('index.html', {
+        //         user: req.user,
+        //         events: result
+        //     });
+        // });
+        doo.getAllEvents(req, res);
+
     } else {
         res.redirect('/login');
     }
 });
+
 app.get('/login', (req,res)=> {
     //console.log(req.user);
     if(req.user !==undefined){
@@ -88,19 +91,26 @@ app.get('/signup', (req, res)=>{
 app.post('/signup', doo.signUp);
 app.delete('/account',doo.deleteAccount);
 app.get('/u/:username', doo.getUser);
+app.get('/settings',  (req,res) => {
+    res.render('settings.html', {user:req.user});
+});
 
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
 
-
+app.get('/e/:event', doo.getEvent2);
 app.get('/event', doo.getEvent);
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
-app.post('/events',doo.getEvents);
+app.post('/events',doo.getAllEvents);
 app.put('/editevent', doo.editEvent);
 
 app.post('/plusone',doo.plusOne);
-app.get('/search',doo.search);
+
+app.get('/search', (req,res) => {
+    res.render('search.html', {user:req.user});
+});
+app.post('/search',doo.search);
 
 app.post('/comment', doo.comment);
 app.delete('/comment', doo.deleteComment);
