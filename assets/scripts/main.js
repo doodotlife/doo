@@ -361,6 +361,15 @@ $(document).ready(function() {
         });
     });
 
+    $(".showFollowers").on("click", function(event) {
+        $(".events").hide();
+        $(".followers").show();
+    })
+
+    $(".showEvents").on("click", function(event) {
+        $(".followers").hide();
+        $(".events").show();
+    })
 
     // let events = $(".animate-opacity");
     // for (var i = 0; i < events.length; i++) {

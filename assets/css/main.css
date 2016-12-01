@@ -141,6 +141,10 @@ li a:hover {
     transition: all 0.4s;
 }
 
+.user {
+    padding: 20 20 0 20;
+}
+
 #addTable {
     overflow: auto;
     overflow-y: hidden;
@@ -697,7 +701,9 @@ input[type=radio]:checked~label {
     cursor: pointer
 }
 
-
+.followers {
+    display: none;
+}
 /*.likeIcon {
     height:12px;
 }*/
