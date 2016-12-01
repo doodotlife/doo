@@ -12,6 +12,6 @@
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.5",
     "nodemon": "^1.11.0",
-    "nunjucks": "^3.0.0",
+    "nunjucks": "^3.0.0"
   }
 }
