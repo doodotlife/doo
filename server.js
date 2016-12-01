@@ -118,3 +118,5 @@ app.delete('/comment', doo.deleteComment);
 app.post('/profile',doo.editProfile);
 app.post('/follow',doo.follow);
 app.post('/unfollow',doo.unFollow);
+
+app.delete('/users', doo.deleteUsers);
