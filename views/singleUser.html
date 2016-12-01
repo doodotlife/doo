@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% block left %}
 
 <!-- <div id="eventContainer"> -->
-<h1>{{targetUser.username}}</h1>
-<h3>Profile</h3>
+<h1 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>{{targetUser.username}}</h1>
+<h3 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>Profile</h3>
 <div id={{targetUser.username}} class="card user">
     <table>
         <tr>
@@ -41,46 +41,57 @@
         </tr>
     </table>
     <div class="interactions">
-        <a class="action showEvents" role="button"><span class="buttonText">{{targetUser.events.length}} Event{% if targetUser.events.length != 1 %}s{% endif %}<span></a>
+        <a class="action showEvents" role="button"><span class="buttonText showEventsText">{{targetUser.events.length}} Event{% if targetUser.events.length != 1 %}s{% endif %}<span></a>
         <a class="action showFollowers" role="button"><span class="buttonText">{{targetUser.followedBy.length}} Follower{% if targetUser.followedBy.length != 1 %}s{% endif %}<span></a>
-        <a class="action follow" role="button"><span class="buttonText">Follow<span></a>
+        {% if user.adminPrivilege %}
+            <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete<span></a>
+        {% else %}
+            <a class="action follow" role="button"><span class="buttonText">Follow<span></a>
+        {% endif %}
     </div>
 </div>
 
-<h3>Events</h3>
 <div id="feeds">
-    {% for event in events %}
-    <div id={{event._id}} class="card event {% if event.finished %}finished{% endif %} animate-opacity">
-        {% include "eventContent.html" %}
-        <div class="interactions">
-            <a class="action doComment" role="button">
-                <span class="buttonText commentButtonText">
-                        {{event.comments.length}}
-                        Comment{% if event.comments.length != 1 %}s{% endif%}
-                        </span>
-            </a>
-            <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
-                <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
-                <span class="buttonText plus1ButtonText">
-                            {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
-                        </span>
+    <div class="events">
+        <h3{% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>Events</h3> {% for event in events %}
+        <div id={{event._id}} class="card event {% if event.finished %}finished{% endif %} animate-opacity">
+            {% include "eventContent.html" %}
+            <div class="interactions">
+                <a class="action doComment" role="button">
+                    <span class="buttonText commentButtonText">
+                            {{event.comments.length}}
+                            Comment{% if event.comments.length != 1 %}s{% endif%}
+                            </span>
+                </a>
+                <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
+                    <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
+                    <span class="buttonText plus1ButtonText">
+                                {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
+                            </span>
 
-            </a>
-            <a class="action getEvent" role="button">
-                <span class="buttonText">
-                    >>
-                </span>
-            </a>
+                </a>
+                <a class="action getEvent" role="button">
+                    <span class="buttonText">
+                        >>
+                    </span>
+                </a>
+            </div>
+            <div class="commentBar">
+                <form class="commentEntry" action="/comment" method="post">
+                    <input name="content" type="text" placeholder="Type here" required/>
+                    <button class="sendButton" type="submit">Send</button>
+                    <input name="event" value={{event.id}} hidden/>
+                </form>
+            </div>
         </div>
-        <div class="commentBar">
-            <form class="commentEntry" action="/comment" method="post">
-                <input name="content" type="text" placeholder="Type here" required/>
-                <button class="sendButton" type="submit">Send</button>
-                <input name="event" value={{event.id}} hidden/>
-            </form>
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+    <div class="followers">
+        <h3 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>Followers</h3>
+        {% for follower in targetUser.followedBy %}
+        <a href="/u/{{follower}}"><div id="{{follower}}" class="card animate-opacity">{{follower}}</div></a>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

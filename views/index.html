@@ -82,7 +82,7 @@
         <div class="interactions">
             <a class="action doComment" role="button">
                 <span class="buttonText commentButtonText">
-                    {{event.comments.length}}Comment{% if event.comments.length != 1 %}s{% endif%}
+                    {{event.comments.length}} Comment{% if event.comments.length != 1 %}s{% endif%}
                 </span>
             </a>
             <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
@@ -91,9 +91,13 @@
                     {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
                 </span>
             </a>
-            <a class="action getEvent" role="button">
-                <span class="buttonText">>><span>
-            </a>
+            {% if user.adminPrivilege %}
+                <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a>
+            {% elif (user.username == event.owner) %}
+                <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a>
+            {% else %}
+                <a class="action follow" role="button"><span class="buttonText">Follow<span></a>
+            {% endif %}
         </div>
             <div class="commentBar">
                 <form class="commentEntry" action="/comment" method="post">

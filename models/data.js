@@ -104,6 +104,9 @@ let userSchema = new Schema(
         },
         adminPrivilege: {
             type: Boolean, required: true, default: false
+        },
+        color: {
+            type: String, default: "#FFFFFF"
         }
     },
     {

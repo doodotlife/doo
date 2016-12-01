@@ -71,7 +71,7 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req,res)=> {
     //console.log(req.user);
-    if(req.user !==undefined){
+    if(req.user !== undefined){
         res.redirect('/');
         return;
     }
@@ -79,11 +79,10 @@ app.get('/login', (req,res)=> {
 });
 
 app.get('/signup', (req, res)=>{
-    if(req.user!==undefined){
+    if(req.user !== undefined){
         res.redirect('/');
     } else {
         console.log("get signup");
-
         res.render('signup.html');
     }
 
@@ -92,7 +91,12 @@ app.post('/signup', doo.signUp);
 app.delete('/account',doo.deleteAccount);
 app.get('/u/:username', doo.getUser);
 app.get('/settings',  (req,res) => {
-    res.render('settings.html', {user:req.user});
+    if(req.user == undefined){
+        res.redirect('/');
+    } else {
+        console.log("get settings");
+        res.render('settings.html', {user:req.user});
+    }
 });
 
 app.post('/login', doo.logIn);
@@ -108,7 +112,12 @@ app.put('/editevent', doo.editEvent);
 app.post('/plusone',doo.plusOne);
 
 app.get('/search', (req,res) => {
-    res.render('search.html', {user:req.user});
+    if(req.user == undefined){
+        res.redirect('/');
+    } else {
+        console.log("get search");
+        res.render('search.html', {user:req.user});
+    }
 });
 app.post('/search',doo.search);
 

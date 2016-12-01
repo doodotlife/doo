@@ -44,6 +44,11 @@
                     Passed
                 </div>
             {% endif %}
+            {% if event.private %}
+                <div class="tag">
+                    Private
+                </div>
+            {% endif %}
             {% if new == event._id %}
                 <div class="tag new">
                     new
