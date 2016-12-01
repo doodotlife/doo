@@ -120,34 +120,6 @@ module.exports = {
 
 
         });
-        // db.User.findOne({
-        //     username: newUser.username
-        // }, function(err, result) {
-        //     if (err) {
-        //         for (let field in err.errors) {
-        //             console.log(field);
-        //         }
-        //     }
-        //     if (!result) {
-        //         newUser.save(function(err) {
-        //             if (err) return res.send(500, {
-        //                 error: err
-        //             });
-        //             // res.send('Success');
-        //             // res.redirect('/');
-        //             res.render('login.html', {
-        //                 success: 'Successfully registered! Login now and doo on.'
-        //             });
-        //         })
-        //     } else {
-        //         res.render('signup.html', {
-        //             error: 'Username Already exists'
-        //         });
-        //     }
-        // });
-
-
-
     },
     //req.body
     // {
@@ -200,50 +172,6 @@ module.exports = {
                 });
             }
         });
-
-        // db.User.findOne({
-        //     email: req.body.username
-        // }, function(err, user) {
-        //     if (err) throw err;
-        //     if (user) {
-        //         if (user.password == req.body.password) {
-        //             req.session.user_id = user._id;
-        //             req.session.username = user.username;
-        //             req.session.is_admin = user._doc.adminPrivilege;
-        //             res.redirect('/');
-        //         } else {
-        //             return res.render('login.html', {
-        //                 error: 'Username or password invalid. Please try again.'
-        //             });
-        //         }
-        //     } else {
-        //         //check if username exists
-        //         db.User.findOne({
-        //             username: req.body.username
-        //         }, function(err, user) {
-        //             if (err) throw err;
-        //             if (user) {
-        //                 if (user.password == req.body.password) {
-        //                     req.session.user_id = user._id;
-        //                     req.session.username = user.username;
-        //                     req.session.is_admin = user._doc.adminPrivilege;
-        //                     return res.redirect('/');
-        //                 } else {
-        //                     return res.render('login.html', {
-        //                         error: 'Username or password invalid. Please try again.'
-        //                     });
-        //                 }
-        //             } else {
-        //                 return res.render('login.html', {
-        //                     error: 'Username or password invalid. Please try again.'
-        //                 });
-        //             }
-        //
-        //         });
-        //     }
-        //
-        // });
-
     },
     /*
      * req.params {
@@ -279,13 +207,7 @@ module.exports = {
                         user: req.user
                     });
                 });
-                // for (let i = 0; i < user.events.length; i++) {
-                //
-                // }
-                // return res.render("singleUser.html", {
-                //     targetUser:user
-                // })
-            });
+        });
     },
 
     logOut: function(req, res) {
@@ -365,7 +287,6 @@ module.exports = {
             console.log(eventObj); // Log the event contents
             /* If find the event */
             if (eventObj) {
-
                 db.Comment.find({
                     "event": req.query.event
                 }, function(err, commentList) {
@@ -549,7 +470,7 @@ module.exports = {
                     error: err
                 });
             }
-        })
+        });
         db.User.findOneAndUpdate({
             username: req.body.following
         }, {
@@ -562,7 +483,7 @@ module.exports = {
                     error: err
                 });
             }
-        })
+        });
         res.send("Success");
 
     },
@@ -762,8 +683,31 @@ module.exports = {
     },
 
     /**Functions for Admin users**/
-    deleteUsers: function() {
+    /* req.body:
+        {
+            users: ["username1", "username2"....]
+        }
+    *
+    * */
+    deleteUsers: function(req, res) {
         // delete the selected users from database
+        if(req.body.users.length == 0){
+            req.send('Error: No user selected');
+        }
+        req.body.users.forEach(function (username) {
+            db.User.findOneAndRemove({username: username},function () {
+                
+            });
+            db.Comment.remove({owner: username},function () {
+                
+            });
+            db.Event.remove({owner: username},function () {
+                
+            });
+        });
+
+        res.send('Success');
+
     },
 
     /* req.body format
