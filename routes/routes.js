@@ -733,19 +733,20 @@ module.exports = {
     search: function(req, res) {
         // search by username/email/eventTitle/
         console.log(req.body.keyword);
+        let regExp = new RegExp(req.body.keyword,"i");
         db.User.find({
             $or: [{
-                "username": req.body.keyword
+                "username": regExp
             }, {
-                "name": req.body.keyword
+                "name": regExp
             }, {
-                "email": req.body.keyword
+                "email": regExp
             }]
         }, function(err, users) {
             if (err) throw err;
             db.Event.find({
                 $and: [{
-                    "title": req.body.keyword
+                    "title": regExp
                 }, {
                     "private": false
                 }]
