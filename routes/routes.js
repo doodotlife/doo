@@ -664,7 +664,9 @@ module.exports = {
                 "email": regExp
             }]
         }, function(err, users) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             db.Event.find({
                 $and: [{
                     "title": regExp
@@ -672,12 +674,23 @@ module.exports = {
                     "private": false
                 }]
             }, function(err, events) {
-                let r = {
-                    "user": req.user,
-                    "users": users,
-                    "events": events
-                }
-                res.render("search.html", r);
+                db.Event.find({
+                    $and: [{
+                        "owner": req.user.username
+                    },{
+                        "title": regExp
+                    },{
+                        "private": true
+                    }]
+                }, function(err, privateEvents) {
+                    let returnEvents = events.concat(privateEvents);
+                    let r = {
+                        "user": req.user,
+                        "users": users,
+                        "events": returnEvents
+                    }
+                    res.render("search.html", r);
+                })
             })
         })
     },
@@ -696,13 +709,13 @@ module.exports = {
         }
         req.body.users.forEach(function (username) {
             db.User.findOneAndRemove({username: username},function () {
-                
+
             });
             db.Comment.remove({owner: username},function () {
-                
+
             });
             db.Event.remove({owner: username},function () {
-                
+
             });
         });
 
