@@ -122,7 +122,7 @@ $(document).ready(function() {
 
     $("label[for=typeD]").on("click", function() {
         $("#addTable").css({
-            "height": "182",
+            "height": "202",
             "padding": "20 20"
         });
         $("#timeRow").show();
@@ -324,7 +324,7 @@ $(document).ready(function() {
         //  window.reload("/event?event=" + id);
     }, function(e) {
         let id = this.closest(".event").id;
-        $("#" + id).css("padding","20 20 20 20");
+        $("#" + id).css("padding","20 20 0 20");
     });
 
     $(".getEvent").on("click", function(e) {
