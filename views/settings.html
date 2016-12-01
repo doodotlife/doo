@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block left %}
 
-<script src="../scripts/setting.js"></script>
+<!-- <script src="../scripts/setting.js"></script> -->
 
 <img src-"image/logo.svg" id="logo-setting" />
 
@@ -16,21 +16,6 @@
     <hr />
     <form id="editProfileForm" action="profile" method="post">
         <table>
-            <!-- <tr>
-                <td>Username</td>
-                <td><input id="username" name="username" type="text" placeholder={{ user.username }}></td>
-            </tr>
-
-            <tr>
-                <td>Password</td>
-                <td><input id="password" name="password" type="password"></td>
-            </tr>
-
-            <tr>
-                <td>Retype Password</td>
-                <td><input id="rePassword" name="rePassword" type="password"></td>
-            </tr> -->
-
             <tr>
                 <td>Name</td>
                 <td><input id="name" name="name" type="text" placeholder="{{ user.name }}"></td>
@@ -39,7 +24,7 @@
             <tr>
                 <td>Birthday</td>
                 <td>
-                    <input id="birthday" name="birthday" type="date" placeholder="{{ user.birthday }}" min="1926-01-01">
+                    <input id="birthday" name="birthday" type="date" placeholder="{{ user.birthday }}" min="1926-01-01" max="2016-12-12">
                 </td>
             </tr>
 
