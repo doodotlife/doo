@@ -4,6 +4,15 @@
         <a href="/u/{{event.owner}}">{{event.owner}}'s</a>
     </h1>
     <div id={{event.id}} class="card event">
+        {% if event.owner == user.username %}
+        <a class="editButton" href="/edit/{{event._id}}">
+        Click on event to edit.
+        {% elif user.adminPriviledge %}
+        <a class="editButton" href="/edit/{{event._id}}">
+        Click on event to edit.
+        {% else %}
+        <a class="eventBody" href="/e/{{event._id}}">
+        {% endif %}
         {% include "eventContent.html" %}
         <div class="interactions">
             <a class="action doComment" role="button">

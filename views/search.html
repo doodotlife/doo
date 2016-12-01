@@ -7,6 +7,7 @@
     {% for event in events %}
     <div id={{event._id}} class="card event animate-opacity">
         <h3><a href="/u/{{event.owner}}">{{event.owner}}</a>'s</h3>
+        <a class="eventBody" href="/e/{{event._id}}">
         {% include "eventContent.html" %}
         <div class="interactions">
             <a class="action doComment" role="button">
