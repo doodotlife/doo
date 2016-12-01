@@ -13,6 +13,7 @@ body {
     background-color: #FFFFFF;
 }
 
+
 a {
     text-decoration: none;
     color: #000000;
@@ -56,24 +57,27 @@ hr {
 }
 
 ul {
+    display: inline-block;
     list-style-type: none;
     margin: 0;
     padding: 0;
     width: 200px;
-    height: 100%;
+    /*height: 100%;*/
     position: fixed;
     overflow: auto;
 }
 
 li {
+    pointer-events: none;
     float: right;
     width: 100%;
 }
 
 li a {
-    font-style: bold;
-    display: block;
+    pointer-events: all;
+    display:inline-block;
     color: black;
+    float: right;
     text-align: right;
     padding: 14px 16px;
     text-decoration: none;
@@ -113,10 +117,12 @@ li a:hover {
 }
 
 #right {
-    margin-left: 40%;
-    width: 20%;
+    display: inline-block;
+    margin-left: 0;
+    /*width: 20%;*/
     float: right;
     position: fixed;
+    /*pointer-events: none;*/
 }
 
 .logo-button {
@@ -139,6 +145,10 @@ li a:hover {
     overflow-x: none;
     overflow-y: none;
     transition: all 0.4s;
+}
+
+.user {
+    padding: 20 20 0 20;
 }
 
 #addTable {
@@ -183,7 +193,7 @@ tr:hover {
 input[type=text] {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #eee;
+    border-bottom: 1px solid #eee;
     font-size: 16px;
     background-color: none;
     background-repeat: no-repeat;
@@ -194,14 +204,14 @@ input[type=text] {
 
 input[type=text]:focus {
     outline: none;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
     /*width: 100%;*/
 }
 
 input[type=email] {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #eee;
+    border-bottom: 1px solid #eee;
     font-size: 16px;
     background-color: none;
     background-repeat: no-repeat;
@@ -212,14 +222,14 @@ input[type=email] {
 
 input[type=email]:focus {
     outline: none;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
     /*width: 100%;*/
 }
 
 input[type=datetime-local] {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #eee;
+    border-bottom: 1px solid #eee;
     font-size: 16px;
     background-color: none;
     background-repeat: no-repeat;
@@ -230,14 +240,14 @@ input[type=datetime-local] {
 
 input[type=datetime-local]:focus {
     outline: none;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
     /*width: 100%;*/
 }
 
 input[type=date] {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #eee;
+    border-bottom: 1px solid #eee;
     font-size: 16px;
     background-color: none;
     background-repeat: no-repeat;
@@ -248,14 +258,14 @@ input[type=date] {
 
 input[type=date]:focus {
     outline: none;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
     /*width: 100%;*/
 }
 
 input[type=time] {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #eee;
+    border-bottom: 1px solid #eee;
     font-size: 16px;
     background-color: none;
     background-repeat: no-repeat;
@@ -266,14 +276,14 @@ input[type=time] {
 
 input[type=time]:focus {
     outline: none;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
     /*width: 100%;*/
 }
 
 input[type=password] {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #eee;
+    border-bottom: 1px solid #eee;
     font-size: 16px;
     background-color: none;
     background-repeat: no-repeat;
@@ -284,7 +294,7 @@ input[type=password] {
 
 input[type=password]:focus {
     outline: none;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
     /*width: 100%;*/
 }
 
@@ -309,7 +319,24 @@ input[name=content]:focus {
 
 input[name=content]:hover {
     background-color: #F5F5F5;
-    ;
+}
+
+#color {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    border: 1px solid #efefef;
+    border-radius: 4px;
+    /*overflow-x: auto;*/
+    width: 80px;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#color:focus {
+    outline: none;
+    border-bottom: 1px solid #ccc;
 }
 
 .topBar {
@@ -367,7 +394,7 @@ input[name=content]:hover {
     line-height: 22px;
     margin: 7px 0px 7px 0px;
     /*padding: 5px 0;*/
-    /*border-left: 1px solid #ccc;*/
+    border-left: 1px solid #efefef;
 }
 
 .followButtonText {
@@ -382,6 +409,9 @@ input[name=content]:hover {
     border-left: none;
 }
 
+.showEventsText {
+    border-left: none;
+}
 .commentBar {
     height: 0px;
     width: 100%;
@@ -408,6 +438,16 @@ input[name=content]:hover {
     color: #ccc;
     font-size: 9px;
     float: right;
+}
+
+.deleteComment {
+    float: right;
+    /*line-height: 22px;*/
+    font-size: 9px;
+    background: none;
+    padding: none;
+    margin: none;
+    cursor: pointer;
 }
 
 .action {
@@ -438,11 +478,13 @@ input[name=content]:hover {
     /*padding: 0 0 0 10;*/
 }
 
-.follow{
+/*.follow{
     margin-left: 400px;
     background-color: #F5F5F5;
     border-radius: 10px;
-}
+}*/
+
+
 
 .buttonText:hover {
     padding: 0 0 0 10;
@@ -595,14 +637,6 @@ button:active {
     height: 60px;
 }
 
-.deleteComment {
-    line-height: 22px;
-    font-size: 9px;
-    background: none;
-    padding: none;
-    margin: none;
-}
-
 .commentOwner {
     color: #aaa;
 }
@@ -655,6 +689,8 @@ input[type=radio] {
     display: none;
 }
 
+
+
 .radio {
     padding:5px 3px;
     display: inline-block;
@@ -698,19 +734,24 @@ input[type=radio]:checked~label {
     background-color: #FFFFFF;
 }*/
 
+#resHandler {
+    /*display: none;*/
+    pointer-events: none;
+    width: 558px;
+    position: fixed;
+}
+
+.eventBody {
+    cursor: pointer;
+}
+
 .finished {
     color: #ccc;
 }
 
-.resHandler {
+.followers {
     display: none;
 }
-
-.eventBody {
-    cursor: pointer
-}
-
-
 /*.likeIcon {
     height:12px;
 }*/

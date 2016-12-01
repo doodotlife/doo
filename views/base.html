@@ -11,7 +11,7 @@
         <title>doo.</title>
     </head>
 
-    <body>
+    <body {% if user.color %} style="background-color:{{user.color}}" {% endif %}>
         <div id="container">
             <div id="left">
                 <div id="resHandler">
@@ -20,18 +20,29 @@
                 {% block left %}{% endblock %}
                 {% block right %}
                 </div>
+                {% if user.color < "#7B7B7B"%}
+                <div id="right"  style="color:white">
+                {% else %}
                 <div id="right">
+                {% endif %}
                     <ul>
                         <li>
                             <a href="/" class="logo-button">
-                                <img src="../images/logo.svg" id="logo"/>
+                                {# <img src="../images/logo.svg" id="logo"/> #}
+                                {% include "logo-template.html" %}
                             </a>
                         </li>
                         {% if user %}
-                            <li>
-                                <a href="/u/{{ user.username }}" class="">{{ user.username }}
-                                </a>
-                            </li>
+                            {% if user.adminPrivilege %}
+                                <li>
+                                    <a><span style="color:red">Admin</span></a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="/u/{{ user.username }}" class="">{{ user.username }}
+                                    </a>
+                                </li>
+                            {% endif %}
                             <li>
                                 <a href="/search" class="">Search</a>
                             </li>
