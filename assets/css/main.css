@@ -13,6 +13,7 @@ body {
     background-color: #FFFFFF;
 }
 
+
 a {
     text-decoration: none;
     color: #000000;
@@ -59,8 +60,8 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 200px;
-    height: 100%;
+    /*width: 200px;*/
+    /*height: 100%;*/
     position: fixed;
     overflow: auto;
 }
@@ -71,9 +72,9 @@ li {
 }
 
 li a {
-    font-style: bold;
-    display: block;
+    display:inline-block;
     color: black;
+    float: right;
     text-align: right;
     padding: 14px 16px;
     text-decoration: none;
@@ -113,10 +114,11 @@ li a:hover {
 }
 
 #right {
-    margin-left: 40%;
-    width: 20%;
+    margin-left: 400;
+    /*width: 20%;*/
     float: right;
     position: fixed;
+    /*pointer-events: none;*/
 }
 
 .logo-button {
@@ -313,7 +315,24 @@ input[name=content]:focus {
 
 input[name=content]:hover {
     background-color: #F5F5F5;
-    ;
+}
+
+#color {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    border: 1px solid #efefef;
+    border-radius: 4px;
+    /*overflow-x: auto;*/
+    width: 80px;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#color:focus {
+    outline: none;
+    border-bottom: 1px solid #ccc;
 }
 
 .topBar {
@@ -371,7 +390,7 @@ input[name=content]:hover {
     line-height: 22px;
     margin: 7px 0px 7px 0px;
     /*padding: 5px 0;*/
-    /*border-left: 1px solid #ccc;*/
+    border-left: 1px solid #efefef;
 }
 
 .followButtonText {
@@ -386,6 +405,9 @@ input[name=content]:hover {
     border-left: none;
 }
 
+.showEventsText {
+    border-left: none;
+}
 .commentBar {
     height: 0px;
     width: 100%;
@@ -412,6 +434,16 @@ input[name=content]:hover {
     color: #ccc;
     font-size: 9px;
     float: right;
+}
+
+.deleteComment {
+    float: right;
+    /*line-height: 22px;*/
+    font-size: 9px;
+    background: none;
+    padding: none;
+    margin: none;
+    cursor: pointer;
 }
 
 .action {
@@ -442,11 +474,13 @@ input[name=content]:hover {
     /*padding: 0 0 0 10;*/
 }
 
-.follow{
+/*.follow{
     margin-left: 400px;
     background-color: #F5F5F5;
     border-radius: 10px;
-}
+}*/
+
+
 
 .buttonText:hover {
     padding: 0 0 0 10;
@@ -599,14 +633,6 @@ button:active {
     height: 60px;
 }
 
-.deleteComment {
-    line-height: 22px;
-    font-size: 9px;
-    background: none;
-    padding: none;
-    margin: none;
-}
-
 .commentOwner {
     color: #aaa;
 }
@@ -658,6 +684,8 @@ button:active {
 input[type=radio] {
     display: none;
 }
+
+
 
 .radio {
     padding:5px 3px;

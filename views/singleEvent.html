@@ -32,11 +32,11 @@
             <span class="timestamp">
                     {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
                 </span>
-            {% if session.event_owner == session.username %}
-            <a class="action deleteComment" role="button"><span class="buttonText">Delete<span></a>
+            {% if event.owner == user.username %}
+            <a class="deleteComment" role="button"><span class="buttonText">Delete<span></a>
             <!-- <button class="deleteComment">Delete</button> -->
-            {% elif comment.owner == session.username %}
-            <a class="action deleteComment" role="button"><span class="buttonText">Delete<span></a>
+            {% elif comment.owner == user.username %}
+            <a class="deleteComment" role="button"><span class="buttonText">Delete<span></a>
             <!-- <button class="deleteComment">Delete</button> -->
             {% endif %}
         </div>

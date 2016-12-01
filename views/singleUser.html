@@ -41,7 +41,7 @@
         </tr>
     </table>
     <div class="interactions">
-        <a class="action showEvents" role="button"><span class="buttonText">{{targetUser.events.length}} Event{% if targetUser.events.length != 1 %}s{% endif %}<span></a>
+        <a class="action showEvents" role="button"><span class="buttonText showEventsText">{{targetUser.events.length}} Event{% if targetUser.events.length != 1 %}s{% endif %}<span></a>
         <a class="action showFollowers" role="button"><span class="buttonText">{{targetUser.followedBy.length}} Follower{% if targetUser.followedBy.length != 1 %}s{% endif %}<span></a>
         {% if user.adminPrivilege %}
             <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete<span></a>

@@ -96,7 +96,7 @@ $(document).ready(function() {
         $("#timeRow").hide();
         // $("#addTable").addClass("expandUp");
         $("#titleEntry").prop("placeholder", "Title");
-        $("#feeds").css("margin-top", "250px");
+        $("#feeds").css("margin-top", "220px");
         $("#addTable").show();
         $("#addTable").css({
             "height": "160",
@@ -125,6 +125,7 @@ $(document).ready(function() {
             "height": "202",
             "padding": "20 20"
         });
+        $("#feeds").css("margin-top", "262px");
         $("#timeRow").show();
     });
 
@@ -134,6 +135,7 @@ $(document).ready(function() {
             "height": "160",
             "padding": "20 20"
         });
+        $("#feeds").css("margin-top", "220px");
         $("#timeRow").find("input").val("00:00");
     });
 
@@ -165,16 +167,16 @@ $(document).ready(function() {
         // });
     });
 
-    $(".moreComment").on("click", function() {
-        let id = this.closest(".event").id;
-        $.ajax({
-            url: '/event',
-            type: 'get',
-            dataType: "text",
-            contentType: "text",
-            data: "event=" + id,
-        });
-    });
+    // $(".moreComment").on("click", function() {
+    //     let id = this.closest(".event").id;
+    //     $.ajax({
+    //         url: '/event',
+    //         type: 'get',
+    //         dataType: "text",
+    //         contentType: "text",
+    //         data: "event=" + id,
+    //     });
+    // });
 
     $(".deleteComment").on("click", function() {
         let commentID = this.closest(".comment").id;
@@ -301,21 +303,21 @@ $(document).ready(function() {
         });
     })
 
-    $(".eventBody").on("click", function(e) {
-        let id = this.closest(".event").id;
-        $.ajax({
-            url: "/event?event=" + id,
-            type: "GET",
-            dataType: "html",
-            // contentType: "application/json; charset=utf-8",
-            // data:comment,
-            success: function(res) {
-                $(document.body).html(res);
-            }
-        });
-        // $.get("/event?event=" + id);
-        //  window.reload("/event?event=" + id);
-    });
+    // $(".eventBody").on("click", function(e) {
+    //     let id = this.closest(".event").id;
+    //     $.ajax({
+    //         url: "/event?event=" + id,
+    //         type: "GET",
+    //         dataType: "html",
+    //         // contentType: "application/json; charset=utf-8",
+    //         // data:comment,
+    //         success: function(res) {
+    //             $(document.body).html(res);
+    //         }
+    //     });
+    //     // $.get("/event?event=" + id);
+    //     //  window.reload("/event?event=" + id);
+    // });
 
     $(".eventBody").hover(function(e) {
         let id = this.closest(".event").id;
@@ -327,21 +329,21 @@ $(document).ready(function() {
         $("#" + id).css("padding","20 20 0 20");
     });
 
-    $(".getEvent").on("click", function(e) {
-        let id = this.closest(".event").id;
-        $.ajax({
-            url: "/event?event=" + id,
-            type: "GET",
-            dataType: "html",
-            // contentType: "application/json; charset=utf-8",
-            // data:comment,
-            success: function(res) {
-                $(document.body).html(res);
-            }
-        });
-        // $.get("/event?event=" + id);
-        //  window.reload("/event?event=" + id);
-    });
+    // $(".getEvent").on("click", function(e) {
+    //     let id = this.closest(".event").id;
+    //     $.ajax({
+    //         url: "/event?event=" + id,
+    //         type: "GET",
+    //         dataType: "html",
+    //         // contentType: "application/json; charset=utf-8",
+    //         // data:comment,
+    //         success: function(res) {
+    //             $(document.body).html(res);
+    //         }
+    //     });
+    //     // $.get("/event?event=" + id);
+    //     //  window.reload("/event?event=" + id);
+    // });
 
     $(".follow").on("click", function(e) {
         e.preventDefault();
@@ -371,6 +373,9 @@ $(document).ready(function() {
         $(".events").show();
     })
 
+    $('#color').on("change", function(event) {
+        $("body").css("background-color", $('#color').val());
+    });
     // let events = $(".animate-opacity");
     // for (var i = 0; i < events.length; i++) {
     //     events[i].delay(i * 1000);
