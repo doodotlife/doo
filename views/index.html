@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block left %}
 
-<script src="../scripts/index.js"></script>
+<!-- <script src="../scripts/index.js"></script> -->
 
 <!-- <div id="addBar" class="card"> -->
 <input id="titleEntry" type="text" form="newEvent" name="title" placeholder="New Event" Class="topBar" required>
@@ -14,7 +14,7 @@
                     Time
                 </td>
                 <td>
-                    <input id="dateEntry" name="time" type="date" default="YYYY-MM-DD" required/>
+                    <input id="dateEntry" name="time" type="date" default="YYYY-MM-DD" max="9999-12-31" required/>
                 </td>
             </tr>
             <tr>
