@@ -414,6 +414,10 @@ $(document).ready(function() {
     $('#color').on("change", function(event) {
         $("body").css("background-color", $('#color').val());
     });
+
+    $(".back").on("click", function() {
+        window.history.back();
+    });
     // let events = $(".animate-opacity");
     // for (var i = 0; i < events.length; i++) {
     //     events[i].delay(i * 1000);

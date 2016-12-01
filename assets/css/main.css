@@ -321,6 +321,11 @@ input[name=content]:hover {
     background-color: #F5F5F5;
 }
 
+#editTitle {
+    display: block;
+    font-size: 1em;
+}
+
 #color {
     margin-top: 10px;
     margin-left: auto;
@@ -661,7 +666,7 @@ button:active {
     border: 1px;
     border-style: solid;
     border-color: #F44336;
-    padding: 10px;
+    padding: 10 10 10 30;
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
 }
@@ -756,6 +761,33 @@ input[type=radio]:checked~label {
     height:12px;
 }*/
 
+
+.mobileUl {
+    display: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow-x: scroll;
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.mobileLi {
+    /*display: inline;*/
+    float: left;
+    width: auto;
+}
+.mobileLi .mobileA {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
 footer {
     right: 0;
     bottom: 0;
@@ -763,4 +795,60 @@ footer {
     padding: 1rem;
     background-color: #efefef;
     text-align: center;
+}
+
+/* Wide */
+@media screen and (max-width: 1680px) {
+    #container {
+        width:50%;
+    }
+}
+
+/* Normal */
+@media screen and (max-width: 1280px) {
+    #container {
+        width:50%;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 736px) {
+    /*#right {
+        display: none;
+    }*/
+    .mobileUl {
+        display: inherit;
+    }
+    #addTable {
+        width:89%;
+    }
+    #right {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    #container {
+        width: 95%;
+    }
+    .countdown{
+        top:0;
+        position:sticky;;
+        width: 100%;
+        display: block;
+        float:left;
+    }
+    .action {
+        width: 32.5%
+    }
+    input[name=content] {
+        width: 76%
+    }
+    #left {
+        width: 100%;
+    }
+}
+
+/* Mobile (Portrait) */
+@media screen and (max-width: 480px) {
+
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
 * {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
@@ -231,4 +231,57 @@ button:visited {
 .login:active {
     color:#FFFFFF;
     outline: none;
+}
+
+@media screen and (max-width: 1680px) {
+    #container {
+        width:50%;
+    }
+}
+
+/* Normal */
+@media screen and (max-width: 1280px) {
+    #container {
+        width:50%;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 736px) {
+    /*#right {
+        display: none;
+    }*/
+    #addTable {
+        width:89%;
+    }
+    #right {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    #container {
+        margin-top: 40%;
+        width: 70%;
+    }
+    .countdown{
+        top:0;
+        position:sticky;;
+        width: 100%;
+        display: block;
+        float:left;
+    }
+    .action {
+        width: 32.5%
+    }
+    input[name=content] {
+        width: 76%
+    }
+    #left {
+        width: 100%;
+    }
+}
+
+/* Mobile (Portrait) */
+@media screen and (max-width: 480px) {
+
 }
