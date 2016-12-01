@@ -57,21 +57,24 @@ hr {
 }
 
 ul {
+    display: inline-block;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    /*width: 200px;*/
+    width: 200px;
     /*height: 100%;*/
     position: fixed;
     overflow: auto;
 }
 
 li {
+    pointer-events: none;
     float: right;
     width: 100%;
 }
 
 li a {
+    pointer-events: all;
     display:inline-block;
     color: black;
     float: right;
@@ -114,7 +117,8 @@ li a:hover {
 }
 
 #right {
-    margin-left: 400;
+    display: inline-block;
+    margin-left: 0;
     /*width: 20%;*/
     float: right;
     position: fixed;
@@ -730,16 +734,19 @@ input[type=radio]:checked~label {
     background-color: #FFFFFF;
 }*/
 
-.finished {
-    color: #ccc;
-}
-
-.resHandler {
-    display: none;
+#resHandler {
+    /*display: none;*/
+    pointer-events: none;
+    width: 558px;
+    position: fixed;
 }
 
 .eventBody {
-    cursor: pointer
+    cursor: pointer;
+}
+
+.finished {
+    color: #ccc;
 }
 
 .followers {

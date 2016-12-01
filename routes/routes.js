@@ -63,7 +63,11 @@ let helper = {
         let time = new Date();
         for (let i = 0; i < array.length; i++) {
             // console.log(new Date(array[i].time + time.getTimezoneOffset()));
-            array[i].countdown = time - (array[i].time);
+            let tempTime = new Date(array[i].time);
+            if (array[i].type=="anniversary") {
+                tempTime.setUTCFullYear(time.getUTCFullYear());
+            }
+            array[i].countdown = time - tempTime;
         }
     },
 
@@ -264,11 +268,9 @@ module.exports = {
             if ((req.user.username == eventObj.owner) ||
                 (req.user.adminPrivilege)) {
                 helper.deleteEventHelper(req.body.event);
-                res.send("success");
+                res.send("Success");
             } else {
-                return res.send(500, {
-                    error: "Permission denied."
-                });
+                return res.send("Permission denied.");
             }
         });
     },

@@ -22,13 +22,13 @@ $(document).ready(function() {
             // $("#handlerIcon").src = "images/success.svg";
             $("#resHandler").removeClass("error");
             $("#resHandler").addClass("success");
-            $("#resHandler").show();
+            $("#resHandler").show().delay(3000).fadeOut();
         } else {
             $("#message").text(s);
             // $("#handlerIcon").src = "images/warning.svg";
             $("#resHandler").removeClass("success");
             $("#resHandler").addClass("error");
-            $("#resHandler").show();
+            $("#resHandler").show().delay(3000).fadeOut();
         }
     };
 
@@ -166,7 +166,30 @@ $(document).ready(function() {
         //     $("#" + id).children(".commentBar").css("height", "0");
         // });
     });
-
+    $(".deleteEvent").on("click", function() {
+        let id = this.closest(".event").id;
+        if (confirm("Are you sure you want to delete this Event?")) {
+            $.ajax({
+                url: '/event',
+                type: 'delete',
+                dataType: 'text',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    event: id,
+                }),
+                success: function(res) {
+                    console.log(res);
+                    resHandler(res, res);
+                    if (res=="Success") {
+                        $("#" + id).removeClass("event");
+                        $("#" + id).css("padding", "20");
+                        $("#" + id).html("<p style='color:black'>Deleted</p>")
+                        $("#" + id).delay(3000).fadeOut();
+                    }
+                }
+            });
+        }
+    });
     // $(".moreComment").on("click", function() {
     //     let id = this.closest(".event").id;
     //     $.ajax({
@@ -180,12 +203,12 @@ $(document).ready(function() {
 
     $(".deleteComment").on("click", function() {
         let commentID = this.closest(".comment").id;
-        let eventID   = this.closest(".event").id;
+        let eventID = this.closest(".event").id;
         $.ajax({
-            url:'/comment',
-            type:'delete',
-            dataType:'text',
-            contentType:'application/json; charset=utf-8',
+            url: '/comment',
+            type: 'delete',
+            dataType: 'text',
+            contentType: 'application/json; charset=utf-8',
             data: JSON.stringify({
                 comment: commentID,
                 event: eventID
@@ -321,12 +344,12 @@ $(document).ready(function() {
 
     $(".eventBody").hover(function(e) {
         let id = this.closest(".event").id;
-        $("#" + id).css("padding","30 20 30 20");
+        $("#" + id).css("padding", "30 20 30 20");
         // $.get("/event?event=" + id);
         //  window.reload("/event?event=" + id);
     }, function(e) {
         let id = this.closest(".event").id;
-        $("#" + id).css("padding","20 20 0 20");
+        $("#" + id).css("padding", "20 20 0 20");
     });
 
     // $(".getEvent").on("click", function(e) {
@@ -349,10 +372,10 @@ $(document).ready(function() {
         e.preventDefault();
         let username = this.closest(".user").id;
         $.ajax({
-            url:"/follow",
-            type:"post",
-            dataType:"text",
-            contentType:"application/json; charset=utf-8",
+            url: "/follow",
+            type: "post",
+            dataType: "text",
+            contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
                 following: username
             }),

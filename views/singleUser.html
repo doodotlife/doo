@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% block left %}
 
 <!-- <div id="eventContainer"> -->
-<h1>{{targetUser.username}}</h1>
-<h3>Profile</h3>
+<h1 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>{{targetUser.username}}</h1>
+<h3 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>Profile</h3>
 <div id={{targetUser.username}} class="card user">
     <table>
         <tr>
@@ -53,7 +53,7 @@
 
 <div id="feeds">
     <div class="events">
-        <h3>Events</h3> {% for event in events %}
+        <h3{% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>Events</h3> {% for event in events %}
         <div id={{event._id}} class="card event {% if event.finished %}finished{% endif %} animate-opacity">
             {% include "eventContent.html" %}
             <div class="interactions">
@@ -87,7 +87,7 @@
         {% endfor %}
     </div>
     <div class="followers">
-        <h3>Followers</h3>
+        <h3 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>Followers</h3>
         {% for follower in targetUser.followedBy %}
         <a href="/u/{{follower}}"><div id="{{follower}}" class="card animate-opacity">{{follower}}</div></a>
         {% endfor %}
