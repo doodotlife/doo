@@ -16,8 +16,14 @@ signup.errorHandler = function(error) {
 $(document).ready(function() {
     // Stuff to do as soon as the DOM is ready
     let today = new Date();
-    let month = today.getMonth() + 1;
-    $("#birthday").prop("max", today.getFullYear() + '-' + month + '-' + today.getDate());
+    let month = today.getMonth()+1;
+    let date = today.getDate();
+    if (date < 10) {
+        var dateString = '0'+ date.toString();
+    }else {
+        var dateString = date.toString();
+    }
+    $("#birthday").prop("max", today.getFullYear() + '-' + month + '-' + dateString);
 
     // $('#newUser').submit(function(e) {
     //     let newUser = {};
