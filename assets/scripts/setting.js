@@ -5,5 +5,11 @@ let setting = {}
 $(document).ready(function() {
     let today = new Date();
     let month = today.getMonth() + 1;
-    $('#birthday').prop("max", today.getFullYear() + '-' + month + '-' + today.getDate());
+    let date = today.getDate();
+    if (date < 10) {
+        var dateString = '0'+ date.toString();
+    }else {
+        var dateString = date.toString();
+    }
+    $('#birthday').prop("max", today.getFullYear() + '-' + month + '-' + dateString);
 });
