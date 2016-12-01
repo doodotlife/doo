@@ -1,9 +1,6 @@
 {
   "name": "doo",
   "version": "0.0.1",
-  "devDependencies": {
-    "react-scripts": "0.7.0"
-  },
   "dependencies": {
     "express": "^4.14.0",
     "express-session": "^1.14.2",
@@ -16,13 +13,5 @@
     "mongoose": "^4.6.5",
     "nodemon": "^1.11.0",
     "nunjucks": "^3.0.0",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
   }
 }
