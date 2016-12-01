@@ -280,9 +280,24 @@ $(document).ready(function() {
                     time.getHours() + ":" +
                     time.getMinutes());
                 newComment.append(timestamp);
-                let deleteButton = $("<button>");
-                deleteButton.addClass("deleteComment");
-                deleteButton.html("Delete")
+                let deleteButton = $("<a class='deleteComment' role='button'><span class='buttonText'>Delete<span></a>");
+                deleteButton.on("click", function() {
+                    let eventID = this.closest(".event").id;
+                    $.ajax({
+                        url: '/comment',
+                        type: 'delete',
+                        dataType: 'text',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({
+                            comment: newComment.id,
+                            event: eventID
+                        }),
+                        success: function(res) {
+                            console.log(res);
+                            $('#' + newComment.id).remove();
+                        }
+                    });
+                });
                 newComment.append(deleteButton);
                 //     <span class="commentOwner"><strong>{{comment.owner}}: </strong></span>{{comment.content}} {% if session.event_owner == session.username %}
                 //     <span class="timestamp">
