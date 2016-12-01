@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block left %}
+<div id="feeds">
+    <form id="editEvent" action="/editevent" method="put">
+        <h1 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>
+        <a href="/u/{{event.owner}}">{{event.owner}}'s</a>
+    </h1>
+        <div id={{event.id}} class="card event">
+        <a>
+            <h1>
+                <input id="editTitle" name="title" type="text" placeholder="{{event.title}}"/>
+            </h1>
+            <div class="date">
+                <h3><input name="time" type="date"/></h3>
+            </div>
+            <div class="tags">
+                type selector needed here
+            </div>
+            <div class="interactions">
+                <a class="action back" role="button"><span class="buttonText"><<<span></a>
+                <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a></a>
+                <a class="action saveEvent" role="button"><span class="buttonText">Save<span></a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
