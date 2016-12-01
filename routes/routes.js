@@ -681,19 +681,23 @@ module.exports = {
     * */
     deleteUsers: function(req, res) {
         // delete the selected users from database
+        if(req.body.users.length == 0){
+            req.send('Error: No user selected');
+        }
         req.body.users.forEach(function (username) {
-            db.User.findOneAndRemove({username: username}, function (err) {
-
+            db.User.findOneAndRemove({username: username},function () {
+                
             });
-            db.Comment.remove({owner: username}, function (err) {
-
+            db.Comment.remove({owner: username},function () {
+                
             });
-            db.Event.remove({owner: username}, function (err) {
-
+            db.Event.remove({owner: username},function () {
+                
             });
-
         });
+
         res.send('Success');
+
     },
 
     /* req.body format
