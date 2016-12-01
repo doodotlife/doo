@@ -725,6 +725,36 @@ module.exports = {
 
     },
 
+    getEditEvent: function(req, res) {
+        db.Event.findOne({
+            "_id": req.params.event
+        }, function(err, eventObj) {
+            if (err) {
+                res.render("notFound.html", {
+                    error:err
+                });
+            }
+            if(req.user) {
+                if ((req.user.username == eventObj.owner) ||
+                    (req.user.adminPrivilege)) {
+                    res.render("editEvent.html", {
+                        user:req.user,
+                        event: eventObj
+                    });
+                } else {
+                    res.render("notFound.html", {
+                        error:"Permission Denied"
+                    });
+                }
+            } else {
+                res.render("notFound.html", {
+                    error:"Please Login to Edit"
+                });
+            }
+
+        });
+    },
+
     /* req.body format
      * {
      *   "comment": id,

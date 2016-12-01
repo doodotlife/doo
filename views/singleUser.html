@@ -55,6 +55,7 @@
     <div class="events">
         <h3{% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>Events</h3> {% for event in events %}
         <div id={{event._id}} class="card event {% if event.finished %}finished{% endif %} animate-opacity">
+            <a class="eventBody" href="/e/{{event._id}}">
             {% include "eventContent.html" %}
             <div class="interactions">
                 <a class="action doComment" role="button">
