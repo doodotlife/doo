@@ -499,30 +499,39 @@ module.exports = {
         // add the person to current user's 'following' property
         // add the current user to the person's 'followedBy' property
         //TODO:handle duplicate follower
-        db.User.findOneAndUpdate({
-            username: req.user.username
-        }, {
-            $push: {
-                "following": req.body.following
-            }
-        }, function(err, user) {
-            if (err) {
-                return res.send("Error: Failed to Follow");
-            };
+        if (req.user.username == req.body.following) {
+            return res.send("Error: Cannot follow yourself");
+        }
+        //if we have followed this user
+        else if(req.user.following.indexOf(req.body.following)!=-1) {
+            return res.send("Error: Cannot follow this user again");
+        }
+        else{
             db.User.findOneAndUpdate({
-                username: req.body.following
+                username: req.user.username
             }, {
                 $push: {
-                    "followedBy": req.user.username
+                    "following": req.body.following
                 }
             }, function(err, user) {
                 if (err) {
                     return res.send("Error: Failed to Follow");
                 };
-                console.log("Follow Success");
-                res.send("Success");
+                db.User.findOneAndUpdate({
+                    username: req.body.following
+                }, {
+                    $push: {
+                        "followedBy": req.user.username
+                    }
+                }, function(err, user) {
+                    if (err) {
+                        return res.send("Error: Failed to Follow");
+                    };
+                    console.log("Follow Success");
+                    res.send("Success");
+                });
             });
-        });
+        }
     },
 
     unFollow: function() {
