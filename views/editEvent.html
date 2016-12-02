@@ -1,9 +1,7 @@
 {% extends "base.html" %} {% block left %}
 <div id="feeds">
     <form id="editEvent" action="/editevent" method="put">
-        <h1 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>
-        <a href="/u/{{event.owner}}">{{event.owner}}'s</a>
-    </h1>
+        <h1 class="headingText" style="color:{{user.color}}"><a href="/u/{{event.owner}}">{{event.owner}}'s</a></h1>
         <div id={{event.id}} class="card event">
         <a>
             <h1>

@@ -263,22 +263,6 @@ button:visited {
         margin-top: 40%;
         width: 70%;
     }
-    .countdown{
-        top:0;
-        position:sticky;;
-        width: 100%;
-        display: block;
-        float:left;
-    }
-    .action {
-        width: 32.5%
-    }
-    input[name=content] {
-        width: 76%
-    }
-    #left {
-        width: 100%;
-    }
 }
 
 /* Mobile (Portrait) */

@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block left %}
+<script src="../scripts/countdown.js"></script>
+
 <div id="feeds">
-    <h1 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>
+    <h1 class="headingText" style="color:{{user.color}}">
         <a href="/u/{{event.owner}}">{{event.owner}}'s</a>
     </h1>
     <div id={{event.id}} class="card event">
