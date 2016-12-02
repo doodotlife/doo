@@ -31,7 +31,7 @@
             {% if user.adminPrivilege %}
             <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a> {% elif (user.username == event.owner) %}
             <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a> {% else %}
-            <a class="action follow" role="button"><span class="buttonText">Follow</span></a> {% endif %}
+            <a class="action none" role="button"><span class="buttonText"></span></a> {% endif %}
         </div>
         {% if user.username %}
         <div class="singleCommentBar">

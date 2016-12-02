@@ -88,7 +88,6 @@ li a {
 }
 
 li a:hover {
-    font-style: regular;
 }
 
 #container {
@@ -400,6 +399,21 @@ input[name=content]:hover {
     border-left: 1px solid #efefef;
 }
 
+input[type=submit] {
+    border: none;
+    background: none;
+    display: block;
+    height: 22px;
+    line-height: 22px;
+    margin: 7px 0px 7px 0px;
+    /*padding: 5px 0;*/
+    border-left: 1px solid #efefef;
+}
+
+input[type=submit]:hover {
+    padding: 0 0 0 10;
+}
+
 .followButtonText {
     display: block;
     height: 22px;
@@ -498,11 +512,11 @@ input[name=content]:hover {
     background-image: url("../images/like.svg");
     /*padding: 20px 20px 20px 40px;*/
     background-size: 14px;
-    background-position: 72;
+    background-position: 40%;
     background-repeat: no-repeat;
 }
 .doPlus1:hover {
-    background-position: 77;
+    background-position: 50%;
 }
 
 .liked {
@@ -510,12 +524,12 @@ input[name=content]:hover {
     background-image: url("../images/liked.svg");
     /*padding: 20px 20px 20px 40px;*/
     background-size: 14px;
-    background-position: 72;
+    background-position: 40%;
     background-repeat: no-repeat;
 }
 
 .liked:hover {
-    background-position: 77;
+    background-position: 50%;
 }
 
 .plus1ButtonText:hover {
@@ -710,8 +724,7 @@ input[type=radio] {
 input[type=radio]~label {
     border-radius: 2px;
     padding: 2px 8px;
-    color: #666666;
-    background-color: #FFFFFF;
+
 }
 
 /*input[type=radio]:checked~.check {
@@ -730,6 +743,11 @@ input[type=radio]:checked~.check::before {
 input[type=radio]:checked~label {
     color: #FFFFFF;
     background-color: #666666;
+}
+
+input[type=radio]:not(:checked)~label {
+    color: #666666;
+    background-color: #FFFFFF;
 }
 
 .userColor {
@@ -896,6 +914,12 @@ footer {
 /* Mobile (Portrait) */
 @media screen and (max-width: 480px) {
     #addTable {
+        width:90%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #addTable {
         width:89%;
     }
 }
@@ -903,5 +927,6 @@ footer {
 @media screen and (max-width: 321px) {
     #addTable {
         width:87%;
+        overflow-y: scroll;
     }
 }
