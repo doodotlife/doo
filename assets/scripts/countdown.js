@@ -1,6 +1,21 @@
 "use strict"
+
+// let parseCountdown = function(t) {
+//     let time = new Date(t);
+//     let result = {
+//         year: time.getFullYear() - 1970,
+//         month: time.getMonth(),
+//         date: time.getDate() - 1,
+//         hour: time.getHours(),
+//         min: time.getMinutes(),
+//         s: time.getSeconds()
+//     };
+//     return result;
+// };
+
 let parseCountdown = function(t) {
     let time = new Date(t);
+    console.log(time);
     let result = {
         year: time.getUTCFullYear() - 1970,
         month: time.getUTCMonth(),
