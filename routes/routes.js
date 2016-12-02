@@ -232,7 +232,7 @@ module.exports = {
         } */
     addEvent: function(req, res) {
         // With dates, event name, event type
-
+        console.log(req.body);
         let newEvent = new db.Event(req.body);
         newEvent.owner = req.user.username;
         newEvent.save(function(err, newEvent) {
@@ -405,6 +405,10 @@ module.exports = {
             }
             if (req.body.gender && (req.body.gender != "")) {
                 user.gender = req.body.gender;
+            }
+            if (req.body.color && (req.body.color != "")) {
+                console.log(req.body.color);
+                user.color = req.body.color;
             }
             user.save();
             return res.render("settings.html", {
@@ -730,8 +734,8 @@ module.exports = {
             "_id": req.params.event
         }, function(err, eventObj) {
             if (err) {
-                res.render("notFound.html", {
-                    error:err
+                return res.render("notFound.html", {
+                    error:"Cannot find event id " + req.params.event
                 });
             }
             if(req.user) {
@@ -742,12 +746,12 @@ module.exports = {
                         event: eventObj
                     });
                 } else {
-                    res.render("notFound.html", {
+                    return res.render("notFound.html", {
                         error:"Permission Denied"
                     });
                 }
             } else {
-                res.render("notFound.html", {
+                return res.render("notFound.html", {
                     error:"Please Login to Edit"
                 });
             }

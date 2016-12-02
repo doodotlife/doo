@@ -1,9 +1,12 @@
 {% extends "base.html" %} {% block left %}
+<script src="../scripts/countdown.js"></script>
+
 <form id="search" action="/search" method="post">
     <input id="searchEntry" type="text" name="keyword" placeholder="Search by event title, username or email" class="topBar searchBar" required>
 </form>
 
 <div id="feeds">
+    <h2 class="headingText" style="color:{{user.color}}">Events</h2>
     {% for event in events %}
     <div id={{event._id}} class="card event animate-opacity">
         <h3><a href="/u/{{event.owner}}">{{event.owner}}</a>'s</h3>
@@ -32,6 +35,7 @@
         </div>
     </div>
     {% endfor %}
+    <h2 class="headingText" style="color:{{user.color}}">Users</h2>
     {% for user in users %}
     <div id={{user.username}} class="card user animate-opacity">
         <h1>{{user.username}}</h1>
