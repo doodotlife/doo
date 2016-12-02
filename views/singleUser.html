@@ -1,8 +1,9 @@
 {% extends "base.html" %} {% block left %}
+<script src="../scripts/countdown.js"></script>
 
 <!-- <div id="eventContainer"> -->
 <script>
-$('body').css("color", "{{targetUser.color}}");
+$('body').css("background-color", "{{targetUser.color}}");
 </script>
 <h1 class="headingText" style="color:{{user.color}}">{{targetUser.username}}</h1>
 <h3 class="headingText" style="color:{{user.color}}">Profile</h3>
@@ -44,20 +45,20 @@ $('body').css("color", "{{targetUser.color}}");
         </tr>
     </table>
     <div class="interactions">
-        <a class="action showEvents" role="button"><span class="buttonText showEventsText">{{targetUser.events.length}} Event{% if targetUser.events.length != 1 %}s{% endif %}<span></a>
-        <a class="action showFollowers" role="button"><span class="buttonText">{{targetUser.followedBy.length}} Follower{% if targetUser.followedBy.length != 1 %}s{% endif %}<span></a>
+        <a class="action showEvents" role="button"><span class="buttonText showEventsText">{{targetUser.events.length}} Event{% if targetUser.events.length != 1 %}s{% endif %}</span></a>
+        <a class="action showFollowers" role="button"><span class="buttonText">{{targetUser.followedBy.length}} Follower{% if targetUser.followedBy.length != 1 %}s{% endif %}</span></a>
         {% if user.adminPrivilege %}
-            <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete<span></a>
+            <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete</span></a>
         {% else %}
-            <a class="action follow" role="button"><span class="buttonText">Follow<span></a>
+            <a class="action follow" role="button"><span class="buttonText">Follow</span></a>
         {% endif %}
     </div>
 </div>
 
 <div id="feeds">
     <div class="events">
-        <h3class="headingText" style="color:{{user.color}}">Events</h3> {% for event in events %}
-        <div id={{event._id}} class="card event {% if event.finished %}finished{% endif %} animate-opacity">
+        <h3 class="headingText" style="color:{{user.color}}">Events</h3> {% for event in events %}
+        <div id={{event._id}} class="card event {{event.type}} {% if event.finished %}finished{% endif %} animate-opacity">
             <a class="eventBody" href="/e/{{event._id}}">
             {% include "eventContent.html" %}
             <div class="interactions">

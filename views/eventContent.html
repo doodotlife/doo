@@ -1,20 +1,11 @@
 {% block eventbody %}
-        <h1>
+        <h1 class="eventTitle">
             {{event.title}}
-            <div class="countdown">
-                {% if event.finished %}
-                    <span class="countdownValue">
-                        Passed
-                    </span>
-                {% else %}
-                    <span class="timeValue" hidden>
-                        {{event.time}}
-                    </span>
-                    <span class="countdownDisplay">
-                    </span>
-                {% endif %}
-            </div>
         </h1>
+        <h1><div class="countdown">
+            <span class="timeValue" hidden>{{event.time}}</span>
+            <span class="countdownDisplay"></span>
+        </div></h1>
         <div class="date">
             <h3>
                 {{event.time.toLocaleDateString()}}{% if event.type == "deadline" %} {{event.time.toLocaleTimeString()}}{% endif %}
