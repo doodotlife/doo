@@ -688,36 +688,35 @@ module.exports = {
      * }
      */
     deleteComment: function(req, res) {
-        // delete one's own comment, delete the corresponding comment in this event
-        db.Comment.findOne({
-            "_id": req.body.comment
-        }, function(err, commentObj) {
-            if (err) {
-                return res.render("notFound.html",{
-                    error: "Cannot find the comment. Please try again."
-                });
-            }
-            db.Event.findOneAndUpdate({
-                "_id": req.body.event
-            }, {
-                $pull: {
-                    "comments": commentObj.id
-                }
-            }, function(err, user) {
-                if (err) {
-                    return res.render("notFound.html",{
-                        error: "Cannot delete the comment. Please try again."
-                    });
-                }
+    // delete one's own comment, delete the corresponding comment in this event
+    db.Comment.findOne({
+        "_id": req.body.comment
+    }, function(err, commentObj) {
+        if (err) {
+            return res.render("notFound.html", {
+                error: "Cannot find the comment. Please try again."
             });
+        }
+        db.Event.findOneAndUpdate({
+            "_id": req.body.event
+        }, {
+            $pull: {
+                "comments": commentObj.id
+            }
+        }, function(err, user) {
             if (err) {
-                return res.render("notFound.html",{
+                return res.render("notFound.html", {
                     error: "Cannot delete the comment. Please try again."
                 });
             }
-                res.send("Success");
-            });
         });
+        if (err) {
+            return res.render("notFound.html", {
+                error: "Cannot delete the comment. Please try again."
+            });
+        }
+        res.send("Success");
+    }); 
     },
 
     subscribeEmailNotificatino: function() {
