@@ -1,105 +1,63 @@
 "use strict"
 
+// http://jsfiddle.net/Mottie/xcqpF/1/light/
+function rgb2hex(rgb){
+ rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
+
+// https://24ways.org/2010/calculating-color-contrast/
+let getContrastYIQ = function(hexcolor) {
+    hexcolor = rgb2hex(hexcolor);
+    console.log(hexcolor);
+    var r = parseInt(hexcolor.substr(1, 2), 16);
+    var g = parseInt(hexcolor.substr(3, 2), 16);
+    var b = parseInt(hexcolor.substr(5, 2), 16);
+    var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    console.log("yiq: " + yiq);
+    if (yiq >= 128) {
+        console.log("black");
+        return "black";
+    } else {
+        console.log("white");
+        return "white";
+    }
+}
+
+let resHandler = function(status, s) {
+
+    if (status == "Success") {
+        $("#message").text(s);
+        // $("#handlerIcon").src = "images/success.svg";
+        $("#resHandler").removeClass("error");
+        $("#resHandler").addClass("success");
+        $("#resHandler").show().delay(3000).fadeOut();
+    } else {
+        $("#message").text(s);
+        // $("#handlerIcon").src = "images/warning.svg";
+        $("#resHandler").removeClass("success");
+        $("#resHandler").addClass("error");
+        $("#resHandler").show().delay(3000).fadeOut();
+    }
+};
 
 $(document).ready(function() {
-    let parseCountdown = function(t) {
-        let time = new Date(t);
-        let result = {
-            year: time.getUTCFullYear() - 1970,
-            month: time.getUTCMonth(),
-            date: time.getUTCDate() - 1,
-            hour: time.getUTCHours(),
-            min: time.getUTCMinutes(),
-            s: time.getUTCSeconds()
-        };
-        return result;
-    };
+    $('#right').css("color", getContrastYIQ($("body").css("background-color")));
+    $('.cls-1').css("color", getContrastYIQ($("body").css("background-color")));
+    $('.headingText').css("color", getContrastYIQ($("body").css("background-color")));
 
-    let resHandler = function(status, s) {
-
-        if (status == "Success") {
-            $("#message").text(s);
-            // $("#handlerIcon").src = "images/success.svg";
-            $("#resHandler").removeClass("error");
-            $("#resHandler").addClass("success");
-            $("#resHandler").show().delay(3000).fadeOut();
-        } else {
-            $("#message").text(s);
-            // $("#handlerIcon").src = "images/warning.svg";
-            $("#resHandler").removeClass("success");
-            $("#resHandler").addClass("error");
-            $("#resHandler").show().delay(3000).fadeOut();
-        }
-    };
-
-    window.setInterval(function() {
-        $(".countdownDisplay").html(function() {
-            let result = "";
-            let id = this.closest(".event").id;
-            let raw = parseInt($("#" + id).find(".countdownValue").html());
-            raw = parseInt(raw / 1000) * 1000;
-            $("#" + id).find(".countdownValue").html(raw - 1000);
-            if (raw > 0) {
-                let time = parseCountdown(raw);
-                if (time.year != 0) {
-                    result += ("" + time.year + " Year ");
-                }
-                if (time.month != 0) {
-                    result += ("" + time.month + " Month ");
-                }
-                if (time.date != 0) {
-                    result += ("" + time.date + " Day ");
-                }
-                if (time.hour != 0) {
-                    result += ("" + time.hour + ":");
-                }
-                result += ("" + time.min + ":");
-                result += ("" + time.s);
-                return result;
-            } else {
-                $("#" + id).addClass("finished");
-                return "Now";
-            }
-        });
-    }, 1000);
-
-    $(".countdownDisplay").html(function() {
-        let result = "";
-        let id = this.closest(".event").id;
-        let raw = parseInt($("#" + id).find(".countdownValue").html());
-        raw = parseInt(raw / 1000) * 1000;
-        $("#" + id).find(".countdownValue").html(raw - 1000);
-        if (raw > 0) {
-            let time = parseCountdown(raw);
-            if (time.year != 0) {
-                result += ("" + time.year + " Year ");
-            }
-            if (time.month != 0) {
-                result += ("" + time.month + " Month ");
-            }
-            if (time.date != 0) {
-                result += ("" + time.date + " Day ");
-            }
-            if (time.hour != 0) {
-                result += ("" + time.hour + ":");
-            }
-            result += ("" + time.min + ":");
-            result += ("" + time.s);
-            return result;
-        } else {
-            $("#" + id).addClass("finished");
-            return "Now";
-        }
-    });
     // $(".commentBar").hide();
     $("#titleEntry").on("click", function() {
         $("#timeRow").hide();
         // $("#addTable").addClass("expandUp");
         $("#titleEntry").prop("placeholder", "Title");
-        $("#feeds").css("margin-top", "220px");
+        $("#feeds").css("margin-top", "230px");
         $("#addTable").show();
         $("#addTable").css({
-            "height": "160",
+            "height": "170",
             "padding": "20 20"
         });
         $('html').one('click', function() {
@@ -122,20 +80,20 @@ $(document).ready(function() {
 
     $("label[for=typeD]").on("click", function() {
         $("#addTable").css({
-            "height": "202",
+            "height": "212",
             "padding": "20 20"
         });
-        $("#feeds").css("margin-top", "262px");
+        $("#feeds").css("margin-top", "272px");
         $("#timeRow").show();
     });
 
     $("label[for=typeA]").on("click", function() {
         $("#timeRow").hide();
         $("#addTable").css({
-            "height": "160",
+            "height": "170",
             "padding": "20 20"
         });
-        $("#feeds").css("margin-top", "220px");
+        $("#feeds").css("margin-top", "230px");
         $("#timeRow").find("input").val("00:00");
     });
 
@@ -180,7 +138,7 @@ $(document).ready(function() {
                 success: function(res) {
                     console.log(res);
                     resHandler(res, res);
-                    if (res=="Success") {
+                    if (res == "Success") {
                         $("#" + id).removeClass("event");
                         $("#" + id).css("padding", "20");
                         $("#" + id).html("<p style='color:black'>Deleted</p>")
@@ -413,10 +371,18 @@ $(document).ready(function() {
 
     $('#color').on("change", function(event) {
         $("body").css("background-color", $('#color').val());
+        let YIQ = getContrastYIQ($("body").css("background-color"))
+        $('#right').css("color", YIQ);
+        $('.cls-1').css("color", YIQ);
+        $('.headingText').css("color", YIQ);
     });
 
     $(".back").on("click", function() {
         window.history.back();
+    });
+
+    $("#addButton").on("click", function() {
+        $("#newEvent").submit();
     });
     // let events = $(".animate-opacity");
     // for (var i = 0; i < events.length; i++) {

@@ -1,9 +1,11 @@
 {% extends "base.html" %} {% block left %}
+<script src="../scripts/countdown.js"></script>
+
 <div id="feeds">
-    <h1 {% if user.color < "#7B7B7B"%} style="color:#FFFFFF"{% endif %}>
+    <h1 class="headingText" style="color:{{user.color}}">
         <a href="/u/{{event.owner}}">{{event.owner}}'s</a>
     </h1>
-    <div id={{event.id}} class="card event">
+    <div id={{event.id}} class="card event {{event.type}}">
         {% if event.owner == user.username %}
         <a class="editButton" href="/edit/{{event._id}}">
         Click on event to edit.
@@ -27,9 +29,9 @@
                      </span>
             </a>
             {% if user.adminPrivilege %}
-            <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a> {% elif (user.username == event.owner) %}
-            <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a> {% else %}
-            <a class="action follow" role="button"><span class="buttonText">Follow<span></a> {% endif %}
+            <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a> {% elif (user.username == event.owner) %}
+            <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a> {% else %}
+            <a class="action follow" role="button"><span class="buttonText">Follow</span></a> {% endif %}
         </div>
         {% if user.username %}
         <div class="singleCommentBar">
@@ -47,10 +49,10 @@
                 <span class="timestamp">
                     {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
                 </span> {% if event.owner == user.username %}
-                <a class="deleteComment" role="button"><span class="buttonText">Delete<span></a>
+                <a class="deleteComment" role="button"><span class="buttonText">Delete</span></a>
                 <!-- <button class="deleteComment">Delete</button> -->
                 {% elif comment.owner == user.username %}
-                <a class="deleteComment" role="button"><span class="buttonText">Delete<span></a>
+                <a class="deleteComment" role="button"><span class="buttonText">Delete</span></a>
                 <!-- <button class="deleteComment">Delete</button> -->
                 {% endif %}
             </div>

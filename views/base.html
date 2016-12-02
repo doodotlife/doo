@@ -2,6 +2,13 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="icon" href="../images/favicon.png" type="image/x-icon">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="apple-mobile-web-app-title" content="哈哈">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link href="../images/favicon.svg" rel="apple-touch-icon-precomposed">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
     <link rel="stylesheet" href="../css/main.css" type="text/css">
     <!-- <link rel="stylesheet" href="css/animations.css" type="text/css"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -13,42 +20,41 @@
 
 <body {% if user.color %} style="background-color:{{user.color}}" {% endif %}>
     <ul class="mobileUl">
-                <li class="mobileLi">
-                    <a href="/" class="logo-button mobileA">
+        <li class="mobileLi">
+            <a href="/" class="logo-button mobileA">
                         {# <img src="../images/logo.svg" id="logo"/> #}
                         {% include "logo-template.html" %}
                     </a>
-                </li>
-                {% if user %}
-                    {% if user.adminPrivilege %}
-                        <li class="mobileLi">
-                            <a class="mobileA"><span style="color:red">Admin</span></a>
-                        </li>
-                    {% else %}
-                        <li class="mobileLi">
-                            <a class="mobileA" href="/u/{{ user.username }}" class="">{{ user.username }}
+        </li>
+        {% if user %} {% if user.adminPrivilege %}
+        <li class="mobileLi">
+            <a class="mobileA"><span style="color:red">Admin</span></a>
+        </li>
+        {% else %}
+        <li class="mobileLi">
+            <a class="mobileA" href="/u/{{ user.username }}" class="">{{ user.username }}
                             </a>
-                        </li>
-                    {% endif %}
-                    <li class="mobileLi">
-                        <a class="mobileA" href="/search" class="">Search</a>
-                    </li>
-                    <li class="mobileLi">
-                        <a class="mobileA" href="/settings" class="">Settings</a>
-                    </li>
-                    <li class="mobileLi">
-                        <a class="mobileA" id="signout" class="" role="button" href="/logout">Sign out</a>
-                    </li>
-                {% else %}
-                    <li class="mobileLi">
-                        <a class="mobileA" href="/login" class="">Login</a>
-                    </li>
-                    <li class="mobileLi">
-                        <a class="mobileA" href="/signup" class="">Sign Up</a>
-                    </li>
-                {% endif %}
+        </li>
+        {% endif %}
+        <li class="mobileLi">
+            <a class="mobileA" href="/search" class="">Search</a>
+        </li>
+        <li class="mobileLi">
+            <a class="mobileA" href="/settings" class="">Settings</a>
+        </li>
+        <li class="mobileLi">
+            <a class="mobileA" id="signout" class="" role="button" href="/logout">Sign out</a>
+        </li>
+        {% else %}
+        <li class="mobileLi">
+            <a class="mobileA" href="/login" class="">Login</a>
+        </li>
+        <li class="mobileLi">
+            <a class="mobileA" href="/signup" class="">Sign Up</a>
+        </li>
+        {% endif %}
 
-            </ul>
+    </ul>
     <div id="container">
         <div id="left">
             <div id="resHandler">
@@ -56,49 +62,45 @@
             </div>
             {% block left %}{% endblock %} {% block right %}
         </div>
-        {% if user.color< "#7B7B7B"%}
-            <div id="right" style="color:white">
-        {% else %}
-            <div id="right">
-        {% endif %}
-                <ul>
-                    <li>
-                        <a href="/" class="logo-button">
+        <div id="right" style="color:{{user.color}}">
+            <ul>
+                <li>
+                    <a href="/" class="logo-button">
                                 {# <img src="../images/logo.svg" id="logo"/> #}
                                 {% include "logo-template.html" %}
                             </a>
-                    </li>
-                    {% if user %} {% if user.adminPrivilege %}
-                    <li>
-                        <a><span style="color:red">Admin</span></a>
-                    </li>
-                    {% else %}
-                    <li>
-                        <a href="/u/{{ user.username }}" class="">{{ user.username }}
+                </li>
+                {% if user %} {% if user.adminPrivilege %}
+                <li>
+                    <a><span style="color:red">Admin</span></a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/u/{{ user.username }}" class="">{{ user.username }}
                                     </a>
-                    </li>
-                    {% endif %}
-                    <li>
-                        <a href="/search" class="">Search</a>
-                    </li>
-                    <li>
-                        <a href="/settings" class="">Settings</a>
-                    </li>
-                    <li>
-                        <a id="signout" class="" role="button" href="/logout">Sign out</a>
-                    </li>
-                    {% else %}
-                    <li>
-                        <a href="/login" class="">Login</a>
-                    </li>
-                    <li>
-                        <a href="/signup" class="">Sign Up</a>
-                    </li>
-                    {% endif %}
+                </li>
+                {% endif %}
+                <li>
+                    <a href="/search" class="">Search</a>
+                </li>
+                <li>
+                    <a href="/settings" class="">Settings</a>
+                </li>
+                <li>
+                    <a id="signout" class="" role="button" href="/logout">Sign out</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login" class="">Login</a>
+                </li>
+                <li>
+                    <a href="/signup" class="">Sign Up</a>
+                </li>
+                {% endif %}
 
-                </ul>
-            </div>
-            {% endblock %} {% block mobileBar %} {% endblock %}
+            </ul>
+        </div>
+        {% endblock %} {% block mobileBar %} {% endblock %}
     </div>
 
     <!-- <footer>

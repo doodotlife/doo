@@ -235,14 +235,14 @@ button:visited {
 
 @media screen and (max-width: 1680px) {
     #container {
-        width:50%;
+        width:30%;
     }
 }
 
 /* Normal */
 @media screen and (max-width: 1280px) {
     #container {
-        width:50%;
+        width:30%;
     }
 }
 
@@ -262,22 +262,6 @@ button:visited {
     #container {
         margin-top: 40%;
         width: 70%;
-    }
-    .countdown{
-        top:0;
-        position:sticky;;
-        width: 100%;
-        display: block;
-        float:left;
-    }
-    .action {
-        width: 32.5%
-    }
-    input[name=content] {
-        width: 76%
-    }
-    #left {
-        width: 100%;
     }
 }
 
