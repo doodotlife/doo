@@ -8,7 +8,7 @@
 <div id="feeds">
     <h2 class="headingText" style="color:{{user.color}}">Events</h2>
     {% for event in events %}
-    <div id={{event._id}} class="card event animate-opacity">
+    <div id={{event._id}} class="card event {{event.type}} animate-opacity">
         <h3><a href="/u/{{event.owner}}">{{event.owner}}</a>'s</h3>
         <a class="eventBody" href="/e/{{event._id}}">
         {% include "eventContent.html" %}
@@ -24,7 +24,7 @@
                          {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
                      </span>
             </a>
-            <a class="action getEvent" role="button"><span class="buttonText">>><span></a>
+            <a class="action getEvent" role="button"><span class="buttonText">>></span></a>
         </div>
         <div class="commentBar">
             <form class="commentEntry" action="/comment" method="post">
@@ -38,13 +38,27 @@
     <h2 class="headingText" style="color:{{user.color}}">Users</h2>
     {% for user in users %}
     <div id={{user.username}} class="card user animate-opacity">
-        <h1>{{user.username}}</h1>
-        <p>Name: {{user.name}}</p>
-        <p>Email: {{user.email}}</p>
-        <div>
-            <a class="action follow" role="button"><span class="followButtonText">Follow<span></a>
-            <!-- <button id="followButton" type="button">Follow</button> -->
-        </div>
+        <a href="/u/{{user.username}}">
+            <h1 class="searchUserTitle">
+                <div class="userColor" style="background-color:{{user.color}}">
+                    <!-- <span style="color:#{{user.color[5]}}{{user.color[4]}}{{user.color[3]}}{{user.color[2]}}{{user.color[1]}}{{user.color[0]}};font-weight:300;">
+                        {{user.username[0]}}
+                    </span> -->
+                </div>{{user.username}}</h1>
+            <p>Name: {{user.name}}</p>
+            <p>Email: {{user.email}}</p>
+            <div class="interactions">
+                {% if user.adminPrivilege %}
+                <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete</span></a>
+                {% else %}
+                <a class="action none" role="button"><span class="buttonText"></span></a>
+                {% endif %}
+                <a class="action none" role="button"><span class="buttonText"></span></a>
+
+                <a class="action follow" role="button"><span class="buttonText">Follow</span></a>
+                <!-- <button id="followButton" type="button">Follow</button> -->
+            </div>
+        </a>
     </div>
     {% endfor %}
 </div>

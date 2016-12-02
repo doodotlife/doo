@@ -7,7 +7,7 @@
 <!-- <div id="addBar" class="card"> -->
 <input id="titleEntry" type="text" form="newEvent" name="title" placeholder="New Event" Class="topBar" required>
 <!-- </div> -->
-<div id="addTable" class="card">
+<div id="addTable" class="card event">
     <form id="newEvent" action="/event" method="post">
         <table>
             <tr>
@@ -61,7 +61,7 @@
                     </div>
                 </td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td></td>
                 <td>
                     <button id="addButton">
@@ -69,15 +69,30 @@
                         </button>
 
                     <button type="button" id="cancelAdd">Cancel</button>
-                    <!-- <input type="submit" value="Add" /> -->
                 </td>
-            </tr>
+            </tr> -->
         </table>
     </form>
+    <div class="interactions">
+        <a class="action none" role="button">
+            <span class="buttonText"></span>
+        </a>
+        <a id="cancelAdd" class="action cancel" role="button">
+            <span class="buttonText">
+                Cancel
+            </span>
+        </a>
+        <!-- <a id="addButton" class="action addEvent" role="button">
+            <span class="buttonText" style="color:red">
+                Add
+            </span>
+        </a> -->
+        <input class="action addEvent" type="submit" form="newEvent" value="Add"/>
+    </div>
 </div>
 <div id="feeds">
     {% for event in events %}
-    <div id={{event._id}} class="card event {% if event.finished %}finished{% endif %} animate-opacity">
+    <div id={{event._id}} class="card event {{event.type}} {% if event.finished %}finished{% endif %} animate-opacity">
         <h3><a href="/u/{{event.owner}}">{{event.owner}}</a>'s</h3>
         <hr />
         <a class="eventBody" href="/e/{{event._id}}">
@@ -95,11 +110,11 @@
                 </span>
             </a>
             {% if user.adminPrivilege %}
-                <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a>
+                <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a>
             {% elif (user.username == event.owner) %}
-                <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete<span></a>
+                <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a>
             {% else %}
-                <a class="action follow" role="button"><span class="buttonText">Follow<span></a>
+                <a class="action follow" role="button"><span class="buttonText">Follow</span></a>
             {% endif %}
         </div>
             <div class="commentBar">

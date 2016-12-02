@@ -18,7 +18,6 @@ $(document).ready(function() {
             let result = "";
             let id = this.closest(".event").id;
             let raw = Date.parse(new Date((new Date($("#" + id).find(".timeValue").html())) - (new Date())));
-            console.log(id + ": " + raw);
             if (raw > 0) {
                 let time = parseCountdown(raw);
                 if (time.year == 1) {
@@ -60,7 +59,30 @@ $(document).ready(function() {
                 return result;
             } else {
                 $("#" + id).addClass("finished");
-                return "Now";
+                if ($("#" + id).hasClass("anniversary")) {
+                    let raw = Date.parse(new Date((new Date($("#" + id).find(".timeValue").html()).setFullYear((new Date().getFullYear()))) - (new Date())));
+                    let time = parseCountdown(0 - raw);
+                    if (time.month == 1) {
+                        result += ("" + time.month + " Month ");
+                    } else if (time.month != 0) {
+                        result += ("" + time.month + " Months ");
+                    }
+
+                    if (time.date == 1) {
+                        return "Yesterday"
+                    } else if (time.date != 0) {
+                        result += ("" + time.date + " Days ");
+                    }
+
+                    if (time.month == 0 && time.date == 0) {
+                        return "Today"
+                    }
+
+                    result += "Ago"
+
+                    return result;
+                }
+                return "Passed";
             }
         });
     }, 1000);

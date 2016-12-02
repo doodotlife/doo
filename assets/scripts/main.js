@@ -54,10 +54,10 @@ $(document).ready(function() {
         $("#timeRow").hide();
         // $("#addTable").addClass("expandUp");
         $("#titleEntry").prop("placeholder", "Title");
-        $("#feeds").css("margin-top", "220px");
+        $("#feeds").css("margin-top", "230px");
         $("#addTable").show();
         $("#addTable").css({
-            "height": "160",
+            "height": "170",
             "padding": "20 20"
         });
         $('html').one('click', function() {
@@ -80,20 +80,20 @@ $(document).ready(function() {
 
     $("label[for=typeD]").on("click", function() {
         $("#addTable").css({
-            "height": "202",
+            "height": "212",
             "padding": "20 20"
         });
-        $("#feeds").css("margin-top", "262px");
+        $("#feeds").css("margin-top", "272px");
         $("#timeRow").show();
     });
 
     $("label[for=typeA]").on("click", function() {
         $("#timeRow").hide();
         $("#addTable").css({
-            "height": "160",
+            "height": "170",
             "padding": "20 20"
         });
-        $("#feeds").css("margin-top", "220px");
+        $("#feeds").css("margin-top", "230px");
         $("#timeRow").find("input").val("00:00");
     });
 
@@ -379,6 +379,10 @@ $(document).ready(function() {
 
     $(".back").on("click", function() {
         window.history.back();
+    });
+
+    $("#addButton").on("click", function() {
+        $("#newEvent").submit();
     });
     // let events = $(".animate-opacity");
     // for (var i = 0; i < events.length; i++) {

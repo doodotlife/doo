@@ -235,14 +235,14 @@ button:visited {
 
 @media screen and (max-width: 1680px) {
     #container {
-        width:50%;
+        width:30%;
     }
 }
 
 /* Normal */
 @media screen and (max-width: 1280px) {
     #container {
-        width:50%;
+        width:30%;
     }
 }
 
