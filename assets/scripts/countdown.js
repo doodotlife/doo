@@ -15,7 +15,6 @@
 
 let parseCountdown = function(t) {
     let time = new Date(t);
-    console.log(time);
     let result = {
         year: time.getUTCFullYear() - 1970,
         month: time.getUTCMonth(),

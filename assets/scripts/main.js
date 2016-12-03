@@ -253,6 +253,29 @@ $(document).ready(function() {
             success: function(res) {
                 console.log(res);
                 resHandler(res, res);
+                $("#" + username ).find(".follow").hide();
+                $("#" + username ).find(".unfollow").show();
+            }
+        });
+    });
+
+    $(".unfollow").on("click", function(e){
+        e.preventDefault();
+        console.log("unfollow");
+        let username = this.closest(".user").id;
+        $.ajax({
+            url: "/unfollow",
+            type: "post",
+            dataType: "text",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                following: username
+            }),
+            success: function(res) {
+                console.log(res);
+                resHandler(res, res);
+                $("#" + username ).find(".unfollow").hide();
+                $("#" + username ).find(".follow").show();
             }
         });
     });

@@ -62,7 +62,9 @@
 
                         {% if u.username in user.following %}
                         <a class="action unfollow" role="button"><span class="buttonText">Unfollow</span></a>
+                        <a class="action follow" role="button" style="display:none"><span class="buttonText">Follow</span></a>
                         {% else %}
+                        <a class="action unfollow" role="button" style="display:none"><span class="buttonText">Unfollow</span></a>
                         <a class="action follow" role="button"><span class="buttonText">Follow</span></a>
                         {% endif %}
                         <!-- <button id="followButton" type="button">Follow</button> -->

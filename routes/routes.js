@@ -130,6 +130,26 @@ let helper = {
             });
         });
     },
+
+    formatDate: function(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    },
+
+    parseTimezone: function(time, value) {
+        var date = time;
+        var targetTime = new Date(date);
+        var timeZoneFromDB = value;
+        var tzDifference = timeZoneFromDB * 60 + targetTime.getTimezoneOffset();
+        return new Date(targetTime.getTime() + tzDifference * 60 * 1000);
+    }
 };
 
 module.exports = {
@@ -148,6 +168,7 @@ module.exports = {
                 });
 
             } else {
+                
                 res.render('login.html', {
                     success: 'Successfully registered! Login now and doo on.'
                 });
@@ -305,11 +326,12 @@ module.exports = {
         console.log(req.body);
         let newEvent = new db.Event(req.body);
         newEvent.owner = req.user.username;
-        var date = newEvent.time;
-        var targetTime = new Date(date);
-        var timeZoneFromDB = -5.00;
-        var tzDifference = timeZoneFromDB * 60 + targetTime.getTimezoneOffset();
-        newEvent.time = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
+        // var date = newEvent.time;
+        // var targetTime = new Date(date);
+        // var timeZoneFromDB = -5.00;
+        // var tzDifference = timeZoneFromDB * 60 + targetTime.getTimezoneOffset();
+        // newEvent.time = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
+        newEvent.time = helper.parseTimezone(newEvent.time, -5.00);
         newEvent.save(function(err, newEvent) {
             if (err) {
                 return res.render("notFound.html", {
@@ -486,11 +508,11 @@ module.exports = {
         }
     },
 
-    unFollow: function() {
+    unFollow: function(req, res) {
         // remove this person from current user's 'following' property
         // remove the current user from the person's 'followedBy' property
         db.User.findOneAndUpdate({
-            username: req.body.username
+            username: req.user.username
         }, {
             $pull: {
                 "following": req.body.following
@@ -501,22 +523,21 @@ module.exports = {
                     error: "Error: Cannot unfollow. Please try again."
                 });
             }
+            db.User.findOneAndUpdate({
+                username: req.body.following
+            }, {
+                $pull: {
+                    "followedBy": req.user.username
+                }
+            }, function(err, user) {
+                if (err) {
+                    return res.render("notFound.html", {
+                        error: "Error: User not found."
+                    });
+                }
+                res.send("Success");
+            });
         });
-        db.User.findOneAndUpdate({
-            username: req.body.following
-        }, {
-            $pull: {
-                "followedBy": req.body.username
-            }
-        }, function(err, user) {
-            if (err) {
-                return res.render("notFound.html", {
-                    error: "Error: User not found."
-                });
-            }
-        });
-        res.send("Success");
-
     },
 
     showFollowedEvents: function() {
@@ -867,15 +888,23 @@ module.exports = {
             }
             if (req.body.time) {
                 let newDate = req.body.time[0];
+                let date = undefined;
                 if (newDate != "") {
                     if (req.body.type == "deadline") {
-                        eventObj.time = new Date(newDate + "T" + req.body.time[1] +":00.000Z");
+                        date = new Date(newDate + "T" + req.body.time[1] +":00.000Z");
                     } else if (req.body.type == "anniversary") {
-                        eventObj.time = new Date(newDate);
+                        date = new Date(newDate);
                     } else {
-                        eventObj.time = new Date(newDate + "T" + eventObj.time.toTimeString().substr(0, 8) +".000Z");
+                        date = new Date(newDate + "T" + eventObj.time.toTimeString().substr(0, 8) +".000Z");
+                    }
+                } else {
+                    if (req.body.type == "deadline") {
+                        date = new Date(helper.formatDate(eventObj.time) + "T" + req.body.time[1] +":00.000Z");
                     }
                 }
+                if (date) {
+                    eventObj.time = helper.parseTimezone(date, 0.00);
+                };
             }
             if (req.body.type && req.body.type != "") {
                 eventObj.type = req.body.type;
