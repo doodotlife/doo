@@ -58,7 +58,10 @@ $(document).ready(function() {
     };
 
     $('#right').css("color", getContrastYIQ($("body").css("background-color")));
-    $('.cls-1').css("color", getContrastYIQ($("body").css("background-color")));
+    // $('.cls-1').css("color", getContrastYIQ($("body").css("background-color")));
+    // $(".cls-1").style.fill="red";
+    $("#logo").attr('style', "fill:"+ getContrastYIQ($("body").css("background-color")));
+    // $("#logo").attr('style', "fill: red");
     $('.headingText').css("color", getContrastYIQ($("body").css("background-color")));
 
     // $(".commentBar").hide();
@@ -294,7 +297,7 @@ $(document).ready(function() {
         $("body").css("background-color", $('#color').val());
         let YIQ = getContrastYIQ($("body").css("background-color"))
         $('#right').css("color", YIQ);
-        $('.cls-1').css("color", YIQ);
+        $("#logo").attr('style', "fill:"+ YIQ);
         $('.headingText').css("color", YIQ);
     });
 
