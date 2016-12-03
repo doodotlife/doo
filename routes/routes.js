@@ -768,6 +768,11 @@ module.exports = {
                     error: "Cannot delete the comment. Please try again."
                 });
             }
+
+            db.Comment.remove({
+                "_id": req.body.comment
+            }, function() {});
+
             res.send("Success");
         });
     },
