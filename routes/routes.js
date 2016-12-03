@@ -168,7 +168,7 @@ module.exports = {
                 });
 
             } else {
-                
+
                 res.render('login.html', {
                     success: 'Successfully registered! Login now and doo on.'
                 });
@@ -720,12 +720,17 @@ module.exports = {
                     });
                 }
             });
-            // if (err) {
-            //     return res.render("notFound.html", {
-            //         user: req.user,
-            //         error: "Cannot delete the comment. Please try again."
-            //     });
-            // }
+            if (err) {
+                return res.render("notFound.html", {
+                    user: req.user,
+                    error: "Cannot delete the comment. Please try again."
+                });
+            }
+
+            db.Comment.remove({
+                "_id": req.body.comment
+            }, function() {});
+
             res.send("Success");
         });
     },
