@@ -434,32 +434,34 @@ module.exports = {
             }
         });
     },
-    /* req.body format
-    {
-        id,
-        title,
-        time,
-        type,
-        private
-    }
-    */
-
-    editEvent: function(req, res) {
-        // With dates, event name, event type
-        db.Event.findOneAndUpdate({
-            _id: req.body.id
-        }, {
-            $set: req.body.event
-        }, function(err, event) {
-            if (err) {
-                return res.render("notFound.html", {
-                    error: "Cannot find the event. Please try again."
-                });
-            }
-            event.save();
-            res.send('Success');
-        })
-    },
+    // /* req.body format
+    // {
+    //     id,
+    //     title,
+    //     time,
+    //     type,
+    //     private
+    // }
+    // */
+    //
+    // editEvent: function(req, res) {
+    //     // With dates, event name, event type
+    //     console.log("=================================");
+    //     console.log(req.body);
+    //     db.Event.findOneAndUpdate({
+    //         _id: req.body.id
+    //     }, {
+    //         $set: req.body.event
+    //     }, function(err, event) {
+    //         if (err) {
+    //             return res.render("notFound.html", {
+    //                 error: "Cannot find the event. Please try again."
+    //             });
+    //         }
+    //         event.save();
+    //         res.send('Success');
+    //     })
+    // },
 
     // req.body format:
     // {
@@ -897,6 +899,55 @@ module.exports = {
                 });
             }
 
+        });
+    },
+
+    /* req.body.format
+        {
+            event: id,
+            title: ,
+            time: ,
+            type: ,
+            private:
+        }
+        */
+    editEvent: function(req, res) {
+        console.log("+++++++++++++++++++++++++++++++++++++");
+        console.log(req.body);
+        db.Event.findOne({
+            "_id": req.body.event
+        }, function(err, eventObj) {
+            if (err) {
+                return res.render("editEvent.html", {
+                    user: req.user,
+                    event: eventObj,
+                    error: err + ": Error! Cannot change your event!"
+                });
+            }
+
+            if (req.body.title && req.body.title != "") {
+                eventObj.title = req.body.title;
+            }
+            if (req.body.time && req.body.time != "") {
+                eventObj.time = req.body.time;
+            }
+            if (req.body.type && req.body.type != "") {
+                eventObj.type = req.body.type;
+            }
+            if (req.body.private && req.body.private != "") {
+                eventObj.private = req.body.private;
+            }
+
+            eventObj.save(function(err) {
+                console.log(err);
+            });
+            console.log(eventObj);
+
+            return res.render("editEvent.html", {
+                user: req.user,
+                event: eventObj,
+                success: "Success!"
+            });
         });
     },
 
