@@ -20,31 +20,32 @@
 
 <body {% if user.color %} style="background-color:{{user.color}}" {% endif %}>
     <ul class="mobileUl">
-        <li class="mobileLi">
-            <a href="/" class="logo-button mobileA">
-                        {# <img src="../images/logo.svg" id="logo"/> #}
-                        {% include "logo-template.html" %}
-                    </a>
-        </li>
-        {% if user %} {% if user.adminPrivilege %}
-        <li class="mobileLi">
-            <a class="mobileA"><span style="color:red">Admin</span></a>
-        </li>
-        {% else %}
-        <li class="mobileLi">
-            <a class="mobileA" href="/u/{{ user.username }}" class="">{{ user.username }}
-                            </a>
-        </li>
-        {% endif %}
-        <li class="mobileLi">
-            <a class="mobileA" href="/search" class="">Search</a>
-        </li>
-        <li class="mobileLi">
-            <a class="mobileA" href="/settings" class="">Settings</a>
-        </li>
-        <li class="mobileLi">
-            <a class="mobileA" id="signout" class="" role="button" href="/logout">Sign out</a>
-        </li>
+        {% if user %}
+            <!-- <li class="mobileLi"> -->
+                <a href="/" class="mobileA">
+                    <img class="mobileButton" src="../images/button_home.svg"/>
+                </a>
+            <!-- </li> -->
+            <!-- <li class="mobileLi"> -->
+                <a href="/search" class="mobileA">
+                    <img class="mobileButton" src="../images/button_search.svg"/>
+                </a>
+            <!-- </li> -->
+            <!-- <li class="mobileLi"> -->
+                <a href="/u/{{user.username}}" class="mobileA">
+                    <img class="mobileButton" src="../images/button_user.svg"/>
+                </a>
+            <!-- </li> -->
+            <!-- <li class="mobileLi"> -->
+                <a href="/settings" class="mobileA">
+                    <img class="mobileButton" src="../images/button_settings.svg"/>
+                </a>
+            <!-- </li> -->
+            <!-- <li class="mobileLi"> -->
+                <a href="/logout" class="mobileA">
+                    <img class="mobileButton" src="../images/button_signout.svg"/>
+                </a>
+            <!-- </li> -->
         {% else %}
         <li class="mobileLi">
             <a class="mobileA" href="/login" class="">Login</a>

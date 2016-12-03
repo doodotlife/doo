@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block left %}
 <script src="../scripts/countdown.js"></script>
+<script src="../scripts/comment.js"></script>
 
 <div id="feeds">
     <h1 class="headingText" style="color:{{user.color}}">
@@ -45,15 +46,13 @@
         <div id="comments">
             {% for comment in commentList %}
             <div id={{comment.id}} class="comment animate-opacity">
-                <span class="commentOwner"><strong><a href="/u/{{comment.owner}}">{{comment.owner}}</a>: </strong></span>{{comment.content}}
-                <span class="timestamp">
-                    {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
-                </span> {% if event.owner == user.username %}
-                <a class="deleteComment" role="button"><span class="buttonText">Delete</span></a>
-                <!-- <button class="deleteComment">Delete</button> -->
+                <span class="commentOwner"><strong><a href="/u/{{comment.owner}}">{{comment.owner}}</a>: </strong></span>
+                <span class="commentContent">{{comment.content}}</span>
+                <span class="timestamp">{{ comment.timestamp.toLocaleString() }}</span>
+                {% if event.owner == user.username %}
+                    <a class="deleteComment" role="button"><span class="buttonText deleteButtonText">Delete</span></a>
                 {% elif comment.owner == user.username %}
-                <a class="deleteComment" role="button"><span class="buttonText">Delete</span></a>
-                <!-- <button class="deleteComment">Delete</button> -->
+                    <a class="deleteComment" role="button"><span class="buttonText deleteButtonText">Delete</span></a>
                 {% endif %}
             </div>
             {% endfor %}

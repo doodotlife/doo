@@ -436,20 +436,18 @@ module.exports = {
     },
     /* req.body format
     {
-        "event" : {
-            id,
-            title,
-            time,
-            type,
-            private
-        }
+        id,
+        title,
+        time,
+        type,
+        private
     }
     */
 
     editEvent: function(req, res) {
         // With dates, event name, event type
         db.Event.findOneAndUpdate({
-            _id: req.body.event.id
+            _id: req.body.id
         }, {
             $set: req.body.event
         }, function(err, event) {

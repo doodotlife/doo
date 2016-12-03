@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block left %}
 <script src="../scripts/countdown.js"></script>
+<script src="../scripts/comment.js"></script>
 
 <!-- <script src="../scripts/index.js"></script> -->
 
@@ -15,8 +16,7 @@
                     Time
                 </td>
                 <td>
-                    <!-- <input  name="time" type="datetime-local" hidden/> -->
-                    <input id="dateEntry" name="time" type="date" default="YYYY-MM-DD" max="9999-12-31" required/>
+                    <input id="dateEntry" name="time" type="date" max="9999-12-31" required/>
                 </td>
             </tr>
             <tr>
@@ -25,14 +25,14 @@
                 </td>
                 <td>
                     <div class="radio">
-                        <input name="type" id="typeD" type="radio" value="deadline" required />
-                        <label for="typeD">
-                                Deadline
-                            </label>
-                        <input name="type" id="typeA" type="radio" value="anniversary" />
-                        <label for="typeA">
-                                Anniversary
-                            </label>
+                        <div class="option">
+                            <input name="type" id="typeD" type="radio" value="deadline" required />
+                            <label for="typeD">Deadline</label>
+                        </div>
+                        <div class="option">
+                            <input name="type" id="typeA" type="radio" value="anniversary" />
+                            <label for="typeA">Anniversary</label>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -50,14 +50,14 @@
                 </td>
                 <td>
                     <div class="radio">
-                        <input name="private" id="privateT" type="radio" value=true required />
-                        <label for="privateT">
-                                Yes
-                            </label>
-                        <input name="private" id="privateF" type="radio" value=false />
-                        <label for="privateF">
-                                No
-                            </label>
+                        <div class="option">
+                            <input name="private" id="privateT" type="radio" value=true required />
+                            <label for="privateT">Yes</label>
+                        </div>
+                        <div class="option">
+                            <input name="private" id="privateF" type="radio" value=false />
+                            <label for="privateF">No</label>
+                        </div>
                     </div>
                 </td>
             </tr>
