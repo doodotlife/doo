@@ -97,33 +97,6 @@ $(document).ready(function() {
         $("#timeRow").find("input").val("00:00");
     });
 
-    $(".doComment").on("click", function(e) {
-        let id = this.closest(".event").id;
-        $("#" + id).children(".commentBar").css({
-            "height": "60",
-            "border-top": "1px solid #efefef"
-        });
-        $("#" + id).find(".doComment").addClass("closeComment");
-        $("#" + id).find(".doComment").removeClass("doComment");
-        // $("#" + id).children(".doComment").one('click', function() {
-        //     console.log("one click");
-        //     $("#" + id).children(".commentBar").css("height", "0");
-        // });
-    });
-
-    $(".closeComment").on("click", function(e) {
-        let id = this.closest(".event").id;
-        $("#" + id).children(".commentBar").css({
-            "height": "0",
-            "border-top": "1px solid #FFFFFF"
-        });
-        $("#" + id).find(".closeComment").addClass("doComment");
-        $("#" + id).find(".closeComment").removeClass("closeComment");
-        // $("#" + id).children(".doComment").one('click', function() {
-        //     console.log("one click");
-        //     $("#" + id).children(".commentBar").css("height", "0");
-        // });
-    });
     $(".deleteEvent").on("click", function() {
         let id = this.closest(".event").id;
         if (confirm("Are you sure you want to delete this Event?")) {
@@ -159,25 +132,6 @@ $(document).ready(function() {
     //     });
     // });
 
-    $(".deleteComment").on("click", function() {
-        let commentID = this.closest(".comment").id;
-        let eventID = this.closest(".event").id;
-        $.ajax({
-            url: '/comment',
-            type: 'delete',
-            dataType: 'text',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({
-                comment: commentID,
-                event: eventID
-            }),
-            success: function(res) {
-                console.log(res);
-                $('#' + commentID).remove();
-            }
-        });
-    });
-
     // $("#newEvent").submit(function(e) {
     //     e.preventDefault();
     //
@@ -200,74 +154,6 @@ $(document).ready(function() {
         $("#addTable").css({
             "height": "0px",
             "padding": "0 20"
-        });
-    });
-
-    $(".commentEntry").on("submit", function(e) {
-        e.preventDefault();
-        let comment = {};
-        let id = this.closest(".event").id;
-        console.log("commenting event id: " + id);
-        comment.content = $("#" + id).find("input[name=content]").val()
-        comment.event = id;
-        $.ajax({
-            url: "/comment",
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(comment),
-            // data:comment,
-            success: function(res) {
-                let newComment = $('<div>');
-                newComment.id = res.comment._id;
-                newComment.addClass("comment");
-                newComment.addClass("animate-opacity");
-                let owner = $('<span>');
-                owner.addClass("commentOwner");
-                let strong = $("<strong>");
-                strong.html(res.comment.owner + ": ");
-                owner.append(strong);
-                newComment.append(owner);
-                newComment.append(res.comment.content);
-                let timestamp = $("<span>")
-                timestamp.addClass("timestamp");
-                let time = new Date(parseInt(res.comment._id.toString().substring(0, 8), 16) * 1000);
-                timestamp.html("" + time.getFullYear() + "-" +
-                    (time.getMonth() + 1) + "-" +
-                    time.getDate() + " " +
-                    time.getHours() + ":" +
-                    time.getMinutes());
-                newComment.append(timestamp);
-                let deleteButton = $("<a class='deleteComment' role='button'><span class='buttonText'>Delete<span></a>");
-                deleteButton.on("click", function() {
-                    let eventID = this.closest(".event").id;
-                    $.ajax({
-                        url: '/comment',
-                        type: 'delete',
-                        dataType: 'text',
-                        contentType: 'application/json; charset=utf-8',
-                        data: JSON.stringify({
-                            comment: newComment.id,
-                            event: eventID
-                        }),
-                        success: function(res) {
-                            console.log(res);
-                            $('#' + newComment.id).remove();
-                        }
-                    });
-                });
-                newComment.append(deleteButton);
-                //     <span class="commentOwner"><strong>{{comment.owner}}: </strong></span>{{comment.content}} {% if session.event_owner == session.username %}
-                //     <span class="timestamp">
-                //             {{comment.timestamp.getFullYear()}}-{{comment.timestamp.getMonth() + 1}}-{{comment.timestamp.getDate()}} {{comment.timestamp.getHours()}}:{{comment.timestamp.getMinutes()}}
-                //         </span>
-                //     <button class="deleteComment">Delete</button> {% elif comment.owner == session.username %}
-                //     <button class="deleteComment">Delete</button> {% endif %}
-                // </div>
-                $("#comments").prepend(newComment);
-                $("#" + id).find(".commentButtonText").html(res.count + " Comments");
-                $("#" + id).find("input[name=content]").val("");
-            }
         });
     });
 

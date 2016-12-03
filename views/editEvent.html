@@ -1,24 +1,72 @@
 {% extends "base.html" %} {% block left %}
-<div id="feeds">
-    <form id="editEvent" action="/editevent" method="put">
+<script src="../scripts/editEvent.js"></script>
+
+    <form id="editEvent" action="/editevent" method="post">
         <h1 class="headingText" style="color:{{user.color}}"><a href="/u/{{event.owner}}">{{event.owner}}'s</a></h1>
-        <div id={{event.id}} class="card event">
-        Click << to go back.
-            <h1>
-                <input id="editTitle" name="title" type="text" placeholder="{{event.title}}"/>
-            </h1>
-            <div class="date">
-                <h3><input id="editDate" name="time" type="date"/></h3>
-            </div>
-            <div class="tags">
-                type selector needed here
-            </div>
-            <div class="interactions">
-                <a class="action back" role="button"><span class="buttonText"><<</span></a>
-                <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a>
-                <a class="action saveEvent" role="button"><span class="buttonText">Save</span></a>
-            </div>
+        <div id={{event.id}} class="card event editTable">
+            Click
+            << to go back. <h1>
+                <input id="editTitle" name="title" type="text" placeholder="{{event.title}}" />
+                <input name="event" value="{{event.id}}" hidden />
+                </h1>
+                <table>
+                    <tr>
+                        <td>
+                            Date
+                        </td>
+                        <td>
+                            <h3><input id="editDate" name="time" type="date"/></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            <div class="radio">
+                                <div class="option">
+                                    <input name="type" id="typeD" type="radio" value="deadline" />
+                                    <label for="typeD">Deadline</label>
+                                </div>
+                                <div class="option">
+                                    <input name="type" id="typeA" type="radio" value="anniversary" />
+                                    <label for="typeA">Anniversary</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="timeRow" class="animate-opacity">
+                        <td>
+                            Time
+                        </td>
+                        <td>
+                            <input id="timeEntry" name="time" type="time" value="00:00"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Private
+                        </td>
+                        <td>
+                            <div class="radio">
+                                <div class="option">
+                                    <input name="private" id="privateT" type="radio" value=true  />
+                                    <label for="privateT">Yes</label>
+                                </div>
+                                <div class="option">
+                                    <input name="private" id="privateF" type="radio" value=false />
+                                    <label for="privateF">No</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="interactions">
+                    <a class="action back" role="button"><span class="buttonText"><<</span></a>
+                    <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a>
+                    <input class="action saveEvent" type="submit" form="editEvent" value="Save"/>
+                </div>
         </div>
     </form>
-</div>
 {% endblock %}

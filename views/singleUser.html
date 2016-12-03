@@ -8,6 +8,11 @@ $('body').css("background-color", "{{targetUser.color}}");
 <h1 class="headingText" style="color:{{user.color}}">{{targetUser.username}}</h1>
 <h3 class="headingText" style="color:{{user.color}}">Profile</h3>
 <div id={{targetUser.username}} class="card user">
+    {% if targetUser.adminPrivilege %}
+        <div class="tag" style="float:right">
+            Admin
+        </div>
+    {% endif %}
     <table>
         <tr>
             <td>
@@ -47,11 +52,24 @@ $('body').css("background-color", "{{targetUser.color}}");
     <div class="interactions">
         <a class="action showEvents" role="button"><span class="buttonText showEventsText">{{targetUser.events.length}} Event{% if targetUser.events.length != 1 %}s{% endif %}</span></a>
         <a class="action showFollowers" role="button"><span class="buttonText">{{targetUser.followedBy.length}} Follower{% if targetUser.followedBy.length != 1 %}s{% endif %}</span></a>
-        {% if user.adminPrivilege %}
-            <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete</span></a>
-        {% else %}
-            <a class="action follow" role="button"><span class="buttonText">Follow</span></a>
-        {% endif %}
+            {% if user %}
+                {% if user.username != targetUser.username %}
+                    {% if user.adminPrivilege %}
+                        <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete</span></a>
+                    {% else %}
+                        {% if u.username in user.following %}
+                        <a class="action unfollow" role="button"><span class="buttonText">Unfollow</span></a>
+                        {% else %}
+                        <a class="action follow" role="button"><span class="buttonText">Follow</span></a>
+                        {% endif %}
+                    <!-- <button id="followButton" type="button">Follow</button> -->
+                    {% endif %}
+                {% else %}
+                    <a class="action none" role="button"><span class="buttonText"></span></a>
+                {% endif %}
+            {% else %}
+                <a class="action none" role="button"><span class="buttonText"></span></a>
+            {% endif %}
     </div>
 </div>
 
