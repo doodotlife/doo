@@ -116,13 +116,8 @@ let userSchema = new Schema(
 
 userSchema.plugin(passportLocalMongoose, {usernameField: 'email'});
 
-<<<<<<< HEAD
 mongoose.connect('mongodb://doo:universityoftoronto@ds115798.mlab.com:15798/doo');
 
-=======
-// mongoose.connect('mongodb://localhost/usersdb');
-mongoose.connect('mongodb://doo:universityoftoronto@ds115798.mlab.com:15798/doo');
->>>>>>> CSC309-Fall-2016/master
 let schema = {'User': mongoose.model('User', userSchema), 'Event': mongoose.model('Event', eventSchema),
               'Comment': mongoose.model('Comment', commentSchema)
 };
