@@ -74,20 +74,43 @@ let helper = {
     },
 
     getAllEvents: function(req, res, newEvent) {
-        let userArray = req.user.following.concat([req.user.username]);
+        // let userArray = req.user.following.concat([req.user.username]);
+        // db.Event.find({
+        //     "owner": {
+        //         $in: userArray
+        //     }
+        // }, function(err, events) {
+        //     let result = helper.sortEvent(events).result;
+        //     res.render('index.html', {
+        //         user: req.user,
+        //         events: result,
+        //         new: newEvent
+        //     });
+        // });
         db.Event.find({
-            "owner": {
-                $in: userArray
-            }
+            "owner": req.user.username
         }, function(err, events) {
-            let result = helper.sortEvent(events).result;
-            res.render('index.html', {
-                user: req.user,
-                events: result,
-                new: newEvent
+            if (err) {
+                return res.render('notFound.html', {
+                    user: req.user,
+                    error: "cannot get event data for " + req.user.username
+                });
+            }
+            db.Event.find({
+                "owner": {
+                    $in: req.user.following
+                },
+                "private": false
+            }, function(err, followingEvent) {
+                let result = helper.sortEvent(followingEvent.concat(events));
+                console.log(result);
+                res.render('index.html', {
+                    user: req.user,
+                    events: result.result,
+                    new: newEvent
+                });
             });
         });
-
     },
 
     getSingleUserEvents: function(req, res) {
@@ -209,25 +232,49 @@ module.exports = {
                     });
                 }
                 console.log(user)
-                db.Event.find({
-                    "owner": req.params.username
-                }, function(err, result) {
-                    if (err) {
-                        return res.render("notFound.html", {
-                            error: "Cannot get the user. Please try again."
+                if (req.user && req.user.username == req.params.username) {
+                    db.Event.find({
+                        "owner": req.params.username
+                    }, function(err, result) {
+                        if (err) {
+                            return res.render("notFound.html", {
+                                error: "Cannot get the user. Please try again."
+                            });
+                        }
+                        // res.send({"events":events});
+                        // console.log(events);
+                        user.eventsObjs = result;
+                        result = helper.sortEvent(result).result;
+                        console.log(user);
+                        res.render('singleUser.html', {
+                            targetUser: user,
+                            events: result,
+                            user: req.user
                         });
-                    }
-                    // res.send({"events":events});
-                    // console.log(events);
-                    user.eventsObjs = result;
-                    result = helper.sortEvent(result).result;
-                    console.log(user);
-                    res.render('singleUser.html', {
-                        targetUser: user,
-                        events: result,
-                        user: req.user
                     });
-                });
+                } else {
+                    db.Event.find({
+                        "owner": req.params.username,
+                        "private": false
+                    }, function(err, result) {
+                        if (err) {
+                            return res.render("notFound.html", {
+                                error: "Cannot get the user. Please try again."
+                            });
+                        }
+                        // res.send({"events":events});
+                        // console.log(events);
+                        user.eventsObjs = result;
+                        result = helper.sortEvent(result).result;
+                        console.log(user);
+                        res.render('singleUser.html', {
+                            targetUser: user,
+                            events: result,
+                            user: req.user
+                        });
+                    });
+                }
+
             });
     },
 
@@ -389,20 +436,18 @@ module.exports = {
     },
     /* req.body format
     {
-        "event" : {
-            id,
-            title,
-            time,
-            type,
-            private
-        }
+        id,
+        title,
+        time,
+        type,
+        private
     }
     */
 
     editEvent: function(req, res) {
         // With dates, event name, event type
         db.Event.findOneAndUpdate({
-            _id: req.body.event.id
+            _id: req.body.id
         }, {
             $set: req.body.event
         }, function(err, event) {

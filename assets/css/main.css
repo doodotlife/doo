@@ -28,7 +28,7 @@ a:visited {
     color: inherit;
 }
 
-a:first-child {
+a:first-child span {
     border:none;
 }
 
@@ -56,8 +56,8 @@ hr {
 #feeds {
     /*height: 90%;*/
     align-content: center;
-    margin-bottom: 40%;
     transition: all 0.4s;
+    margin-bottom: 40%
 }
 
 ul {
@@ -88,13 +88,13 @@ li a {
 }
 
 li a:hover {
-    font-style: regular;
 }
 
 #container {
     width: 50%;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 40%;
     margin-top: 10%;
 }
 
@@ -184,6 +184,7 @@ th {
 }
 
 #timeRow {
+    display: none;
     overflow: none;
     height: 0;
 }
@@ -296,7 +297,7 @@ input[name=content] {
     border: 1px solid #efefef;
     border-radius: 4px;
     /*overflow-x: auto;*/
-    width: 450px;
+    width: 484px;
     font-size: 16px;
     padding: 10px;
 }
@@ -379,6 +380,12 @@ input[name=content]:hover {
     /*height: 260px;*/
 }
 
+.editTable {
+    display: block;
+    padding-bottom: 0px;
+
+}
+
 .interactions {
     width: 100%;
     margin-top: 10px;
@@ -398,6 +405,24 @@ input[name=content]:hover {
     margin: 7px 0px 7px 0px;
     /*padding: 5px 0;*/
     border-left: 1px solid #efefef;
+}
+
+.deleteButtonText {
+    margin:0;
+}
+input[type=submit] {
+    border: none;
+    background: none;
+    display: block;
+    height: 22px;
+    line-height: 22px;
+    margin: 7px 0px 7px 0px;
+    /*padding: 5px 0;*/
+    border-left: 1px solid #efefef;
+}
+
+input[type=submit]:hover {
+    padding: 0 0 0 10;
 }
 
 .followButtonText {
@@ -430,11 +455,22 @@ input[name=content]:hover {
 }
 
 .comment {
+    display: inline-block;
+    width: 100%;
     font-size: 12px;
-    height: 22px;
+    /*height: 22px;*/
     line-height: 22px;
+    height: auto;
+
     padding: 12px 0px;
     border-top: 1px solid #efefef;
+}
+
+.commentContent {
+    text-overflow: ellipsis;;
+    color: #000000;
+    width: 50%;
+    display: inline-flex;
 }
 
 .timestamp {
@@ -446,12 +482,18 @@ input[name=content]:hover {
 .deleteComment {
     float: right;
     /*line-height: 22px;*/
+    padding-right: 10;
     font-size: 9px;
     background: none;
     padding: none;
     margin: none;
     cursor: pointer;
 }
+
+.deleteComment span{
+    border:none;
+}
+
 
 .action {
     -webkit-touch-callout: none;
@@ -467,7 +509,7 @@ input[name=content]:hover {
     display: inline-block;
     margin: 0 0 0 0px;
     padding: 1px 0;
-    width: 174px;
+    width: 34%;
     cursor: pointer;
     /*border-right: 1px solid #ccc;*/
 }
@@ -475,6 +517,8 @@ input[name=content]:hover {
 .plus1ButtonText {
     padding: 0 0 0 35;
 }
+
+
 
 .action:hover {
     /*background-color: #F5F5F5;*/
@@ -498,11 +542,11 @@ input[name=content]:hover {
     background-image: url("../images/like.svg");
     /*padding: 20px 20px 20px 40px;*/
     background-size: 14px;
-    background-position: 72;
+    background-position: 40%;
     background-repeat: no-repeat;
 }
 .doPlus1:hover {
-    background-position: 77;
+    background-position: 50%;
 }
 
 .liked {
@@ -510,12 +554,12 @@ input[name=content]:hover {
     background-image: url("../images/liked.svg");
     /*padding: 20px 20px 20px 40px;*/
     background-size: 14px;
-    background-position: 72;
+    background-position: 40%;
     background-repeat: no-repeat;
 }
 
 .liked:hover {
-    background-position: 77;
+    background-position: 50%;
 }
 
 .plus1ButtonText:hover {
@@ -539,9 +583,7 @@ input[name=content]:hover {
     margin-right: auto;
     color: #F44336;
     background-color: #FFCDD2;
-    border: 1px;
-    border-style: solid;
-    border-color: #F44336;
+    border: 1px solid #F44336;
     padding: 10px;
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0) 0px 5px 10px;
@@ -689,10 +731,20 @@ button:active {
 }
 
 input[type=radio] {
-    display: none;
+    /*display: none;*/
+    position: absolute;
+    visibility: hidden;
 }
 
+input[type=radio]:not(:checked)~label:after {
+    color: #666666;
+    background-color: #FFFFFF;
+}
 
+input[type=radio]:checked~label {
+    color: #FFFFFF;
+    background-color: #666666;
+}
 
 .radio {
     padding:5px 3px;
@@ -701,35 +753,14 @@ input[type=radio] {
     border: 1px solid #666666;
 }
 
-
-/*label:focus {
-    background-color: #666666;
-    color: #FFFFFF;
-}*/
+.option {
+    display: inline-block;
+}
 
 input[type=radio]~label {
     border-radius: 2px;
     padding: 2px 8px;
-    color: #666666;
-    background-color: #FFFFFF;
-}
 
-/*input[type=radio]:checked~.check {
-    border: 5px solid #0DFF92;
-}
-
-input[type=radio]:checked~.check::before {
-    background: #0DFF92;
-}*/
-
-/*label {
-    color: #666666;
-    background-color: #FFFFFF;
-}*/
-
-input[type=radio]:checked~label {
-    color: #FFFFFF;
-    background-color: #666666;
 }
 
 .userColor {
@@ -790,11 +821,16 @@ input[type=radio]:checked~label {
     width: auto;
 }
 .mobileLi .mobileA {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
+    display: auto;
+    /*color: white;*/
+    /*text-align: center;*/
+    padding: 0;
     text-decoration: none;
+}
+
+.mobileButton {
+    margin: 0 2%;
+    width: 15%;
 }
 
 footer {
@@ -896,6 +932,12 @@ footer {
 /* Mobile (Portrait) */
 @media screen and (max-width: 480px) {
     #addTable {
+        width:90%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #addTable {
         width:89%;
     }
 }
@@ -903,5 +945,6 @@ footer {
 @media screen and (max-width: 321px) {
     #addTable {
         width:87%;
+        overflow-y: scroll;
     }
 }
