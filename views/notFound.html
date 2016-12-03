@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block left %}
-<div id="feeds">
-    <div class="card">
-        {{error}}
+<!-- <div id="feeds"> -->
+    <div class="card" style="background-color:#f8f8f5">
+        <h1 style="font-weight:300">{{error}}</h1>
+        <a href="/"><img src="../images/notfound.jpg" style="width:100%;pointer-events:none;"/></a>
     </div>
-</div>
+
+<!-- </div> -->
 {% endblock %}
