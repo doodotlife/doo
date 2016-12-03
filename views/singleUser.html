@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block left %}
 <script src="../scripts/countdown.js"></script>
+<script src="../scripts/comment.js"></script>
 
 <!-- <div id="eventContainer"> -->
 <script>
@@ -84,31 +85,31 @@ $('body').css("background-color", "{{targetUser.color}}");
             <div class="interactions">
                 <a class="action doComment" role="button">
                     <span class="buttonText commentButtonText">
-                            {{event.comments.length}}
-                            Comment{% if event.comments.length != 1 %}s{% endif%}
-                            </span>
+                        {{event.comments.length}} Comment{% if event.comments.length != 1 %}s{% endif%}
+                    </span>
                 </a>
                 <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
                     <!-- <img class="likeIcon" src="{% if user.username in event.liked%}images/like.svg{% else %}images/liked.svg{% endif %}" /> -->
                     <span class="buttonText plus1ButtonText">
-                                {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
-                            </span>
-
-                </a>
-                <a class="action getEvent" role="button">
-                    <span class="buttonText">
-                        >>
+                        {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
                     </span>
                 </a>
+                {% if user.adminPrivilege %}
+                    <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a>
+                {% elif (user.username == event.owner) %}
+                    <a class="action deleteEvent" role="button"><span class="buttonText" style="color:red">Delete</span></a>
+                {% else %}
+                    <a class="action none" role="button"><span class="buttonText"></span></a>
+                {% endif %}
             </div>
-            <div class="commentBar">
-                <form class="commentEntry" action="/comment" method="post">
-                    <input name="content" type="text" placeholder="Type here" required/>
-                    <button class="sendButton" type="submit">Send</button>
-                    <input name="event" value={{event.id}} hidden/>
-                </form>
+                <div class="commentBar">
+                    <form class="commentEntry" action="/comment" method="post">
+                        <input name="content" type="text" placeholder="Type here" required/>
+                        <button class="sendButton" type="submit">Send</button>
+                        <input name="event" value={{event.id}} hidden/>
+                    </form>
+                </div>
             </div>
-        </div>
         {% endfor %}
     </div>
     <div class="followers">
