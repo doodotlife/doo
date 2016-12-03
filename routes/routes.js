@@ -93,7 +93,7 @@ let helper = {
             if (err) {
                 return res.render('notFound.html', {
                     user: req.user,
-                    error: "cannot get event data for " + req.user.username
+                    error: "Error: cannot get event data for " + req.user.username
                 });
             }
             db.Event.find({
@@ -102,6 +102,12 @@ let helper = {
                 },
                 "private": false
             }, function(err, followingEvent) {
+                if (err) {
+                    return res.render('notFound.html', {
+                        user: req.user,
+                        error: "Error: cannot get event data for " + req.user.username
+                    });
+                }
                 let result = helper.sortEvent(followingEvent.concat(events));
                 console.log(result);
                 res.render('index.html', {
@@ -299,10 +305,15 @@ module.exports = {
         console.log(req.body);
         let newEvent = new db.Event(req.body);
         newEvent.owner = req.user.username;
+        var date = newEvent.time;
+        var targetTime = new Date(date);
+        var timeZoneFromDB = -5.00;
+        var tzDifference = timeZoneFromDB * 60 + targetTime.getTimezoneOffset();
+        newEvent.time = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
         newEvent.save(function(err, newEvent) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Cannot add the event. Please try again."
+                    error: "Error: Cannot add event."
                 });
             }
             // add event id to user
@@ -316,7 +327,7 @@ module.exports = {
                 function(err, user) {
                     if (err) {
                         return res.render("notFound.html", {
-                            error: "Cannot find user to add event."
+                            error: "Error: Cannot add event."
                         });
                     }
                     helper.getAllEvents(req, res, newEvent.id);
@@ -337,7 +348,7 @@ module.exports = {
         }, function(err, eventObj) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Cannot delete the event. Please try again."
+                    error: "Error: Cannot delete the event."
                 });
             }
             if ((req.user.username == eventObj.owner) ||
@@ -350,51 +361,7 @@ module.exports = {
         });
     },
 
-    /* req.body format
-    {
-      event: id
-    } */
     getEvent: function(req, res) {
-        console.log(req.query.event); // Log the event id
-        /* Find the event by id */
-        db.Event.findOne({
-            "_id": req.query.event
-        }, function(err, eventObj) {
-            if (err) {
-                return res.render("notFound.html", {
-                    error: "Cannot get the event. Please try again."
-                });
-            }
-            console.log(eventObj); // Log the event contents
-            /* If find the event */
-            if (eventObj) {
-                db.Comment.find({
-                    "event": req.query.event
-                }, function(err, commentList) {
-                    if (err) {
-                        return res.render("notFound.html", {
-                            error: "Cannot get the comments. Please try again."
-                        });
-                    }
-                    for (let i = 0; i < commentList.length; i++) {
-                        commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
-                    }
-                    commentList.sort(function(a, b) {
-                        return new Date(b.timestamp) - new Date(a.timestamp);
-                    });
-                    let time = new Date();
-                    eventObj.countdown = (eventObj.time) - time;
-                    return res.render('singleEvent.html', {
-                        user: req.user,
-                        event: eventObj,
-                        commentList: commentList
-                    })
-                })
-            }
-        });
-    },
-
-    getEvent2: function(req, res) {
         console.log(req.params.event); // Log the event id
         /* Find the event by id */
         db.Event.findOne({
@@ -402,7 +369,7 @@ module.exports = {
         }, function(err, eventObj) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Cannot get the event. Please try again."
+                    error: "Error: Cannot find event."
                 });
             }
             console.log(eventObj); // Log the event contents
@@ -414,7 +381,7 @@ module.exports = {
                 }, function(err, commentList) {
                     if (err) {
                         return res.render("notFound.html", {
-                            error: "Cannot get the comments. Please try again."
+                            error: "Error: Failed to load comments."
                         });
                     }
                     for (let i = 0; i < commentList.length; i++) {
@@ -434,34 +401,7 @@ module.exports = {
             }
         });
     },
-    // /* req.body format
-    // {
-    //     id,
-    //     title,
-    //     time,
-    //     type,
-    //     private
-    // }
-    // */
-    //
-    // editEvent: function(req, res) {
-    //     // With dates, event name, event type
-    //     console.log("=================================");
-    //     console.log(req.body);
-    //     db.Event.findOneAndUpdate({
-    //         _id: req.body.id
-    //     }, {
-    //         $set: req.body.event
-    //     }, function(err, event) {
-    //         if (err) {
-    //             return res.render("notFound.html", {
-    //                 error: "Cannot find the event. Please try again."
-    //             });
-    //         }
-    //         event.save();
-    //         res.send('Success');
-    //     })
-    // },
+
 
     // req.body format:
     // {
@@ -481,7 +421,7 @@ module.exports = {
             if (err) {
                 return res.render("settings.html", {
                     user: req.user,
-                    error: err + ": Error! Cannot change your profile!"
+                    error: "Error: Cannot change profile."
                 });
             }
             if (req.body.birthday && (req.body.birthday != "")) {
@@ -514,11 +454,11 @@ module.exports = {
         // add the current user to the person's 'followedBy' property
         //TODO:handle duplicate follower
         if (req.user.username == req.body.following) {
-            return res.send("Error: Cannot follow yourself");
+            return res.send("Error: Cannot follow yourself.");
         }
         //if we have followed this user
         else if (req.user.following.indexOf(req.body.following) != -1) {
-            return res.send("Error: Cannot follow this user again");
+            return res.send("Error: Duplicate follows.");
         } else {
             db.User.findOneAndUpdate({
                 username: req.user.username
@@ -528,7 +468,7 @@ module.exports = {
                 }
             }, function(err, user) {
                 if (err) {
-                    return res.send("Error: Failed to Follow");
+                    return res.send("Error: Cannot follow.");
                 };
                 db.User.findOneAndUpdate({
                     username: req.body.following
@@ -538,9 +478,8 @@ module.exports = {
                     }
                 }, function(err, user) {
                     if (err) {
-                        return res.send("Error: Failed to Follow");
+                        return res.send("Error: Cannot follow.");
                     };
-                    console.log("Follow Success");
                     res.send("Success");
                 });
             });
@@ -559,7 +498,7 @@ module.exports = {
         }, function(err, user) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Cannot unFollow the user. Please try again."
+                    error: "Error: Cannot unfollow. Please try again."
                 });
             }
         });
@@ -572,7 +511,7 @@ module.exports = {
         }, function(err, user) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Cannot find the user. Please try again."
+                    error: "Error: User not found."
                 });
             }
         });
@@ -627,7 +566,7 @@ module.exports = {
         }, function(err, theEvent) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Cannot find the event. Please try again."
+                    error: "Error: Event not found."
                 });
             }
             let username = req.user.username;
@@ -635,7 +574,6 @@ module.exports = {
             console.log(username);
             //if cannot find
             if (theEvent.liked.indexOf(username) == -1) {
-                console.log("Cannot find, liked+1, push user");
                 db.Event.findOneAndUpdate({
                     "_id": req.body.event
                 }, {
@@ -648,14 +586,13 @@ module.exports = {
                 }, function(err, event) {
                     if (err) {
                         return res.render("notFound.html", {
-                            error: "Cannot find the event. Please try again."
+                            error: "Error: Event not found."
                         });
                     }
                     console.log(event.value + 1);
                     return res.send("" + (event.value + 1));
                 });
             } else { //if can find
-                console.log("Can find, liked-1, pull user");
                 db.Event.findOneAndUpdate({
                     "_id": req.body.event
                 }, {
@@ -668,7 +605,7 @@ module.exports = {
                 }, function(err, event) {
                     if (err) {
                         return res.render("notFound.html", {
-                            error: "Cannot find the event. Please try again."
+                            error: "Error: Event not found."
                         });
                     }
                     console.log(0 - event.value);
@@ -699,7 +636,7 @@ module.exports = {
         newComment.save(function(err, newComment) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Cannot save the comment. Please try again."
+                    error: "Error: Cannot save comment."
                 });
             }
             db.Event.findOneAndUpdate({
@@ -711,7 +648,7 @@ module.exports = {
             }, function(err, event) {
                 if (err) {
                     return res.render("notFound.html", {
-                        error: "Cannot find the event. Please try again."
+                        error: "Error: Event not found."
                     });
                 }
                 db.Event.findOne({
@@ -719,7 +656,7 @@ module.exports = {
                 }, function(err, eventObj) {
                     if (err) {
                         return res.render("notFound.html", {
-                            error: "Cannot find the event. Please try again."
+                            error: "Error: Event not found."
                         });
                     }
                     return res.send({
@@ -745,7 +682,7 @@ module.exports = {
             if (err) {
                 return res.render("notFound.html", {
                     user: req.user,
-                    error: "Cannot find the comment. Please try again."
+                    error: "Error: Comment not found."
                 });
             }
             db.Event.findOneAndUpdate({
@@ -758,16 +695,16 @@ module.exports = {
                 if (err) {
                     return res.render("notFound.html", {
                         user: req.user,
-                        error: "Cannot delete the comment. Please try again."
+                        error: "Error: Event not found"
                     });
                 }
             });
-            if (err) {
-                return res.render("notFound.html", {
-                    user: req.user,
-                    error: "Cannot delete the comment. Please try again."
-                });
-            }
+            // if (err) {
+            //     return res.render("notFound.html", {
+            //         user: req.user,
+            //         error: "Cannot delete the comment. Please try again."
+            //     });
+            // }
             res.send("Success");
         });
     },
@@ -794,7 +731,7 @@ module.exports = {
         }, function(err, users) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Nothing Found. Please try again."
+                    error: "Error: Cannot access user database."
                 });
             }
             db.Event.find({
@@ -806,7 +743,7 @@ module.exports = {
             }, function(err, events) {
                 if (err) {
                     return res.render("notFound.html", {
-                        error: "Nothing Found. Please try again."
+                        error: "Error: Cannot access event database."
                     });
                 }
                 db.Event.find({
@@ -820,7 +757,7 @@ module.exports = {
                 }, function(err, privateEvents) {
                     if (err) {
                         return res.render("notFound.html", {
-                            error: "cannot find the private event. Please try again."
+                            error: "Error: Cannot access event database."
                         });
                     }
                     let returnEvents = events.concat(privateEvents);
@@ -876,7 +813,7 @@ module.exports = {
             if (err) {
                 return res.render("notFound.html", {
                     user: req.user,
-                    error: "Cannot find event id " + req.params.event
+                    error: "Error: Cannot find event id " + req.params.event + "."
                 });
             }
             if (req.user) {
@@ -889,13 +826,13 @@ module.exports = {
                 } else {
                     return res.render("notFound.html", {
                         user: req.user,
-                        error: "Permission Denied"
+                        error: "Error: Permission Denied."
                     });
                 }
             } else {
                 return res.render("notFound.html", {
                     user: req.user,
-                    error: "Please Login to Edit"
+                    error: "Error: Please login to edit."
                 });
             }
 
@@ -921,7 +858,7 @@ module.exports = {
                 return res.render("editEvent.html", {
                     user: req.user,
                     event: eventObj,
-                    error: err + ": Error! Cannot change your event!"
+                    error: "Error: Event not found."
                 });
             }
 
@@ -938,9 +875,6 @@ module.exports = {
                     } else {
                         eventObj.time = new Date(newDate + "T" + eventObj.time.toTimeString().substr(0, 8) +".000Z");
                     }
-
-                    console.log("strcat: " + newDate + "T" + eventObj.time.toTimeString().substr(0, 8) +".000Z");
-                    console.log(eventObj.time);
                 }
             }
             if (req.body.type && req.body.type != "") {
@@ -954,7 +888,7 @@ module.exports = {
                 if (err) {
                     return res.render("notFound.html", {
                         user: req.user,
-                        error: err,
+                        error: "Error: Cannot save changes.",
                     });
                 }
                 return res.render("editEvent.html", {
@@ -980,7 +914,7 @@ module.exports = {
         }, function(err, commentObj) {
             if (err) {
                 return res.render("notFound.html", {
-                    error: "Cannot find the comment. Please try again."
+                    error: "Error: Comment not found"
                 });
             }
             db.Event.findOneAndUpdate({
@@ -992,14 +926,14 @@ module.exports = {
             }, function(err, user) {
                 if (err) {
                     return res.render("notFound.html", {
-                        error: "Cannot delete the comment. Please try again."
+                        error: "Error: Cannot delete comment."
                     });
                 }
             });
             commentObj.remove(function(err) {
                 if (err) {
                     return res.render("notFound.html", {
-                        error: "Cannot remove the comment. Please try again."
+                        error: "Error: Cannot delete comment."
                     });
                 }
                 res.send("Success");

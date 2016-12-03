@@ -48,22 +48,7 @@ app.listen(3000, function () {
 app.get('/', (req, res) => {
     //console.log(req.user.username);
     if (req.user !== undefined) {
-        // res.render('index.html');
-        // db.Event.find({
-        //     "owner": req.user.username
-        // }, function(err, result) {
-        //     if (err) {
-        //         throw err
-        //     }
-        //     // res.send({"events":events});
-        //     // console.log(events);
-        //     res.render('index.html', {
-        //         user: req.user,
-        //         events: result
-        //     });
-        // });
         doo.getAllEvents(req, res);
-
     } else {
         res.redirect('/login');
     }
@@ -102,8 +87,8 @@ app.get('/settings',  (req,res) => {
 app.post('/login', doo.logIn);
 app.get('/logout', doo.logOut);
 
-app.get('/e/:event', doo.getEvent2);
-app.get('/event', doo.getEvent);
+app.get('/e/:event', doo.getEvent);
+// app.get('/event', doo.getEvent);
 app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 app.post('/events',doo.getAllEvents);
@@ -130,3 +115,10 @@ app.post('/follow',doo.follow);
 app.post('/unfollow',doo.unFollow);
 
 app.delete('/users', doo.deleteUsers);
+
+app.all('*', function(req, res) {
+  res.render("notFound.html", {
+      user:req.user,
+      error: "Error: 404 Not Found"
+  });
+});
