@@ -214,9 +214,9 @@ module.exports = {
                 }
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Session timed out. Please Login."
-            }
+            });
         }
     },
 
@@ -363,9 +363,9 @@ module.exports = {
                     });
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Session timed out. Please Login."
-            }
+            });
         }
     },
 
@@ -395,9 +395,9 @@ module.exports = {
                 }
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Error: Session timed out. Please Login."
-            }
+            });
         }
     },
 
@@ -485,9 +485,9 @@ module.exports = {
                 });
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Error: Session timed out. Please Login."
-            }
+            });
         }
     },
 
@@ -532,9 +532,9 @@ module.exports = {
                 });
             }
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Error: Session timed out. Please Login."
-            }
+            });
         }
 
     },
@@ -571,9 +571,9 @@ module.exports = {
                 });
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Error: Session timed out. Please Login."
-            }
+            });
         }
     },
 
@@ -673,9 +673,9 @@ module.exports = {
                 }
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Session timed out. Please Login."
-            }
+            });
         }
     },
     addTheDDLToMyList: function() {
@@ -731,9 +731,9 @@ module.exports = {
                 });
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Error: Session timed out. Please Login."
-            }
+            });
         }
     },
 
@@ -783,9 +783,9 @@ module.exports = {
 
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Error: Session timed out. Please Login."
-            }
+            });
         }
     },
 
@@ -852,9 +852,9 @@ module.exports = {
                 })
             });
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Error: Session timed out. Please Login."
-            }
+            });
         }
     },
 
@@ -890,9 +890,9 @@ module.exports = {
             });
             res.send('Success');
         } else {
-            res.render("notFound.html") {
+            res.render("notFound.html", {
                 error: "Error: Session timed out. Please Login."
-            }
+            });
         }
     },
 
