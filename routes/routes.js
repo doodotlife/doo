@@ -928,8 +928,20 @@ module.exports = {
             if (req.body.title && req.body.title != "") {
                 eventObj.title = req.body.title;
             }
-            if (req.body.time && req.body.time != "") {
-                eventObj.time = req.body.time;
+            if (req.body.time) {
+                let newDate = req.body.time[0];
+                if (newDate != "") {
+                    if (req.body.type == "deadline") {
+                        eventObj.time = new Date(newDate + "T" + req.body.time[1] +":00.000Z");
+                    } else if (req.body.type == "anniversary") {
+                        eventObj.time = new Date(newDate);
+                    } else {
+                        eventObj.time = new Date(newDate + "T" + eventObj.time.toTimeString().substr(0, 8) +".000Z");
+                    }
+
+                    console.log("strcat: " + newDate + "T" + eventObj.time.toTimeString().substr(0, 8) +".000Z");
+                    console.log(eventObj.time);
+                }
             }
             if (req.body.type && req.body.type != "") {
                 eventObj.type = req.body.type;
@@ -939,15 +951,19 @@ module.exports = {
             }
 
             eventObj.save(function(err) {
-                console.log(err);
+                if (err) {
+                    return res.render("notFound.html", {
+                        user: req.user,
+                        error: err,
+                    });
+                }
+                return res.render("editEvent.html", {
+                    user: req.user,
+                    event: eventObj,
+                    success: "Success!"
+                });
             });
             console.log(eventObj);
-
-            return res.render("editEvent.html", {
-                user: req.user,
-                event: eventObj,
-                success: "Success!"
-            });
         });
     },
 
