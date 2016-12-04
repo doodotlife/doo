@@ -130,3 +130,13 @@ The second table provides information of all users, and the last one provides in
     -   Nav bar text won't change color until user hovers on it.
 - For Mozilla Firfox on CDF machines (not recommended):
     -   Clicking on new event button won't call add event table.
+
+## Credits and quotes
+- notfound.jpg sketched by Jiang Jiacheng (Ajax), inspired by Japanese Manga __Ajin Vol.44__
+<img src="/assets/images/notfound.jpg">
+- All icons, styles designed and illustrated by Jiang Jiacheng (Ajax)
+- jscolor Colorpicker   [http://jscolor.com](http://jscolor.com)
+- rgb2hex Converter [http://jsfiddle.net/Mottie/xcqpF/1/light/](http://jsfiddle.net/Mottie/xcqpF/1/light/)
+- getContrastYIQ function   [https://24ways.org/2010/calculating-color-contrast/](https://24ways.org/2010/calculating-color-contrast/)
+- formatDate function [http://jsfiddle.net/abdulrauf6182012/2Frm3/](http://jsfiddle.net/abdulrauf6182012/2Frm3/)
+- parseTimezone function (modified) [http://stackoverflow.com/a/7423831](http://stackoverflow.com/a/7423831)

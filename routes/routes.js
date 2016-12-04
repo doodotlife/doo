@@ -127,7 +127,7 @@ let helper = {
             });
         });
     },
-
+    // http://jsfiddle.net/abdulrauf6182012/2Frm3/
     formatDate: function(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -139,7 +139,7 @@ let helper = {
 
         return [year, month, day].join('-');
     },
-
+    // modified from http://stackoverflow.com/a/7423831
     parseTimezone: function(time, value) {
         var date = time;
         var targetTime = new Date(date);
