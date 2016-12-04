@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 
-app.listen(3000, function () {
+app.listen(process.env.PORT||3000, function () {
     console.log('Listening on port 3000');
 });
 
@@ -93,6 +93,7 @@ app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 app.post('/events',doo.getAllEvents);
 app.post('/editevent', doo.editEvent);
+app.post('/changepassword', doo.changePassword);
 app.get('/edit/:event', doo.getEditEvent);
 
 app.post('/plusone',doo.plusOne);
