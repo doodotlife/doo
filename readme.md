@@ -1,8 +1,12 @@
-# doo
+<img src="/assets/images/logo.svg" width="144px">
+
+Manage your time,
+together with your friends.
+<hr>
 ## Intro
 Link to live site:
 
-    http://www.doo.com/
+[http://www.doo.life/](http://www.doo.life/)
 
 doo. is a online platform for you to manage your time,
 along with your friends. Users are allowed to create their personal deadlines and anniversaries as events. The events will be displayed in the form of cards, with a optimized count down provided. Users are also allowed to search among events by title, or search among users by username or email, follow other users, and see their countdowns. Interactions like comments and likes are also provided.
