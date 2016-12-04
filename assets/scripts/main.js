@@ -136,6 +136,30 @@ $(document).ready(function() {
             });
         }
     });
+    $(".deleteUser").on("click", function() {
+        let id = this.closest(".user").id;
+        if (confirm("Are you sure you want to delete this user?")) {
+            $.ajax({
+                url: '/account',
+                type: 'delete',
+                dataType: 'text',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    id: id,
+                }),
+                success: function(res) {
+                    console.log(res);
+                    resHandler(res, res);
+                    if (res == "Success") {
+                        $("#" + id).removeClass("user");
+                        $("#" + id).css("padding", "20");
+                        $("#" + id).html("<p style='color:black'>Deleted</p>")
+                        $("#" + id).delay(3000).fadeOut();
+                    }
+                }
+            });
+        }
+    });
     // $(".moreComment").on("click", function() {
     //     let id = this.closest(".event").id;
     //     $.ajax({
