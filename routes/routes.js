@@ -496,6 +496,55 @@ module.exports = {
             });
         }
     },
+    /*
+    * req.body format:
+    * {
+    *   "username": username,
+    *   "newpassword": newpassword
+    * }
+    * */
+
+    changePassword: function (req, res) {
+        if(req.user){
+            db.User.findOne({
+                username: req.username
+            }, function (err, user) {
+                if(err){
+                    return res.render("settings.html",{
+                        user: req.user,
+                        error: "Error: Cannot change profile."
+                    });
+                }else{
+                    user.setPassword(req.body.newpassword, function (err) {
+                        if(!err){
+                            user.save(function (err) {
+                                if(err){
+                                    return res.render("settings.html",{
+                                        user: req.user,
+                                        error: "Error: Cannot change profile."
+                                    })
+                                }else{
+                                    return res.render("settings.html", {
+                                        user: user,
+                                        success: "Success!"
+                                    });
+                                }
+                            })
+                        }else{
+                            return res.render("settings.html",{
+                                user: req.user,
+                                error: "Error: Cannot change profile."
+                            })
+                        }
+                    })
+                }
+            })
+        } else {
+            res.render("notFound.html",{
+                error: "Error: Session timed out. Please Login."
+            })
+        }
+    },
 
     // req.body:
     //     {
