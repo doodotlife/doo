@@ -1,4 +1,4 @@
-<img src="/assets/images/logo.svg" width="144px">
+<img src="/assets/images/logo.jpg" width="144px">
 
 Manage your time,
 together with your friends.
