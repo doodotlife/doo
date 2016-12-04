@@ -172,7 +172,7 @@ module.exports = {
                 }
             });
         } else {
-            return res.render("settings.html", {
+            return res.render("signup.html", {
                 user: req.user,
                 error: "Error: Passwords didn't match"
             });
