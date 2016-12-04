@@ -1107,6 +1107,64 @@ module.exports = {
         });
     },
 
+    getAdmin: function(req, res) {
+        if (req.user) {
+            if (req.user.adminPrivilege) {
+                db.User.find({}, function(err, users) {
+                    if(err) {
+                        return res.render("notFound.html"), {
+                            error: "Error: Cannot access user database"
+                        }
+                    }
+                    usersMin = [];
+                    for (let i = 0; i < users.length; i++) {
+                        usersMin.push({
+                            username: users[i].username,
+                            email: users[i].email,
+                            name: users[i].name,
+                            adminPrivilege: users[i].adminPrivilege,
+                            dateJoint: users[i]._id.getTimestamp()
+                        });
+                    }
+                    db.Event.find({
+                        private: false
+                    }, function(err, events) {
+                        if(err) {
+                            return res.render("notFound.html"), {
+                                error: "Error: Cannot access event database"
+                            }
+                        }
+                        eventsMin = [];
+                        for (let i = 0; i < events.length; i++) {
+                            eventsMin.push({
+                                id: events[i]._id,
+                                idShort: events[i]._id.toString().substr(0, 6),
+                                title: events[i].title,
+                                time: events[i].time,
+                                owner: events[i].owner
+                            });
+                        }
+                        return res.render("admin.html", {
+                            user:req.user,
+                            users:usersMin,
+                            events:eventsMin,
+                            userCount: usersMin.length,
+                            eventCount: eventsMin.length
+                        });
+                    });
+                });
+            } else {
+                res.render("notFound.html", {
+                    error: "Error: Access denied"
+                });
+            }
+        } else {
+            res.render("notFound.html", {
+                error: "Error: Access denied"
+            });
+        }
+    },
+
     createCommonEvents: function() {
         // create some sample/common events for the users to add in one click
     }

@@ -91,7 +91,7 @@ input[type=email] {
     border: none;
     font-size: 16px;
     background-color: white;
-    background-size: 2.5%;
+    background-size: 10px;
     background-position: 10px 12px;
     background-repeat: no-repeat;
     padding: 10px 10px 10px 30px;
@@ -124,7 +124,7 @@ input[type=password] {
     border-bottom: 2px solid #FFFFFF;
     font-size: 16px;
     background-color: white;
-    background-size: 2.5%;
+    background-size: 10px;
     background-position: 10px 12px;
     background-repeat: no-repeat;
     padding: 10px 10px 10px 30px;
