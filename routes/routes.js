@@ -425,7 +425,11 @@ module.exports = {
             console.log(eventObj); // Log the event contents
             /* If find the event */
             if (eventObj) {
-
+                if(eventObj.private){
+                    return res.render("notFound.html", {
+                        error: "Error: Permission Denied."
+                    });
+                }
                 db.Comment.find({
                     "event": req.params.event
                 }, function(err, commentList) {
