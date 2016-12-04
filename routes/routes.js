@@ -1123,7 +1123,7 @@ module.exports = {
                             email: users[i].email,
                             name: users[i].name,
                             adminPrivilege: users[i].adminPrivilege,
-                            dateJoint: users[i]._id.getTimestamp()
+                            dateJoined: users[i]._id.getTimestamp()
                         });
                     }
                     db.Event.find({
