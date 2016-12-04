@@ -106,6 +106,9 @@ app.get('/search', (req,res) => {
         res.render('search.html', {user:req.user});
     }
 });
+
+app.get('/admin', doo.getAdmin);
+
 app.post('/search',doo.search);
 
 app.post('/comment', doo.comment);

@@ -73,14 +73,12 @@
                 </li>
                 {% if user %} {% if user.adminPrivilege %}
                 <li>
-                    <a><span style="color:red">Admin</span></a>
-                </li>
-                {% else %}
-                <li>
-                    <a href="/u/{{ user.username }}" class="">{{ user.username }}
-                                    </a>
+                    <a href="/admin"><span style="color:red">Admin</span></a>
                 </li>
                 {% endif %}
+                <li>
+                    <a href="/u/{{ user.username }}" class="">{{ user.username }}</a>
+                </li>
                 <li>
                     <a href="/search" class="">Search</a>
                 </li>

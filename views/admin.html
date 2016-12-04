@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block left %}
+<script src="../scripts/countdown.js"></script>
+<script src="../scripts/comment.js"></script>
+<div id="feeds">
+    <h1 class="headingText" style="color:{{user.color}}">Admin Panel</h1>
+    <div class="card">
+        Warning: Your action may affect other user's user experience.
+    </div>
+    <div id="statsTableDiv" class="card">
+        <table id="statsTable" class="adminTable">
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Count
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    User
+                </td>
+                <td>
+                    {{userCount}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Event
+                </td>
+                <td>
+                    {{eventCount}}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="userTableDiv" class="card">
+        <h3>Users</h3>
+        <p>
+            Click on username for further interactions.
+        </p>
+        <table id="userTable" class="adminTable">
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Date Joint
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            {% for u in users %}
+                    <tr>
+                        <td>
+                            <a href="/u/{{u.username}}">
+                            {{u.username}}
+                            </a>
+                        </td>
+                        <td>
+                            {{u.name}}
+                        </td>
+                        <td style="overflow-x:hidden">
+                            <a href="mailto:{{u.email}}?Subject=doo." target="_top">{{u.email}}</a>
+                        </td>
+                        <td>
+                            {{u.dateJoint.toLocaleDateString()}}
+                        </td>
+                        <td>
+                            {% if u.adminPrivilege %}
+                            <div class="tag">
+                                Admin
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="eventTableDiv card">
+        <h3>Events</h3>
+        <p>
+            Click on id for further interactions.
+        </p>
+        <table id="eventTable" class="adminTable">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>
+                    Owner
+                </th>
+            </tr>
+            {% for e in events %}
+                    <tr>
+                        <td>
+                            <a href="/e/{{e.id}}">{{e.idShort}}</a>
+                        </td>
+                        <td>
+                            {{e.title}}
+                        </td>
+                        <td>
+                            {{e.time.toLocaleString()}}
+                        </td>
+                        <td>
+                            <a href="/u/{{e.owner}}">{{e.owner}}</a>
+                        </td>
+                    </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
