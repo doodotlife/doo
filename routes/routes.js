@@ -139,7 +139,7 @@ let helper = {
 
         return [year, month, day].join('-');
     },
-
+    // modified from http://stackoverflow.com/a/7423831
     parseTimezone: function(time, value) {
         var date = time;
         var targetTime = new Date(date);
