@@ -93,6 +93,7 @@ app.post('/event', doo.addEvent);
 app.delete('/event', doo.deleteEvent);
 app.post('/events',doo.getAllEvents);
 app.post('/editevent', doo.editEvent);
+app.post('/changepassword', doo.changePassword);
 app.get('/edit/:event', doo.getEditEvent);
 
 app.post('/plusone',doo.plusOne);
