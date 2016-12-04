@@ -127,7 +127,7 @@ let helper = {
             });
         });
     },
-
+    // http://jsfiddle.net/abdulrauf6182012/2Frm3/
     formatDate: function(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
