@@ -158,21 +158,25 @@ module.exports = {
         let newUser = new db.User(req.body);
         newUser.notification = false;
 
-        db.User.register(new db.User(newUser), req.body.password, function(err) {
-            if (err) {
-                res.render('signup.html', {
-                    error: 'Username Already exists'
-                });
+        if (req.body.password == req.body.rePassword) {
+            db.User.register(new db.User(newUser), req.body.password, function(err) {
+                if (err) {
+                    res.render('signup.html', {
+                        error: 'Username Already exists'
+                    });
 
-            } else {
-
-                res.render('login.html', {
-                    success: 'Successfully registered! Login now and doo on.'
-                });
-            }
-
-
-        });
+                } else {
+                    res.render('login.html', {
+                        success: 'Successfully registered! Login now and doo on.'
+                    });
+                }
+            });
+        } else {
+            return res.render("settings.html", {
+                user: req.user,
+                error: "Error: Passwords didn't match"
+            });
+        }
     },
     //req.body
     // {
@@ -208,7 +212,7 @@ module.exports = {
                         res.send("Success");
                     });
                 } else {
-                    res.send("incorrect password");
+                    res.send("Access denied");
                 }
             });
         } else {
@@ -507,36 +511,44 @@ module.exports = {
     changePassword: function (req, res) {
         if(req.user){
             db.User.findOne({
-                username: req.username
+                username: req.body.username
             }, function (err, user) {
                 if(err){
                     return res.render("settings.html",{
                         user: req.user,
-                        error: "Error: Cannot change profile."
+                        error: "Error: Cannot change password."
                     });
                 }else{
-                    user.setPassword(req.body.newpassword, function (err) {
-                        if(!err){
-                            user.save(function (err) {
-                                if(err){
-                                    return res.render("settings.html",{
-                                        user: req.user,
-                                        error: "Error: Cannot change profile."
-                                    })
-                                }else{
-                                    return res.render("settings.html", {
-                                        user: user,
-                                        success: "Success!"
-                                    });
-                                }
-                            })
-                        }else{
-                            return res.render("settings.html",{
-                                user: req.user,
-                                error: "Error: Cannot change profile."
-                            })
-                        }
-                    })
+                    if (req.body.password == req.body.rePassword) {
+                        user.setPassword(req.body.password, function (err) {
+                            if(!err){
+                                user.save(function (err) {
+                                    if(err){
+                                        return res.render("settings.html",{
+                                            user: req.user,
+                                            error: "Error: Cannot change password."
+                                        })
+                                    }else{
+                                        return res.render("settings.html", {
+                                            user: user,
+                                            success: "Success!"
+                                        });
+                                    }
+                                })
+                            }else{
+                                return res.render("settings.html",{
+                                    user: req.user,
+                                    error: "Error: Cannot change password."
+                                });
+                            }
+                        });
+                    } else {
+                        return res.render("settings.html", {
+                            user: req.user,
+                            error: "Error: Passwords didn't match"
+                        });
+                    }
+
                 }
             })
         } else {

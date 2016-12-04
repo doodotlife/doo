@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block left %}
 
-<script src="../scripts/setting.js"></script>
+<!-- <script src="../scripts/setting.js"></script> -->
+<script src="scripts/signup.js"></script>
+
 
 <img src-"image/logo.svg" id="logo-setting" />
 
@@ -67,6 +69,32 @@
                     </td>
                     <td>
                         <button id="editProfile"><strong>Save Changes</strong></button>
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+    <div class="card">
+        <h3>Change Password</h3>
+        <form id="passwordForm" action="/changepassword" method="post">
+            <table>
+                <tr>
+                    <td>Password</td>
+
+                    <td>
+                        <input id="passwordUsername" name="username" type="text"  value="{{ user.username }}" hidden>
+                        <input id="password" name="password" type="password" placeholder=""></td>
+                </tr>
+                <tr>
+                    <td>Retype Password</td>
+                    <td><input id="rePassword" name="rePassword" type="password" placeholder="It should match the input above."></td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <button id="setPassword"><strong>Save</strong></button>
                     </td>
                 </tr>
 
