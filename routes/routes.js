@@ -40,7 +40,6 @@ let helper = {
                 "_id": id
             },
             function(err, eventObj) {
-                console.log(eventObj);
                 db.User.findOneAndUpdate({
                         username: eventObj.owner
                     }, {
@@ -61,7 +60,6 @@ let helper = {
     },
 
     calculateCountdown: function(array) {
-        console.log("calculateCountdown");
         let time = new Date();
         for (let i = 0; i < array.length; i++) {
             // console.log(new Date(array[i].time + time.getTimezoneOffset()));
@@ -109,7 +107,6 @@ let helper = {
                     });
                 }
                 let result = helper.sortEvent(followingEvent.concat(events));
-                console.log(result);
                 res.render('index.html', {
                     user: req.user,
                     events: result.result,
@@ -852,10 +849,11 @@ module.exports = {
                         }
                         let returnEvents = events.concat(privateEvents);
                         let r = {
-                            "user": req.user,
-                            "users": users,
-                            "events": returnEvents
+                            user: req.user,
+                            users: users,
+                            events: returnEvents
                         }
+                        console.log(r);
                         res.render("search.html", r);
                     })
                 })

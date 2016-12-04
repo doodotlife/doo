@@ -7,77 +7,103 @@
 </form>
 
 <div id="feeds">
-    <h2 class="headingText" style="color:{{user.color}}">Events</h2>
-    {% for event in events %}
-    <div id={{event._id}} class="card event {{event.type}} animate-opacity">
-        <h3><a href="/u/{{event.owner}}">{{event.owner}}</a>'s</h3>
-        <a class="eventBody" href="/e/{{event._id}}">
-        {% include "eventContent.html" %}
-        <div class="interactions">
-            <a class="action doComment" role="button">
-                <span class="buttonText commentButtonText">
-                        {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
-                    </span>
-            </a>
-            <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
+    {% if users %}
+        {% if events.length != 0 %}
+            <h2 class="headingText" style="color:{{user.color}}">Events</h2>
+            {% for event in events %}
+            <div id={{event._id}} class="card event {{event.type}} animate-opacity">
+                <h3><a href="/u/{{event.owner}}">{{event.owner}}</a>'s</h3>
+                <a class="eventBody" href="/e/{{event._id}}">
+                {% include "eventContent.html" %}
+                <div class="interactions">
+                    <a class="action doComment" role="button">
+                        <span class="buttonText commentButtonText">
+                                {{event.comments.length}} Comment{% if event.comments.length!=1 %}s{% endif%}
+                            </span>
+                    </a>
+                    <a class="action doPlus1 {% if user.username in event.liked%}liked{% endif%}" role="button">
 
-                <span class="buttonText plus1ButtonText">
-                         {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
-                     </span>
-            </a>
-            <a class="action getEvent" role="button"><span class="buttonText">>></span></a>
-        </div>
-        <div class="commentBar">
-            <form class="commentEntry" action="/comment" method="post">
-                <input name="content" type="text" placeholder="Type here" required/>
-                <button class="sendButton" type="submit">Send</button>
-                <input name="event" value={{event.id}} hidden/>
-            </form>
-        </div>
-    </div>
-    {% endfor %}
-    <h2 class="headingText" style="color:{{user.color}}">Users</h2>
-    {% for u in users %}
-    <div id={{u._id}} class="card user animate-opacity">
-        <a href="/u/{{u.username}}">
-            <h1 class="searchUserTitle">
-                <div class="userColor" style="background-color:{{u.color}}">
-                </div>{{u.username}}</h1>
-                {% if u.adminPrivilege %}
-                    <div class="tag" style="float:right">
-                        Admin
-                    </div>
-                {% endif %}
-            <p>Name: {{u.name}}</p>
-            <p>Email: {{u.email}}</p>
-            {% if user %}
-                {% if user.username != u.username %}
-                    <div class="interactions">
-                        {% if user.adminPrivilege %}
-                        <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete</span></a>
-                        {% else %}
-                        <a class="action none" role="button"><span class="buttonText"></span></a>
-                        {% endif %}
-                        <a class="action none" role="button"><span class="buttonText"></span></a>
+                        <span class="buttonText plus1ButtonText">
+                                 {% if event.value < 999 %}{{event.value}}{% else%}999+{% endif %}
+                             </span>
+                    </a>
+                    <a class="action getEvent" role="button"><span class="buttonText">>></span></a>
+                </div>
+                <div class="commentBar">
+                    <form class="commentEntry" action="/comment" method="post">
+                        <input name="content" type="text" placeholder="Type here" required/>
+                        <button class="sendButton" type="submit">Send</button>
+                        <input name="event" value={{event.id}} hidden/>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h2 class="headingText" style="color:{{user.color}}">Events</h2>
+            <div class="card animate-opacity"> No matching events. </div>
+        {% endif %}
 
-                        {% if u.username in user.following %}
-                        <a class="action unfollow" role="button"><span class="buttonText">Unfollow</span></a>
-                        <a class="action follow" role="button" style="display:none"><span class="buttonText">Follow</span></a>
-                        {% else %}
-                        <a class="action unfollow" role="button" style="display:none"><span class="buttonText">Unfollow</span></a>
-                        <a class="action follow" role="button"><span class="buttonText">Follow</span></a>
+        {% if users.length != 0 %}
+            <h2 class="headingText" style="color:{{user.color}}">Users</h2>
+            {% for u in users %}
+            <div id={{u._id}} class="card user animate-opacity">
+                <a href="/u/{{u.username}}">
+                    <h1 class="searchUserTitle">
+                        <div class="userColor" style="background-color:{{u.color}}">
+                        </div>{{u.username}}</h1>
+                        {% if u.adminPrivilege %}
+                            <div class="tag" style="float:right">
+                                Admin
+                            </div>
                         {% endif %}
-                        <!-- <button id="followButton" type="button">Follow</button> -->
-                    </div>
-                {% else %}
-                <div class="interactions"></div>
-                {% endif %}
-            {% else %}
-            <div class="interactions"></div>
-            {% endif %}
-        </a>
-    </div>
-    {% endfor %}
+                    <p>Name: {{u.name}}</p>
+                    <p>Email: {{u.email}}</p>
+                    {% if user %}
+                        {% if user.username != u.username %}
+                            <div class="interactions">
+                                {% if user.adminPrivilege %}
+                                <a class="action deleteUser" role="button"><span class="buttonText" style="color:red">Delete</span></a>
+                                {% else %}
+                                <a class="action none" role="button"><span class="buttonText"></span></a>
+                                {% endif %}
+                                <a class="action none" role="button"><span class="buttonText"></span></a>
+
+                                {% if u.username in user.following %}
+                                <a class="action unfollow" role="button"><span class="buttonText">Unfollow</span></a>
+                                <a class="action follow" role="button" style="display:none"><span class="buttonText">Follow</span></a>
+                                {% else %}
+                                <a class="action unfollow" role="button" style="display:none"><span class="buttonText">Unfollow</span></a>
+                                <a class="action follow" role="button"><span class="buttonText">Follow</span></a>
+                                {% endif %}
+                                <!-- <button id="followButton" type="button">Follow</button> -->
+                            </div>
+                        {% else %}
+                        <div class="interactions"></div>
+                        {% endif %}
+                    {% else %}
+                    <div class="interactions"></div>
+                    {% endif %}
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h2 class="headingText" style="color:{{user.color}}">Users</h2>
+            <div class="card animate-opacity">
+                No matching users.
+            </div>
+
+        {% endif %}
+    {% else %}
+        <div class="card animate-opacity" >
+            <p>
+                Your search result will be displayed here.
+            </p>
+            <p>
+                Enjoy our fascinating universal search bar.
+            </p>
+        </div>
+    {% endif %}
+
 </div>
 
 <!-- <% blockend %> -->
