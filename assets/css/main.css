@@ -28,9 +28,7 @@ a:visited {
     color: inherit;
 }
 
-a:first-child span {
-    border:none;
-}
+
 
 .hide {
     display: none;
@@ -778,6 +776,10 @@ input[type=radio]~label {
     color: #666666;
     background-color: #FFFFFF;
 }*/
+
+a:first-child span {
+    border:none;
+}
 
 #resHandler {
     /*display: none;*/

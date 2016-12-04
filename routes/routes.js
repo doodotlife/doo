@@ -40,7 +40,6 @@ let helper = {
                 "_id": id
             },
             function(err, eventObj) {
-                console.log(eventObj);
                 db.User.findOneAndUpdate({
                         username: eventObj.owner
                     }, {
@@ -61,7 +60,6 @@ let helper = {
     },
 
     calculateCountdown: function(array) {
-        console.log("calculateCountdown");
         let time = new Date();
         for (let i = 0; i < array.length; i++) {
             // console.log(new Date(array[i].time + time.getTimezoneOffset()));
@@ -109,7 +107,6 @@ let helper = {
                     });
                 }
                 let result = helper.sortEvent(followingEvent.concat(events));
-                console.log(result);
                 res.render('index.html', {
                     user: req.user,
                     events: result.result,
@@ -185,9 +182,10 @@ module.exports = {
     deleteAccount: function(req, res) {
         // User voluntarily delete his/her own account, need to wipe out everything about him/her
         // from database
+        console.log("Delete " + req.body.username);
         if (req.user) {
             db.User.findOne({
-                username: req.body.username
+                _id: req.body.id
             }, function(err, user) {
                 // console.log(user);
                 if (err) {
@@ -196,7 +194,7 @@ module.exports = {
                         error: 'User not found. Please try again.'
                     });
                 }
-                if (user.password == req.body.password) {
+                if (req.user.id == req.body.id || req.user.adminPrivilege) {
                     for (let i = 0; i < user.events.length; i++) {
                         helper.deleteEventHelper(user.events[i]);
                     }
@@ -265,48 +263,56 @@ module.exports = {
                     });
                 }
                 console.log(user)
-                if (req.user && req.user.username == req.params.username) {
-                    db.Event.find({
-                        "owner": req.params.username
-                    }, function(err, result) {
-                        if (err) {
-                            return res.render("notFound.html", {
-                                error: "Cannot get the user. Please try again."
+                if (user) {
+                    if (req.user && req.user.username == req.params.username) {
+                        db.Event.find({
+                            "owner": req.params.username
+                        }, function(err, result) {
+                            if (err) {
+                                return res.render("notFound.html", {
+                                    error: "Cannot get the user. Please try again."
+                                });
+                            }
+                            // res.send({"events":events});
+                            // console.log(events);
+                            user.eventsObjs = result;
+                            result = helper.sortEvent(result).result;
+                            console.log(user);
+                            res.render('singleUser.html', {
+                                targetUser: user,
+                                events: result,
+                                user: req.user
                             });
-                        }
-                        // res.send({"events":events});
-                        // console.log(events);
-                        user.eventsObjs = result;
-                        result = helper.sortEvent(result).result;
-                        console.log(user);
-                        res.render('singleUser.html', {
-                            targetUser: user,
-                            events: result,
-                            user: req.user
                         });
-                    });
+                    } else {
+                        db.Event.find({
+                            "owner": req.params.username,
+                            "private": false
+                        }, function(err, result) {
+                            if (err) {
+                                return res.render("notFound.html", {
+                                    error: "Cannot get the user. Please try again."
+                                });
+                            }
+                            // res.send({"events":events});
+                            // console.log(events);
+                            user.eventsObjs = result;
+                            result = helper.sortEvent(result).result;
+                            console.log(user);
+                            res.render('singleUser.html', {
+                                targetUser: user,
+                                events: result,
+                                user: req.user
+                            });
+                        });
+                    }
                 } else {
-                    db.Event.find({
-                        "owner": req.params.username,
-                        "private": false
-                    }, function(err, result) {
-                        if (err) {
-                            return res.render("notFound.html", {
-                                error: "Cannot get the user. Please try again."
-                            });
-                        }
-                        // res.send({"events":events});
-                        // console.log(events);
-                        user.eventsObjs = result;
-                        result = helper.sortEvent(result).result;
-                        console.log(user);
-                        res.render('singleUser.html', {
-                            targetUser: user,
-                            events: result,
-                            user: req.user
-                        });
-                    });
+                    res.render("notFound.html", {
+                        user: req.user,
+                        error: "Error: User not found"
+                    })
                 }
+
 
             });
     },
@@ -843,10 +849,11 @@ module.exports = {
                         }
                         let returnEvents = events.concat(privateEvents);
                         let r = {
-                            "user": req.user,
-                            "users": users,
-                            "events": returnEvents
+                            user: req.user,
+                            users: users,
+                            events: returnEvents
                         }
+                        console.log(r);
                         res.render("search.html", r);
                     })
                 })
