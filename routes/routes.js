@@ -172,7 +172,7 @@ module.exports = {
                 }
             });
         } else {
-            return res.render("settings.html", {
+            return res.render("signup.html", {
                 user: req.user,
                 error: "Error: Passwords didn't match"
             });
@@ -425,33 +425,70 @@ module.exports = {
             console.log(eventObj); // Log the event contents
             /* If find the event */
             if (eventObj) {
-                if(eventObj.private){
-                    return res.render("notFound.html", {
-                        error: "Error: Permission Denied."
-                    });
-                }
-                db.Comment.find({
-                    "event": req.params.event
-                }, function(err, commentList) {
-                    if (err) {
+                if (eventObj.private) {
+                    if (req.user) {
+                        if (req.user.username == eventObj.owner) {
+                            db.Comment.find({
+                                "event": req.params.event
+                            }, function(err, commentList) {
+                                if (err) {
+                                    return res.render("notFound.html", {
+                                        user:req.user,
+                                        error: "Error: Failed to load comments."
+                                    });
+                                }
+                                for (let i = 0; i < commentList.length; i++) {
+                                    commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
+                                }
+                                commentList.sort(function(a, b) {
+                                    return new Date(b.timestamp) - new Date(a.timestamp);
+                                });
+                                let time = new Date();
+                                eventObj.countdown = (eventObj.time) - time;
+                                return res.render('singleEvent.html', {
+                                    user: req.user,
+                                    event: eventObj,
+                                    commentList: commentList
+                                });
+                            });
+                        } else {
+                            return res.render("notFound.html", {
+                                user:req.user,
+                                error: "Error: Permission denied."
+                            });
+                        }
+                    } else {
                         return res.render("notFound.html", {
-                            error: "Error: Failed to load comments."
+                            user:req.user,
+                            error: "Error: Permission denied."
                         });
                     }
-                    for (let i = 0; i < commentList.length; i++) {
-                        commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
-                    }
-                    commentList.sort(function(a, b) {
-                        return new Date(b.timestamp) - new Date(a.timestamp);
+                } else {
+                    db.Comment.find({
+                        "event": req.params.event
+                    }, function(err, commentList) {
+                        if (err) {
+                            return res.render("notFound.html", {
+                                user:req.user,
+                                error: "Error: Failed to load comments."
+                            });
+                        }
+                        for (let i = 0; i < commentList.length; i++) {
+                            commentList[i].timestamp = new Date(parseInt(commentList[i]._id.toString().substring(0, 8), 16) * 1000);
+                        }
+                        commentList.sort(function(a, b) {
+                            return new Date(b.timestamp) - new Date(a.timestamp);
+                        });
+                        let time = new Date();
+                        eventObj.countdown = (eventObj.time) - time;
+                        return res.render('singleEvent.html', {
+                            user: req.user,
+                            event: eventObj,
+                            commentList: commentList
+                        });
                     });
-                    let time = new Date();
-                    eventObj.countdown = (eventObj.time) - time;
-                    return res.render('singleEvent.html', {
-                        user: req.user,
-                        event: eventObj,
-                        commentList: commentList
-                    })
-                })
+                }
+
             }
         });
     },

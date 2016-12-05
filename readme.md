@@ -123,12 +123,14 @@ The second table provides information of all users, and the last one provides in
 #### Privacy and security
 - Passwords are stored as a hashed value. Event admins and developers cannot access user's password.
 - For each action user's identity is checked.
+- Private Events will be filtered in actions like search or getting home page. Will be displayed if session user is the owner of the event. Admins are also blocked from looking into user's private events.
+- Without logging in, users are allowed to visit another user's page and event page. However, actions like follow/unfollow, like, comment are blocked.
 
 #### Compatibility issues
 - App works perfectly on Google Chrome
 - For Safari:
     -   Nav bar text won't change color until user hovers on it.
-- For Mozilla Firfox on CDF machines (not recommended):
+- For Mozilla Firefox on CDF machines (not recommended):
     -   Clicking on new event button won't call add event table.
 
 ## Credits and quotes
