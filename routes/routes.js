@@ -157,7 +157,12 @@ module.exports = {
 
         let newUser = new db.User(req.body);
         newUser.notification = false;
-
+        if (req.body.username != /[a-zA-Z][a-zA-Z0-9]+/) {
+            return  res.render("signup.html", {
+                user: req.user,
+                error: "Error: Username doesn't meet requirement!"
+            });
+        }
         if (req.body.password == req.body.rePassword) {
             db.User.register(new db.User(newUser), req.body.password, function(err) {
                 if (err) {
@@ -186,10 +191,9 @@ module.exports = {
     deleteAccount: function(req, res) {
         // User voluntarily delete his/her own account, need to wipe out everything about him/her
         // from database
-        console.log("Delete " + req.body.username);
         if (req.user) {
             db.User.findOne({
-                _id: req.body.id
+                username: req.body.username
             }, function(err, user) {
                 // console.log(user);
                 if (err) {

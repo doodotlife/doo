@@ -17,7 +17,14 @@
                     Username
                 </td>
                 <td>
-                    <input id="username" name="username" type="text" maxlength="20" required/>
+                    <input id="username" name="username" type="text" maxlength="20" pattern="[a-zA-Z][a-zA-Z0-9]+" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td class="tableHint">
+                    Should start with a character, and only contain characters and numbers (0-9 A-Z a-z). Space and symbols are not allowed.
                 </td>
             </tr>
             <tr>

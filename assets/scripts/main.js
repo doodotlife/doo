@@ -145,7 +145,7 @@ $(document).ready(function() {
                 dataType: 'text',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
-                    id: id,
+                    username: id,
                 }),
                 success: function(res) {
                     console.log(res);
