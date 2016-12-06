@@ -8,7 +8,7 @@ $('body').css("background-color", "{{targetUser.color}}");
 </script>
 <h1 class="headingText" style="color:{{user.color}}">{{targetUser.username}}</h1>
 <h3 class="headingText" style="color:{{user.color}}">Profile</h3>
-<div id={{targetUser.id}} class="card user">
+<div id={{targetUser.username}} class="card user">
     {% if targetUser.adminPrivilege %}
         <div class="tag" style="float:right">
             Admin

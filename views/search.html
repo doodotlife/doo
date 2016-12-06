@@ -46,7 +46,7 @@
         {% if users.length != 0 %}
             <h2 class="headingText" style="color:{{user.color}}">Users</h2>
             {% for u in users %}
-            <div id={{u._id}} class="card user animate-opacity">
+            <div id={{u.username}} class="card user animate-opacity">
                 <a href="/u/{{u.username}}">
                     <h1 class="searchUserTitle">
                         <div class="userColor" style="background-color:{{u.color}}">
