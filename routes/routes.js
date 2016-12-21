@@ -157,7 +157,7 @@ module.exports = {
 
         let newUser = new db.User(req.body);
         newUser.notification = false;
-        if (/[a-zA-Z][a-zA-Z0-9]+/.test(req.body.username)) {
+        if (!(/[a-zA-Z][a-zA-Z0-9]+/.test(req.body.username))) {
             return  res.render("signup.html", {
                 user: req.user,
                 error: "Error: Username doesn't meet requirement!"
