@@ -20,6 +20,7 @@ $(document).ready(function() {
             let id = this.closest(".event").id;
             let raw = Date.parse(new Date((new Date($("#" + id).find(".timeValue").html())) - (new Date())));
             if (raw > 0) {
+                // not yet, the format should be a countdown no matter what the type of event is
                 let time = parseCountdown(raw);
                 if (time.year == 1) {
                     result += ("" + time.year + " Year ");
@@ -59,10 +60,18 @@ $(document).ready(function() {
 
                 return result;
             } else {
-                $("#" + id).addClass("finished");
                 if ($("#" + id).hasClass("anniversary")) {
                     let raw = Date.parse(new Date((new Date($("#" + id).find(".timeValue").html()).setFullYear((new Date().getFullYear()))) - (new Date())));
-                    let time = parseCountdown(0 - raw);
+                    let time = parseCountdown(raw);
+                    let end = "";
+
+                    if (time.year < 0) {
+                        $("#" + id).addClass("finished");
+                        time = parseCountdown(0 - raw);
+                        end = "ago";
+                    }
+                    console.log(time);
+
                     if (time.month == 1) {
                         result += ("" + time.month + " Month ");
                     } else if (time.month != 0) {
@@ -79,10 +88,11 @@ $(document).ready(function() {
                         return "Today"
                     }
 
-                    result += "Ago"
+                    result += end;
 
                     return result;
                 }
+                $("#" + id).addClass("finished");
                 return "Passed";
             }
         });
