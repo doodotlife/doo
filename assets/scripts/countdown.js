@@ -19,6 +19,7 @@ $(document).ready(function() {
             let result = "";
             let id = this.closest(".event").id;
             let raw = Date.parse(new Date((new Date($("#" + id).find(".timeValue").html())) - (new Date())));
+
             if (raw > 0) {
                 // not yet, the format should be a countdown no matter what the type of event is
                 let time = parseCountdown(raw);
@@ -64,13 +65,13 @@ $(document).ready(function() {
                     let raw = Date.parse(new Date((new Date($("#" + id).find(".timeValue").html()).setFullYear((new Date().getFullYear()))) - (new Date())));
                     let time = parseCountdown(raw);
                     let end = "";
-
                     if (time.year < 0) {
                         $("#" + id).addClass("finished");
+                        let orginalTime = time;
                         time = parseCountdown(0 - raw);
                         end = "ago";
                     }
-                    console.log(time);
+                    // console.log(time);
 
                     if (time.month == 1) {
                         result += ("" + time.month + " Month ");
@@ -88,6 +89,8 @@ $(document).ready(function() {
                         return "Today"
                     }
 
+                    // display the day count from the original date
+
                     result += end;
 
                     return result;
@@ -96,5 +99,14 @@ $(document).ready(function() {
                 return "Passed";
             }
         });
+
+        $("#fromToday").html(function() {
+            let id = this.closest(".event").id;
+            let raw = Date.parse(new Date((new Date($("#" + id).find(".timeValue").html())) - (new Date())));
+            if ($("#" + id).hasClass("anniversary") && (new Date(raw)).getTime() < 0) {
+                return Math.floor((0 - (new Date(raw)).getTime()) / 86400000) + " days ago";
+            }
+        });
+
     }, 1000);
 });
