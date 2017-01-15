@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
 * {
     font-family: 'Roboto', sans-serif;
-    font-weight: 100;
+    font-weight: 300;
     font-size: 16px;
     text-decoration: none;
     transition: all 0.4s;
@@ -121,7 +121,6 @@ input[type=password] {
     /*overflow-x: auto;*/
     width: 100%;
     border: none;
-    border-bottom: 2px solid #FFFFFF;
     font-size: 16px;
     background-color: white;
     background-size: 10px;
@@ -137,6 +136,7 @@ input[type=password] {
 
 input[type=password]:focus {
     outline: none;
+    border: none;
     /*border-bottom: 2px solid #ccc;
     width: 100%;*/
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
